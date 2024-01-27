@@ -1,0 +1,209 @@
+
+<div class="row">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link " routerLink="/htmlview" [queryParams]="{lsid: currentPageLSID}">HTML</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" routerLink="/creator" [queryParams]="{lsid: currentPageLSID}">EDIT</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Export</a>
+    </li>
+  </ul>
+</div>
+<div class="row h-100">
+</div>
+<div class="container-fluid">
+  <div class="col-sm-12" style="background-color:beige">
+    <div class="row">
+      <div class="col-sm-2">
+        <label for="staticName" class="col-sm-2 col-form-label">Name</label>
+      </div>
+      <div class="col-sm-8">
+        <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+          (keyup.enter)="editMeDone($event)" [(ngModel)]="blogDetails.name" placeholder="Page Name"
+          class="textareaVSmall" name="name" required>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <label for="staticSummary" class="col-sm-2 col-form-label">Summary</label>
+      </div>
+      <div class="col-sm-8">
+        <textarea id="pageSummary" class="textareaSmall" placeholder="Page Summary" (keyup)="editMe($event)"
+          (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)"
+          [(ngModel)]="blogDetails.summary">
+          </textarea>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+
+    <!-- Paragraphs-->
+    <div class="row" *ngIf="blogDetails.paragraphs.length==0">
+      <blog-tooltip [currentRow]=0 (addRowEvent)="addRow($event, 0)"> </blog-tooltip>
+    </div>
+    <ng-container *ngFor="let paragraph of blogDetails.paragraphs; let i = index">
+
+      <div class="row tooltipRow">
+        <div class="col-sm-2"><label for="staticName" class="col-sm-2 col-form-label"></label></div>
+        <div class="col-sm-8" (mouseenter)='paragraph.toggle=true;' (mouseleave)='paragraph.toggle=false;'>
+          <blog-tooltip [currentRow]=i (addRowEvent)="addRow($event, i+1)" *ngIf="paragraph.toggle">
+          </blog-tooltip>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+      <div class="row blogContentRow">
+        <div class="col-sm-2 " (mouseenter)='paragraph.controlToggle=true;'
+          (mouseleave)='paragraph.controlToggle=false;'>
+          <div class="row">
+            <div class="badge badge-info"> {{paragraph.type}} {{i}}</div>
+          </div>
+          <div class="row">
+            <ng-container *ngIf="paragraph.controlToggle">
+              <button type="button" ng-disabled="true" *ngIf="i==0" class="btn btn-primary btn-sm disabled">UP</button>
+              <button type="button" *ngIf="i>0" (click)="takeUp(paragraph, i)"
+                class="btn btn-primary btn-sm ">UP</button>
+            </ng-container>
+            <ng-container *ngIf="paragraph.controlToggle">
+              <button type="button" class="badge badge-info" (click)="deleteParatraph(paragraph, i)"
+                class="btn btn-outline-danger btn-sm">Delete</button>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-sm-8">
+          <ng-container [ngSwitch]="paragraph.type">
+            <ng-container *ngSwitchCase="'H2'">
+              <div class="">
+                <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="H2 heading"
+                  class="textareaVSmall" name="heading" required>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'H3'">
+              <div class="">
+                <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="H3 heading"
+                  class="textareaVSmall" name="heading" required>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'TXT'">
+              <div class="">
+                <textarea placeholder="Text" (keyup)="editMe($event)" (blur)="editMeDone($event)"
+                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content"
+                  id="paragrapInput{{i}}" name="desc">
+                    </textarea>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'GIT'">
+              <div class="">
+                <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="Git Repo Link"
+                  class="textareaVSmall" name="heading" required>
+              </div>
+              <div class="">
+                <textarea placeholder="Steps Summary" (keyup)="editMe($event)" (blur)="editMeDone($event)"
+                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content"
+                  id="paragrapInput{{i}}" name="desc">
+                    </textarea>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'URL'">
+              <div class="">
+                <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="URL Title"
+                  class="textareaVSmall" name="heading" required>
+              </div>
+              <div class="">
+                <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content" placeholder="URL"
+                  class="textareaVSmall" id="paragrapInput{{i}}" name="url">
+                  </textarea>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'COD'">
+              <div class="">
+                <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="Code Filename"
+                  class="textareaVSmall" name="heading" required>
+                <select [(ngModel)]="paragraph.meta.codeLang">
+                  <option [value]="lang" *ngFor="let lang of languages">
+                    {{lang}}
+                  </option>
+                </select>
+              </div>
+              <div class="">
+                <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content" placeholder="Code Sample"
+                  class="textareaLarge" id="paragrapInput{{i}}" name="code">
+                   </textarea>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'LIS'">
+              <div class="">
+                <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="List Name"
+                  class="textareaVSmall" name="heading" required>
+              </div>
+              <div class="">
+                <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content" placeholder="Type List and Enter"
+                  class="textareaLarge" id="paragrapInput{{i}}" name="list">
+                   </textarea>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'IMA'">
+              <div class="col-sm-8">
+                <ng-container>
+                  <input type="file" name="imageInput" #imageInput (change)="onFileChanged(paragraph, true, $event)"
+                    accept="image/*" />
+                </ng-container>
+                <ng-container *ngIf="paragraph.content!='content'">
+                  <img [src]="sanitize(paragraph.content)" width="400" height="400" />
+                </ng-container>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'VID'">
+              <div class="container-fluid">
+                <div class="info row">
+                  <input type="input" [(ngModel)]="paragraph.content" id="paragrapInput{{i}}" name="paragraph{{i}}"
+                    (blur)="editVideoURL(paragraph)" />
+                </div>
+                <ng-container ng-show="paragraph.content" class="row">
+                  <div class="info row">
+                    <iframe width="560" height="315" [src]="extactvideo(paragraph)" frameborder="0" allowfullscreen>
+                    </iframe>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-container>
+          </ng-container>
+        </div>
+        <div class="col-sm-2">
+        </div>
+      </div>
+    </ng-container>
+    <div class="row">
+      <div class="col-sm-2" style="margin-top: 2px;"></div>
+      <div class="col-sm-8">
+        <div class="info" *ngIf="blogDetails.paragraphs.length>0">
+          <blog-tooltip [currentRow]=blogDetails.paragraphs.length
+            (addRowEvent)="addRow($event, blogDetails.paragraphs.length)"> </blog-tooltip>
+        </div>
+        <div class="col-sm-2" style="margin-top: 2px;"></div>
+      </div>
+    </div>
+    <!-- Paragraphs-->
+  </div>
+  <div class="row h-100">
+  </div>
+  <div class="row" style="display:block;">
+    <button type="button" class="btn btn-primary" [disabled]="checkifNoUpdateNeeded()"
+      (click)="saveObject()">Save</button>
+    <button type="button" class="btn btn-primary" (click)="goBack()">Cancel</button>
+  </div>
+  <div class="row" id="debugInfo" style="display:block;">
+    <!-- Debug messages comes here-->
+  </div>
+</div>

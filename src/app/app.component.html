@@ -1,0 +1,27 @@
+<div id="wrapper">
+  <!-- [ngClass]="{true:'toggled',false:'my-class2'}[showSideBar]"-->
+  <!--
+  <div id="sidebar-wrapper">
+      <nav id="sidebar">
+          <div class="sidebar-header">
+              <h3>Blog</h3>
+          </div>
+          <ul class="list-unstyled components">
+              <p>Blog Pages</p>
+              <li>
+                  <a routerLink="creator" class="list-group-item"> Add</a>
+                  <a routerLink="clist" class="list-group-item"> List</a>
+              </li>
+          </ul>
+
+      </nav>
+  </div>
+  -->
+  <div id="page-content-wrapper">
+      <div class="contenttopbar" id="mainContent">
+              <!--main contenttopbar-->
+              <router-outlet></router-outlet>
+      </div>
+  </div>
+</div>
+

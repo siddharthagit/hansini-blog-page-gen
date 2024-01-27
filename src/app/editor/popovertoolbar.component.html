@@ -1,0 +1,105 @@
+<ng-container *ngIf="isActive==true">
+  <div class="ha-popover-toolbox container" [class.active]="isActive">
+    <div class="row popover-item" (click)="selectItem('text')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M8 9V7.2C8 7.08954 8.08954 7 8.2 7L12 7M16 9V7.2C16 7.08954 15.9105 7 15.8 7L12 7M12 7L12 17M12 17H10M12 17H14">
+          </path>
+        </svg>
+        <span class="popup-item-label">Text</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="selectItem('h1')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M6 7L6 12M6 17L6 12M6 12L12 12M12 7V12M12 17L12 12"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M19 17V10.2135C19 10.1287 18.9011 10.0824 18.836 10.1367L16 12.5"></path>
+        </svg>
+        <span class="popup-item-label">Heading 1</span>
+      </div>
+    </div>
+
+    <div class="row popover-item" (click)="selectItem('h2')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M6 7L6 12M6 17L6 12M6 12L12 12M12 7V12M12 17L12 12"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M16 11C16 10 19 9.5 19 12C19 13.9771 16.0684 13.9997 16.0012 16.8981C15.9999 16.9533 16.0448 17 16.1 17L19.3 17">
+          </path>
+        </svg>
+        <span class="popup-item-label">Heading 2</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="selectItem('image')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <rect width="14" height="14" x="5" y="5" stroke="currentColor" stroke-width="2" rx="4"></rect>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M5.13968 15.32L8.69058 11.5661C9.02934 11.2036 9.48873 11 9.96774 11C10.4467 11 10.9061 11.2036 11.2449 11.5661L15.3871 16M13.5806 14.0664L15.0132 12.533C15.3519 12.1705 15.8113 11.9668 16.2903 11.9668C16.7693 11.9668 17.2287 12.1705 17.5675 12.533L18.841 13.9634">
+          </path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M13.7778 9.33331H13.7867"></path>
+        </svg>
+        <span class="popup-item-label">Image</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="selectItem('list')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <line x1="9" x2="19" y1="7" y2="7" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line>
+          <line x1="9" x2="19" y1="12" y2="12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line>
+          <line x1="9" x2="19" y1="17" y2="17" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line>
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5.00001 17H4.99002"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5.00001 12H4.99002"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5.00001 7H4.99002"></path>
+        </svg>
+        <span class="popup-item-label">List</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="selectItem('qoute')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M10 10.8182L9 10.8182C8.80222 10.8182 8.60888 10.7649 8.44443 10.665C8.27998 10.5651 8.15181 10.4231 8.07612 10.257C8.00043 10.0909 7.98063 9.90808 8.01922 9.73174C8.0578 9.55539 8.15304 9.39341 8.29289 9.26627C8.43275 9.13913 8.61093 9.05255 8.80491 9.01747C8.99889 8.98239 9.19996 9.00039 9.38268 9.0692C9.56541 9.13801 9.72159 9.25453 9.83147 9.40403C9.94135 9.55353 10 9.72929 10 9.90909L10 12.1818C10 12.664 9.78929 13.1265 9.41421 13.4675C9.03914 13.8084 8.53043 14 8 14">
+          </path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M16 10.8182L15 10.8182C14.8022 10.8182 14.6089 10.7649 14.4444 10.665C14.28 10.5651 14.1518 10.4231 14.0761 10.257C14.0004 10.0909 13.9806 9.90808 14.0192 9.73174C14.0578 9.55539 14.153 9.39341 14.2929 9.26627C14.4327 9.13913 14.6109 9.05255 14.8049 9.01747C14.9989 8.98239 15.2 9.00039 15.3827 9.0692C15.5654 9.13801 15.7216 9.25453 15.8315 9.40403C15.9414 9.55353 16 9.72929 16 9.90909L16 12.1818C16 12.664 15.7893 13.1265 15.4142 13.4675C15.0391 13.8084 14.5304 14 14 14">
+          </path>
+        </svg>
+        <span class="popup-item-label">Qoute</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="selectItem('code')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 8L5 12L9 16"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 8L19 12L15 16"></path>
+        </svg>
+        <span class="popup-item-label">Code</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="selectItem('sec')">
+      <div class="col-12">
+        <svg class="svgIcon-use" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 10.5C8 10.2239 8.22386 10 8.5 10H23.5C23.7761 10 24 10.2239 24 10.5C24 10.7761 23.7761 11 23.5 11H8.5C8.22386 11 8 10.7761 8 10.5Z" fill="#1A8917"></path><path d="M17 16.5C17 17.0523 16.5523 17.5 16 17.5C15.4477 17.5 15 17.0523 15 16.5C15 15.9477 15.4477 15.5 16 15.5C16.5523 15.5 17 15.9477 17 16.5Z" fill="#1A8917"></path><path d="M12 16.5C12 17.0523 11.5523 17.5 11 17.5C10.4477 17.5 10 17.0523 10 16.5C10 15.9477 10.4477 15.5 11 15.5C11.5523 15.5 12 15.9477 12 16.5Z" fill="#1A8917"></path><path d="M22 16.5C22 17.0523 21.5523 17.5 21 17.5C20.4477 17.5 20 17.0523 20 16.5C20 15.9477 20.4477 15.5 21 15.5C21.5523 15.5 22 15.9477 22 16.5Z" fill="#1A8917"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M8 22.5C8 22.2239 8.22386 22 8.5 22H23.5C23.7761 22 24 22.2239 24 22.5C24 22.7761 23.7761 23 23.5 23H8.5C8.22386 23 8 22.7761 8 22.5Z" fill="#1A8917"></path><rect x="0.5" y="0.5" width="31" height="31" rx="15.5" stroke="#1A8917"></rect></svg>
+        <span class="popup-item-label">Section</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="selectItem('video')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 8L5 12L9 16"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M15 8L19 12L15 16"></path>
+        </svg>
+        <span class="popup-item-label">Video</span>
+      </div>
+    </div>
+  </div>
+</ng-container>

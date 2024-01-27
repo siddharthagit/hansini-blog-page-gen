@@ -1,0 +1,95 @@
+
+#hansini {
+
+}
+
+/** Globals **/
+
+/** fragment  paragraph**/
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.title {}
+
+.txt_desc {
+  visibility: visible;
+  font-family: "Roboto Slab script=latin rev=2";
+  font-size: 31px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: 1.2129;
+}
+
+.filename {
+  background-color: #E6E6FC;
+  border: 1px solid #D1D1E8;
+  padding: 0.5rem 1rem;
+  border-bottom: none;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  margin-top: 1rem;
+}
+
+.headerblock {
+  background-color: rgb(14, 14, 88);
+  border: 1px solid rgb(3, 3, 44);
+  padding: 0.5rem 1rem;
+  border-bottom: none;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  margin-top: 1rem;
+}
+/** Globals **/
+
+.codeFragment {
+  border: 0px solid #3636af;
+}
+
+
+
+.codeFragment .filename .copyBtn {
+  float:right;
+  padding:0;
+  vertical-align: top;
+  margin-top: auto;
+}
+
+.sourcecoderef a {
+
+}
+
+.sourcecoderef .github {
+  padding: 20px 45px;
+  border: 1px solid #d1d1e8;
+  background:  #e6e6fc;
+  margin-bottom: 20px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+.w-100 {
+  width: 800px;
+}
+
+.w8-100 {
+  min-width: 800px;
+  width: 800px;
+  border: 2px solid #3636af;
+}
+
+
+.tasklistblock {
+  border: 10px solid #3636af;
+  background-color: #af3681;
+}
+
+.tasklistblock .header {
+  padding: 20px 45px;
+  border: 1px solid #d1d1e8;
+  background:  #e6e6fc;
+  margin-bottom: 20px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}

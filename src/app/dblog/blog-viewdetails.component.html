@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <!-- Latest Posts -->
+
+    <main class="post blog-post col-lg-8">
+      <section class="breadcrumb">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item" style="color:black" (onclick)="goHome()">Home</li>
+            <li class="breadcrumb-item" style="color:black" [routerLink]="['/blog']">Blog</li>
+          </ol>
+        </nav>
+      </section>
+      <div class="post-single">
+        <div class="post-thumbnail">
+          <img src="../assets/img/image1.jpeg" width="200" height="200" class="img-fluid" />
+        </div>
+        <!--            -->
+
+        <div class="post-details">
+          <h1>{{blogDetails.ud.n}}
+            <a href="#">
+              <i class="fa fa-bookmark-o"></i>
+            </a>
+          </h1>
+          <div class="post-footer d-flex align-items-center flex-column flex-sm-row">
+            <a href="#" class="author d-flex align-items-center flex-wrap">
+              <div class="avatar">
+                <img [src]="sanitize(blogDetails.hd.a.p)" width="200" height="200" class="img-fluid" />
+              </div>
+              <div class="title">
+                <span>{{blogDetails.hd.a.f}}</span>
+              </div>
+            </a>
+            <div class="d-flex align-items-center flex-wrap">
+              <div class="date">
+                Posted On <i class="icon-clock"> {{blogDetails.hd.i.p | date:'mediumDate'}} </i>
+              </div>
+              <div class="views">
+                <i class="icon-eye"></i> {{blogDetails.hd.i.c}}
+              </div>
+              <div class="comments meta-last">
+                <i class="icon-comment"></i>{{blogDetails.hd.i.v}}
+              </div>
+            </div>
+          </div>
+          <div class="post-body">
+            <p class="lead">
+              <!--Summary-->
+              {{blogDetails.ud.s}}
+            </p>
+            <div *ngFor="let paragraph of blogDetails.ud.p; let i = index">
+              <p> {{paragraph.c}}</p>
+            </div>
+          </div>
+          <div class="post-comments">
+
+            <!--<comments-details [docid]="blogDetails.u" (comments)="addCommentsAction()"></comments-details> -->
+          </div>
+          <!--
+                        <div class="post-tags" >
+                            <a href="#" class="tag" *ngFor="let tag of blogDetails.tags; let i = index">{{tag.name}}</a>
+                        </div>
+                        -->
+        </div>
+      </div>
+    </main>
+    <aside class="col-lg-4">
+
+      <!---->
+      <!-- Widget [Tags Cloud Widget]
+      <category-details> </category-details>
+      <tag-details> </tag-details>
+      -->
+      
+    </aside>
+  </div>
+</div>

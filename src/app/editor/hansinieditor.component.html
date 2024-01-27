@@ -1,0 +1,260 @@
+<div class="container-fluid editor-main" style="width: 100%;">
+  <div class="col-12">
+    <div class="hansinieditor">
+      <div class="row editor-outer">
+        <div class="editor-title">Editor 2.0</div>
+        <!--
+        <div class="container">
+          <div class="row">
+            <div class="editor-inner-toolarea col-1" id="editor_inner-toolarea" style="border:1px solid red;">
+              asdf
+            </div>
+            <div class="editor-inner-toolarea col-1" id="editor_inner-toolarea" style="border:1px solid red;">
+              asdf
+            </div>
+          </div>
+        </div>
+        -->
+
+
+        <div class="editor-inner" id="editor_inner">
+          <ng-container *ngFor="let p of blogcontent.para; let i = index">
+
+            <div class="ha-bloc row" (mouseenter)='currentSelectedLine = i;' (mouseleave)='currentSelectedLine = -1;'>
+              <div class="ha-toolbar" [ngClass]="{show: currentSelectedLine ==i}">
+                <div class="ha-toolbar-item ">
+                  <img src="/assets/img/svg/plus.svg" class="ha-toolbar-plus" style="border: 1px solid red;"
+                    (click)="actPopover(i)">
+                  <ha-popover icon="" [isActive]="showPopover(i)" (typeSelected)="createTypeItem($event)">
+                  </ha-popover>
+                </div>
+                <div class="ha-toolbar-item ">
+                  <!--<object data="/assets/img/svg/tool.svg" class="ha-toolbar-plus"> </object>-->
+                  <img src="/assets/img/svg/tool.svg" class="ha-toolbar-plus" style="border: 1px solid red;"
+                    (click)="actPopoverActionbar(i)">
+                  <ha-popover-actionbar [isActive]="showPopoverActionbar(i)" [inParatype]="getCurrentParaType()"
+                    [inCurrentLine]="currentSelectedLine" [inTotalLine]="getTotalPara()"
+                    (actionSelected)="actionOnItem($event)">
+                  </ha-popover-actionbar>
+                </div>
+              </div>
+              <div class="ha-bloc-content col" #hansiniBlogFields>
+                <!--INPUT FIELDS OF TYPES-->
+                <!--h1-->
+                <h1 class="ha-paragraph-input ha-h1" [contentEditable]="isFieldEditable(i)" (blur)="handleHaInputBlur()"
+                  *ngIf="p.type=='h1'" [id]="'ha_item_' + i " [textContent]="p.content.data" #topicTitle
+                  (input)="p.content.data=topicTitle.innerText" maxlength="50">
+                </h1>
+                <!--h2-->
+                <h2 class="ha-paragraph-input ha-h2" [contentEditable]="isFieldEditable(i)" (blur)="handleHaInputBlur()"
+                  *ngIf="p.type=='h2'" [id]="'ha_item_' + i " [textContent]="p.content.data" #topicTitle
+                  (input)="p.content.data=topicTitle.innerText" maxlength="50">
+                </h2>
+                <!--text-->
+                <div class="ha-text" *ngIf="p.type=='text'" [id]="'ha_item_' + i ">
+                  <p class="ha-paragraph-input ha-text " [contentEditable]="isFieldEditable(i)" #topicTitle
+                    (input)="p.content.data=topicTitle.innerText" (blur)="handleHaInputBlur()" [id]="'ha_item_p_' + i ">
+                    {{p.content.data}}
+                  </p>
+                </div>
+                <!--text-->
+                <!--image-->
+                <div class="ha-image" *ngIf="p.type=='image'" [id]="'ha_item_' + i ">
+                  <div class="row ha-image-src">
+                    <img [src]=sanitize(p.content.file.url)>
+                  </div>
+                  <div class="row">
+                    <div class="ha-image-cap" [contentEditable]="isFieldEditable(i)" (blur)="handleHaInputBlur()"
+                      [id]="'ha_item_' + i " #topicTitle [textContent]="p.content.caption"
+                      (input)="p.content.caption=topicTitle.innerText">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="ha-image-upload" (blur)="handleHaInputBlur()" [id]="'ha_item_' + i "
+                      style="border: 1px solid green;">
+                      <label for="actual-btn">Add/Update Image</label>
+                      <input type="file" id="actual-btn" (change)="onFileChangedLS($event, p.content.file)"
+                        accept="image/*" style="display: none" />
+                    </div>
+                  </div>
+                </div>
+                <!--image-->
+
+                <!--Video-->
+                <div class="ha-bloc-video" *ngIf="p.type=='video'">
+                  <ng-container *ngIf="isFieldEditable(i)">
+                    <div class="row">
+                      <input class="ha-text" 
+                      placeholder="enter youtube url" 
+                      type="input" 
+                      [id]="'ha_item_' + i " 
+                      [(ngModel)]="p.content.url"
+                      />
+                    </div>
+                    <div class="row">
+                      <input type="input" placeholder="enter caption" [(ngModel)]="p.content.caption" />
+                    </div>
+                    <div class="row">
+                      <button type="button"  class="btn btn-primary "  (click)="saveVideoCap()" name="S">Save</button>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="showVideoContent(p.content)">
+                  <div class="row">
+                    <iframe width="460" height="445" [src]="showYoutubeVideo(p.content.url)" frameborder="0"
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                  <div class="row">
+                    <div class="ha-text" [id]="'ha_item_' + i ">
+                      {{p.content.caption}}  
+                    </div>
+                  </div>
+                </ng-container>
+                  
+                </div>
+                <!--Video-->
+
+                <!--qoute-->
+                <div class="row">
+                  <blockquote name="f5fb" *ngIf="p.type=='qoute'" [id]="'ha_item_' + i " class="ha-blockquote">
+                  </blockquote>
+                </div>
+                <!--qoute-->
+                <!--section-->
+                <div class="row" *ngIf="p.type=='sec'">
+                  <hr class="section-divider" [id]="'ha_item_' + i">
+                </div>
+                <!--section-->
+                <!--list-->
+                <div class="row">
+                  <div class="ha-list" *ngIf="p.type=='list'" [id]="'ha_item_' + i " style="border: 1px solid green;">
+                    <ol class=" ha-list ha-list-start" #topicTitle (input)="listTypeObject=topicTitle.innerText"
+                      name="sdf">
+                      <ng-container *ngFor="let li of p.content.li;">
+                        <li class="ha-paragraph-input ha-list ha-list-item" [contentEditable]="isFieldEditable(i)"
+                          (keyup)="handleEnterKeyboardEvent($event)" [id]="">{{li}}</li>
+                      </ng-container>
+                    </ol>
+                  </div>
+                </div>
+                <!--list-->
+                <!--code-->
+                <div id="code_block" *ngIf="p.type=='code'">
+                  <div id="lang-code" class="codeBlockMenu-button" *ngIf="isFieldEditable(i)==true">{{p.content.lang}}
+                    <span class="svgIcon">
+                      <svg class="svgIcon-use" (click)="showLangPopup(i,$event)" id="lang-code-dd" width="19"
+                        height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1082_12841)">
+                          <path
+                            d="M8.35355 9.64645C8.15829 9.45118 7.84171 9.45118 7.64645 9.64645C7.45118 9.84171 7.45118 10.1583 7.64645 10.3536L8.35355 9.64645ZM12 14L11.6464 14.3536C11.8417 14.5488 12.1583 14.5488 12.3536 14.3536L12 14ZM16.3536 10.3536C16.5488 10.1583 16.5488 9.84171 16.3536 9.64645C16.1583 9.45118 15.8417 9.45118 15.6464 9.64645L16.3536 10.3536ZM7.64645 10.3536L11.6464 14.3536L12.3536 13.6464L8.35355 9.64645L7.64645 10.3536ZM12.3536 14.3536L16.3536 10.3536L15.6464 9.64645L11.6464 13.6464L12.3536 14.3536Z"
+                            fill="currentColor"></path>
+                        </g>
+                      </svg>
+                    </span>
+                  </div>
+                  <pre>
+                  <code class="language-{{p.content.lang}} ha-code-editor" 
+                    [id]="'ha_item_' + i "  
+                    [contentEditable]="isFieldEditable(i)"
+                    (blur)="handleHaInputBlur()"  
+                    #topicTitle
+                    (input)="p.content.data=topicTitle.innerHTML" 
+                    (blur)="handleHaInputBlur()">
+                    {{javaCode}}
+                  </code>
+                </pre>
+                </div>
+                <!--code-->
+
+                <!--INPUT FIELDS OF TYPES-->
+              </div>
+            </div>
+            <div class="row" style="margin-top: 20px;"></div>
+
+          </ng-container>
+
+        </div>
+        <!--editor ends-->
+      </div>
+    </div>
+    <div>
+      {{blogcontent|json}}
+      listtype
+      {{listTypeObject|json}}
+
+      <button type="button" (click)="debug()" class="btn btn-primary">Debug</button>
+
+      <div class="menu" style="border: 1px solid red;">
+        <div class="selMenu" style="left: 146px; top: 41px;">
+          <div class="selMenu-inner">
+            <div class="selMenu-buttonSet">
+              <button class="selMenu-button" (click)="selMenuAction('bold')">
+                <span class="svgIcon svgIcon--bold svgIcon--21px">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path
+                      d="M6.75 18.45V4.05h5.85q1.775 0 3.113 1.075Q17.05 6.2 17.05 7.9q0 .95-.475 1.762-.475.813-1.325 1.238v.15q1.075.325 1.688 1.25.612.925.612 2.05 0 1.8-1.45 2.95-1.45 1.15-3.35 1.15Zm2.9-8.6h2.7q.725 0 1.288-.45.562-.45.562-1.175 0-.725-.562-1.175-.563-.45-1.288-.45h-2.7Zm0 6h2.9q.8 0 1.425-.5t.625-1.275q0-.775-.625-1.275-.625-.5-1.425-.5h-2.9Z" />
+                  </svg>
+                </span>
+              </button>
+              <button class="selMenu-button" (click)="selMenuAction('italic')">
+                <span class="svgIcon svgIcon--italic svgIcon--21px">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path d="M4.9 20.15V16.9h3.4l3.9-9.8H8.8V3.85h10.3V7.1h-3.4l-3.9 9.8h3.4v3.25Z" />
+                  </svg>
+                </span>
+              </button>
+              <button class="selMenu-button" (click)="selMenuAction('url')">
+                <span class="svgIcon svgIcon--21px">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                    <path
+                      d="M11.2 17.65H6.9q-2.35 0-4-1.65t-1.65-4q0-2.35 1.65-4t4-1.65h4.3V9H6.9q-1.25 0-2.125.875T3.9 12q0 1.25.875 2.125T6.9 15h4.3ZM7.6 13.3v-2.65h8.8v2.65Zm5.2 4.35V15h4.3q1.25 0 2.125-.875T20.1 12q0-1.25-.875-2.125T17.1 9h-4.3V6.35h4.3q2.35 0 4 1.65t1.65 4q0 2.35-1.65 4t-4 1.65Z" />
+                  </svg>
+                </span>
+              </button>
+              <div class="selMenu-linkinput">
+                <input class="selMenu-text" type="text" placeholder="Paste or type a link…" [(ngModel)]="selMenutext">
+                <button class="selMenu-button" (click)="selMenuAction('urlsubmit')">
+                  <span class="svgIcon">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24">
+                      <path d="M9 18.55 2.45 12 9 5.45l1.85 1.85-3.35 3.35h11.4v-4.1h2.65v6.75H7.5l3.35 3.35Z" />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div class="highlightMenu-arrowClip"><span class="highlightMenu-arrow"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="langMenu">
+        <div class="langMenu-inner">
+          <ul class="list " style="max-height: calc(min(45vh, 440px))">
+            <li class="list-item " id="langMenu_currsel">
+              Auto
+              <span style="float: right">
+                <span class="svgIcon "><svg class="svgIcon-use" width="19" height="19" viewBox="0 0 19 19" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M13.7607 4.74262C13.9964 4.88661 14.0706 5.19436 13.9266 5.42999L8.08558 14.9881L4.13649 10.8067C3.94689 10.6059 3.95593 10.2895 4.15669 10.0999C4.35745 9.91027 4.6739 9.91931 4.86351 10.1201L7.91442 13.3504L13.0734 4.90854C13.2174 4.67291 13.5251 4.59863 13.7607 4.74262Z"
+                      fill="currentColor"></path>
+                  </svg>
+                </span>
+              </span>
+            </li>
+            <li class="list-item " (click)="selLangMenuAction('css')">CSS</li>
+            <li class="list-item " (click)="selLangMenuAction('java')">Java</li>
+            <li class="list-item " (click)="selLangMenuAction('js')">JavaScript</li>
+            <li class="list-item " (click)="selLangMenuAction('json')">JSON</li>
+            <li class="list-item " (click)="selLangMenuAction('html')">HTML,XML</li>
+            <li class="list-item " (click)="selLangMenuAction('markdown')">Markdown</li>
+            <li class="list-item " (click)="selLangMenuAction('php')">PHP</li>
+            <li class="list-item " (click)="selLangMenuAction('python')">Python</li>
+            <li class="list-item " (click)="selLangMenuAction('sql')">SQL</li>
+            <li class="list-item " (click)="selLangMenuAction('ts')">TypeScript</li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>

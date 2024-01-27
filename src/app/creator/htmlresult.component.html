@@ -1,0 +1,43 @@
+
+<div class="row">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link active" routerLink="/htmlview" [queryParams]="{lsid: currentPageLSID}">HTML</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " routerLink="/creator" [queryParams]="{lsid: currentPageLSID}">EDIT</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Export</a>
+    </li>
+  </ul>
+</div>
+<div class="row h-100">
+
+</div>
+<div class="container-fluid">
+  <div>
+    <h1> Content HTML Source</h1>
+  </div>
+  <div class="row" id="htmlgen">
+    <span [innerHTML]="HTMLOUTPUT" >
+      <span class="reset-this">
+
+      </span>
+    </span>
+  </div>
+
+  <div class="row">
+    <textarea class="textareaLarge">
+      {{HTMLOUTPUT}}
+    </textarea>
+  </div>
+  <div class="row h-100">
+    <hr>
+  </div>
+  <div class="row">
+    <textarea>
+      {{JSONOUTPUT}}
+    </textarea>
+  </div>
+</div>

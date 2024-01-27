@@ -1,0 +1,44 @@
+
+
+  input {
+    width: 700px;
+    height: 30px;
+    border: 1px solid #888;
+  }
+
+  textarea {
+    width: 700px;
+    height: 150px;
+    border: 1px solid #888;
+  }
+
+
+.textareaVSmall {
+    width: 700px;
+    height: 30px;
+  }
+.textareaSmall {
+  width: 700px;
+  height: 50px;
+}
+.textareaMedium {
+  width: 700px;
+  height: 300px;
+}
+.textareaLarge {
+  width: 700px;
+  height: 450px;
+}
+
+.tooltipRow {
+  height: 80px;
+  border: 0px solid red;
+}
+
+.blogContentRow {
+  border: 0px solid blue;
+}
+.rowControlBox {
+  height: 180px;
+  border: none;
+}

@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row">
+      <div class="col-md-4">
+          <h1>{{getPageTitle()}} {{displayObjectList.length}}</h1>
+
+      </div>
+  </div>
+  <div class="row" *ngFor="let blog of displayObjectList">
+      <div class="col-md-12">
+          <div class="row">
+              <div class="col-2">
+                  <span class="badge badge-info"> <b>{{blog._id}}</b></span>
+              </div>
+              <div class="col-5">
+                  <b>{{blog.name}}</b>
+              </div>
+              <div class="col-1 pull-right">
+                  {{blog.status}}
+              </div>
+              <div class="col-4 pull-right">
+                  <button type="button" (click)="openWindow(blog._id)">Preview</button>
+                  <button type="button" (click)="gotoEditPage(blog._id)">Edit</button>
+                  <button type="button" (click)="deleteAction(blog._id)">Delete</button>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-12">
+                  <hr>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row" id="debugInfo" style="display:block;">
+      <!-- Debug Info {{blogList|json}} -->
+
+  </div>
+</div>

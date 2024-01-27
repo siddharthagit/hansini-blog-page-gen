@@ -1,0 +1,67 @@
+
+<ng-container *ngIf="isActive==true">
+  <div class="ha-popover-toolbox container" [class.active]="isActive">
+    <!-- move up-->
+    <div class="row popover-item" (click)="setAction('up')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7 15L11.8586 10.1414C11.9367 10.0633 12.0633 10.0633 12.1414 10.1414L17 15"></path></svg>
+        <span class="popup-item-label">Up</span>
+      </div>
+    </div>
+     <!-- move up-->
+    <!-- move down-->
+    <div class="row popover-item" (click)="setAction('down')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7 10L11.8586 14.8586C11.9367 14.9367 12.0633 14.9367 12.1414 14.8586L17 10"></path></svg>
+        <span class="popup-item-label">Down</span>
+      </div>
+    </div>
+    <!-- move down-->
+    <!-- Delete-->
+    <div class="row popover-item" (click)="setAction('del')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M8 8L12 12M12 12L16 16M12 12L16 8M12 12L8 16"></path></svg>
+        <span class="popup-item-label">Delete</span>
+      </div>
+    </div>
+    <!-- Delete-->
+
+    <div class="row popover-item" (click)="setAction('h1')" *ngIf="inParatype=='h2'">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M6 7L6 12M6 17L6 12M6 12L12 12M12 7V12M12 17L12 12"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M19 17V10.2135C19 10.1287 18.9011 10.0824 18.836 10.1367L16 12.5"></path>
+        </svg>
+        <span class="popup-item-label">Heading 1</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="setAction('h2')" *ngIf="inParatype=='h1'">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M6 7L6 12M6 17L6 12M6 12L12 12M12 7V12M12 17L12 12"></path>
+          <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+            d="M16 11C16 10 19 9.5 19 12C19 13.9771 16.0684 13.9997 16.0012 16.8981C15.9999 16.9533 16.0448 17 16.1 17L19.3 17">
+          </path>
+        </svg>
+        <span class="popup-item-label">Heading 2</span>
+      </div>
+    </div>
+
+    <div class="row popover-item" (click)="setAction('ol')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><line x1="9" x2="19" y1="7" y2="7" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line><line x1="9" x2="19" y1="12" y2="12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line><line x1="9" x2="19" y1="17" y2="17" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5.00001 17H4.99002"></path><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5.00001 12H4.99002"></path><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5.00001 7H4.99002"></path></svg>
+        <span class="popup-item-label">UnOrdered</span>
+      </div>
+    </div>
+    <div class="row popover-item" (click)="setAction('ol')">
+      <div class="col-12">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><line x1="12" x2="19" y1="7" y2="7" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line><line x1="12" x2="19" y1="12" y2="12" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line><line x1="12" x2="19" y1="17" y2="17" stroke="currentColor" stroke-linecap="round" stroke-width="2"></line><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M7.79999 14L7.79999 7.2135C7.79999 7.12872 7.7011 7.0824 7.63597 7.13668L4.79999 9.5"></path></svg>
+        <span class="popup-item-label">Ordered</span>
+      </div>
+    </div>
+  
+  </div>
+</ng-container>
