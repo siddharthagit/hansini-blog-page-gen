@@ -89,13 +89,16 @@ export class CreatorService {
     public removeSpecificEntryWithIDFromNamedLS(storageName: string, id: string): void {
         console.log("removeSpecificEntryWithIDFromNamedLS invoked " + storageName + " " + id);
         let lSString = localStorage.getItem(storageName);
-        let lSObject = null
         if (lSString != null) {
-            lSObject = JSON.parse(lSString);
-            lSObject.forEach((t) => {
-                let val: string = t;
+            let lSObject = JSON.parse(lSString);
+
+            lSObject.forEach((val, index) => {
                 if (val == id) {
-                    localStorage.removeItem(t);
+                    //localStorage.removeItem(val);
+                    console.log(val);
+                    lSObject.splice(index,1);
+                    localStorage.setItem(storageName, JSON.stringify(lSObject));
+
                     return;
                 }
             });

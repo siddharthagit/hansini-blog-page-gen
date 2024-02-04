@@ -1,3 +1,4 @@
+/*
 export class BlogDetails {
   lsid: string;
   uniqueName: string;
@@ -37,7 +38,7 @@ export class BlogDetails {
     return user;
   }
 }
-
+*/
 export class Author {
   fullName: string = "";
   icon: string = "";

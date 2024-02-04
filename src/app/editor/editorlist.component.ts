@@ -7,7 +7,7 @@ import { CreatorService } from '../creator/creator.service';
 import {CommonModule} from '@angular/common';
 
 import { DomSanitizer } from '@angular/platform-browser';
-import { BlogContent, BlogImageFile, BlogPara, CodeContent, ImageContent, LineContent, ListContent, TextContent, VideoContent } from './models';
+import { ArticleContent, ArticleImageFile, ArticlePara, CodeContent, ImageContent, LineContent, ListContent, TextContent, VideoContent } from './models';
 import { HansiniMockService } from './hansinimock.service';
 import 'prismjs';
 import { PopOverAct } from './models';

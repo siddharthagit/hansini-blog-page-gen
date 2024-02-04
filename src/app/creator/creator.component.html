@@ -34,17 +34,17 @@
       <div class="col-sm-8">
         <textarea id="pageSummary" class="textareaSmall" placeholder="Page Summary" (keyup)="editMe($event)"
           (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)"
-          [(ngModel)]="blogDetails.summary">
+          [(ngModel)]="blogDetails.pre.summ">
           </textarea>
       </div>
       <div class="col-sm-2"></div>
     </div>
 
     <!-- Paragraphs-->
-    <div class="row" *ngIf="blogDetails.paragraphs.length==0">
+    <div class="row" *ngIf="blogDetails.displayWidgets.length==0">
       <blog-tooltip [currentRow]=0 (addRowEvent)="addRow($event, 0)"> </blog-tooltip>
     </div>
-    <ng-container *ngFor="let paragraph of blogDetails.paragraphs; let i = index">
+    <ng-container *ngFor="let paragraph of blogDetails.displayWidgets; let i = index">
 
       <div class="row tooltipRow">
         <div class="col-sm-2"><label for="staticName" class="col-sm-2 col-form-label"></label></div>
@@ -187,9 +187,9 @@
     <div class="row">
       <div class="col-sm-2" style="margin-top: 2px;"></div>
       <div class="col-sm-8">
-        <div class="info" *ngIf="blogDetails.paragraphs.length>0">
-          <blog-tooltip [currentRow]=blogDetails.paragraphs.length
-            (addRowEvent)="addRow($event, blogDetails.paragraphs.length)"> </blog-tooltip>
+        <div class="info" *ngIf="blogDetails.displayWidgets.length>0">
+          <blog-tooltip [currentRow]=blogDetails.displayWidgets.length
+            (addRowEvent)="addRow($event, blogDetails.displayWidgets.length)"> </blog-tooltip>
         </div>
         <div class="col-sm-2" style="margin-top: 2px;"></div>
       </div>

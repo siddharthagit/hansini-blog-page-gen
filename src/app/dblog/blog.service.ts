@@ -35,6 +35,7 @@ export class BlogLSServiceImpl implements BlogService {
 
 
     getPosts(storageName: string, pageSize: number, catID: string, tagName: string): Observable<any> {
+        console.log("Storage name::  " + storageName);
         let lSString = localStorage.getItem(storageName);
         let lSObject = null
         let retObjectArray: Array<object> = [];

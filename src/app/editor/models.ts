@@ -22,7 +22,7 @@ export class PopOverAct {
   }
 
   
-export class BlogImageFile {
+export class ArticleImageFile {
     name : string
     url: string
     type:string
@@ -66,8 +66,14 @@ export class BlogImageFile {
   }
   
   export class CodeContent implements LineContent  {
+    title: string = "code for you!"
     lang: string = "Auto";
     data:string
+  }
+
+  export class GitContent implements LineContent  {
+    title: string = "code for you!"
+    url: string = "Auto";
   }
   
   export class QouteContent implements LineContent  {
@@ -81,7 +87,7 @@ export class BlogImageFile {
   
   
   export class ImageContent implements LineContent  {
-    file:BlogImageFile = new BlogImageFile();
+    file:ArticleImageFile = new ArticleImageFile();
     caption:string;
     constructor (n?:string, u?:string, cap?:string){
       this.file.name = n;
@@ -99,8 +105,21 @@ export class BlogImageFile {
     }
   }
   
-  export class BlogPara {
+  export class ParaType {
+    TEXT = "text";
+    H1 = "h1";
+    H2 = "h2";
+    IMAGE = "image";
+    LIST = "list";
+    CODE = "code";
+    QOUTE = "qoute";
+    SEC = "sec";
+    VIDEO = "video";
+    GIT = "git";
+  }
+  export class ArticlePara {
     id: string;
+    order:number;
     type:string;      // text, image, video, url,  h1,h2, code, qoute
     content: LineContent;
     constructor (id:string, type:string) {
@@ -134,10 +153,30 @@ export class BlogImageFile {
         this.content= new VideoContent();
       }
     }
+    gettitle() {
+
+    }
   }
   
-  export class BlogContent {
+  export class ArticleContent implements EditorMe, DisplayFragmentMe {
     id: string;
     time: string;
-    para: Array<BlogPara> = [];
+    para: Array<ArticlePara> = [];
   }
+
+  /* can display this object in webpage front end */
+  export interface DisplayFragmentMe  {}
+  /* can Edit in Editor this object  */
+  export interface EditorMe  {}
+  /* can Edit in Editor this object  */
+  //export interface  DisplayFragmentMe {}
+
+  /**
+   * Content -> Different Contents
+   * DisplayFragmentMe -> 
+   * WebpageData->Full page
+   * BlogWebpageData -> Full page web page
+   * CreatableObject-> Objects that can be savedin db
+   * 
+   */
+  

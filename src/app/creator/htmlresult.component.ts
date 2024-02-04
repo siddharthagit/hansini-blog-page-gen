@@ -3,8 +3,9 @@ import { CreatorService } from './creator.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BlogDetails, BlogParagraph } from './models';
+import { BlogWebpageObject } from './models';
 import { AppConstants } from "../app.constants";
+import { ArticlePara, CodeContent, DisplayFragmentMe, GitContent, H1Content, H2Content, ListContent } from '../editor/models';
 /**
  * HTML Structure
  * <div id="hansini">
@@ -34,7 +35,7 @@ import { AppConstants } from "../app.constants";
 })
 export class HtmlResultComponent implements OnInit {
   DEBUG_INFO: string;
-  blogDetails = new BlogDetails();
+  blogDetails = new BlogWebpageObject();
   public currentPageLSID;
   protected sub: any;
   public HTMLOUTPUT: String;
@@ -67,7 +68,7 @@ export class HtmlResultComponent implements OnInit {
         }
 
         // console.clear();
-        let paragraphHTML = this.encodeParagraphs(this.blogDetails);
+        let paragraphHTML = this.encodeArticlePara(this.blogDetails.displayWidgets);
         console.log("Starting HTML Output");
         this.HTMLOUTPUT = "<div id='hansini'><input id='lsid' type='hidden' value='" + this.blogDetails.lsid + "'> "
         + this.buildTOC()
@@ -79,31 +80,31 @@ export class HtmlResultComponent implements OnInit {
     });
   }
 
-  private encodeParagraphs(blog: BlogDetails) {
+  private encodeArticlePara(paras: DisplayFragmentMe[]) {
     let counter = 1;
     let HTMLOUTPUT = "";
-    this.blogDetails.paragraphs.forEach(para => {
-      HTMLOUTPUT += this.encodeParagraph(para, counter);
+    paras.forEach(para => {
+      HTMLOUTPUT += this.encodeArticleParaType(para as ArticlePara, counter);
       counter++;
     })
     return HTMLOUTPUT;
   }
 
-  private encodeParagraph(para: BlogParagraph, counter: number) {
+  private encodeArticleParaType(para: ArticlePara, counter: number) {
     if (para.type == 'H1') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
-      return "<h1 id='" + dynaId + "'>" + para.heading + "</h1>";
+      return "<h1 id='" + dynaId + "'>" + (para.content as H1Content).data + "</h1>";
     }
     if (para.type == 'H2') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
-      return "<h2 id='" + dynaId + "'>" + para.heading + "</h2>";
+      return "<h2 id='" + dynaId + "'>" + (para.content as H2Content).data + "</h2>";
     }
     if (para.type == 'H3') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
-      return "<h2 id='" + dynaId + "'>" + para.heading + "</h3>";
+      return "<h2 id='" + dynaId + "'>" + (para.content as H1Content).data + "</h3>";
     }
     if (para.type == 'COD') {
       return this.processCodeTypeParagraph(para);
@@ -111,8 +112,8 @@ export class HtmlResultComponent implements OnInit {
     if (para.type == 'TXT') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
-      let ret = "<h3 id='" + dynaId + "'>" + para.heading + "</h3>";
-      return ret + "<div class='txt_desc'>" + para.content + "</div>";
+      //let ret = "<h3 id='" + dynaId + "'>" + para.heading + "</h3>";
+      return "<div class='txt_desc'>" + para.content + "</div>";
     }
     if (para.type == 'LIS') {
       return this.processLISTypeParagraph(counter, para);
@@ -120,21 +121,14 @@ export class HtmlResultComponent implements OnInit {
     if (para.type == 'GIT') {
       //for GIT type heading contains the github URL
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
+
       this.buildAndStoreLink(para);
       let container =   "<div class='sourcecoderef' id='" + dynaId + "'>"
                       +     "<div class=\"filename\"><span class='title'>Download Sourcecode<span>"
-                      +       "<a class='btn float-sm-right copyBtn' href='"+para.heading+"' target='_blank'>Repo</a>"
+                      +       "<a class='btn float-sm-right copyBtn' href='" + (para as unknown as GitContent).title + "' target='_blank'>Repo</a>"
                       +     "</div>";
 
-      let taskArr = para.content.split(/(\r\n|\n|\r)/gm);
-      console.log("tasklist splitted " + taskArr.length);
-      let body = "";
-      for (let i = 0; i < taskArr.length; i++) {
-        if ( taskArr[i].length>1 && taskArr[i]!=' ') {
-          body = body + "<li class='list-unstyled' >" + taskArr[i] + "</li>";
-        }
-      }
-      return container + "<div class='github'><ul>" + body + "</ul></div></div>";
+      return container + "<div class='github'><ul>" + (para as unknown as GitContent).url + "</ul></div></div>";
     }
     else return "";
   }
@@ -144,10 +138,10 @@ export class HtmlResultComponent implements OnInit {
    * @param counter
    * @param para
    */
-  private processLISTypeParagraph(counter: number, para: BlogParagraph) {
+  private processLISTypeParagraph(counter: number, para: ArticlePara) {
     let dynaId = this.buildDynamicHTMLID(counter, para.type);
     this.buildAndStoreLink(para);
-    let taskArr = para.content.split(/(\r\n|\n|\r)/gm);
+    let taskArr = (para as unknown as ListContent).li;
     console.log("tasklist splitted size" + taskArr.length);
     let list = "";
     for (let i = 0; i < taskArr.length; i++) {
@@ -156,7 +150,7 @@ export class HtmlResultComponent implements OnInit {
       }
     }
     let ret =   "<div class=\"tasklistblock\" id='" + dynaId + "'>"
-              +     "<div class=\"header\"><span class='title'>" + para.heading + "</span></div>"
+              +     "<div class=\"header\"><span class='title'></span></div>"
               +     "<div class='bodyblock'>"
               +         "<ul>"
               +            list
@@ -167,9 +161,9 @@ export class HtmlResultComponent implements OnInit {
     return ret ;
   }
 
-  private buildAndStoreLink(para: BlogParagraph) {
-    console.warn("adding a new link " + para.heading);
-    let link = '<a href="' + para.heading + '">' + para.heading + '</a>';
+  private buildAndStoreLink(para: ArticlePara) {
+    console.warn("adding a new link " + para.type);
+    let link = '<a href="' + para.id + '">' + para.gettitle() + '</a>';
     //this.htmlLinkAnchors.set(para.heading, link);
     this.htmlLinkAnchors.push(link);
     console.warn("this.htmlLinkAnchors size = " + this.htmlLinkAnchors.length);
@@ -179,13 +173,13 @@ export class HtmlResultComponent implements OnInit {
     return counter + "_" + elementType;
   }
 
-  private encodeWholeHTML(blog: BlogDetails) {
+  private encodeWholeHTML(blog: BlogWebpageObject) {
     let dynaId = "mainheading_h2";
     let link = '<a href="#' + dynaId + '">' + blog.name + '</a>';
     //this.htmlLinkAnchors.set(blog.name, link);
     this.htmlLinkAnchors.push(link);
     let heading = "<h2 classs='ss' id='a'>" + blog.name + "</h2>";
-    let summary = "<div class='summary'>" + blog.summary + "</div>";
+    let summary = "<div class='summary'>" + blog.pre.summ + "</div>";
     return  heading + summary;
   }
 
@@ -215,15 +209,15 @@ export class HtmlResultComponent implements OnInit {
    * Returns <CodeFragment><fileName><pre><code>
    * @param code
    */
-  private processCodeTypeParagraph(code: BlogParagraph) {
+  private processCodeTypeParagraph(code: ArticlePara) {
+    let cc: CodeContent = code.content as CodeContent;
     let codePrefix = '<div class="codeFragment"><div class="filename">'
                      + '<button class="btn float-sm-right copyBtn">Copy</button>'
-                     + '<span class="title">' + code.heading + "</span>"
                      + '</div>'
                      + '<div class="w8-100"><pre class="prettyprint w8-100">'
-                     + '<code class="language-' + code.meta['codeLang'] + '">';
+                     + '<code class="language-' + cc.lang + '">';
     let codeSuffix = '</code></pre></div></div>';
-    return codePrefix + this.encodeCode(code.content) + codeSuffix;
+    return codePrefix + this.encodeCode(cc.data) + codeSuffix;
   }
 
   private encodeCode(code: String) {

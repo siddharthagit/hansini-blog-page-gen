@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { BlogContent, BlogImageFile, BlogPara, CodeContent, ImageContent, LineContent, ListContent, TextContent, VideoContent } from './models';
+import { ArticleContent, ArticleImageFile, ArticlePara, CodeContent, ImageContent, LineContent, ListContent, TextContent, VideoContent } from './models';
 import { HansiniMockService } from './hansinimock.service';
 import 'prismjs';
 import { PopOverAct } from './models';
@@ -22,7 +22,7 @@ import { EditorAppConstants } from '../app.constants';
  */
 export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
 
-    blogcontent: BlogContent = new BlogContent();
+    blogcontent: ArticleContent = new ArticleContent();
     openLineExists: boolean = false;
     currentSelectedLine: number = -1;
     clickedPopover: number = -1;
@@ -67,7 +67,7 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
     constructor(protected sanitizer: DomSanitizer, mockService: HansiniMockService, protected localService:CreatorService,
         protected activeRouter: ActivatedRoute) {
         //this.blogcontent = service.populateWithTestData();
-        let para1 = new BlogPara("", "text");
+        let para1 = new ArticlePara("", "text");
         let dc: TextContent = new TextContent();
         dc.data = "this is test  <b> bold</b>"
         para1.content = dc
@@ -120,8 +120,8 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
         this.localService.addOrUpdateObjectWithKeyToLS(EditorAppConstants.localStoreEditName,  this.currentPageLSID, this.blogcontent);
     }
 
-    decodeBlogContent(json: Object): BlogContent {
-        let user = Object.create(BlogContent.prototype);
+    decodeBlogContent(json: Object): ArticleContent {
+        let user = Object.create(ArticleContent.prototype);
         return Object.assign(user, json, {
         });
     }
@@ -141,7 +141,7 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
         //this.blogcontent.para.push(new BlogPara(this.createlineId(), linetyep));
 
         //insert at the next index
-        this.blogcontent.para.splice(this.currentSelectedLine + 1, 0, new BlogPara(this.createlineId(), linetyep))
+        this.blogcontent.para.splice(this.currentSelectedLine + 1, 0, new ArticlePara(this.createlineId(), linetyep))
 
         this.openLineExists = true;
         //console.log(this.openLineExists);
@@ -283,7 +283,7 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
 
             if (this.currentSelectedLine == -1) return;
 
-            let para: BlogPara = this.blogcontent.para[this.currentSelectedLine]
+            let para: ArticlePara = this.blogcontent.para[this.currentSelectedLine]
             console.log(this.currentSelectedLine)
             console.log(para);
             if (para.type == "code") return;
@@ -321,7 +321,7 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
         event.stopImmediatePropagation()
         if (event.key === 'Enter' && event.shiftKey == true) {
             console.log("handle shift enter");
-            let para: BlogPara = this.blogcontent.para[this.currentSelectedLine]
+            let para: ArticlePara = this.blogcontent.para[this.currentSelectedLine]
             //if text type 
             if (para.type == "text") {
                 let content: TextContent = para.content as (TextContent);
@@ -378,7 +378,7 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
         return randomNumberBetween1000and2000 + "";
     }
 
-    onFileChangedLS(event: Event, contentholder: BlogImageFile) {
+    onFileChangedLS(event: Event, contentholder: ArticleImageFile) {
         console.log("onFileChanged event" + JSON.stringify(event.currentTarget));
         const target = event.target as HTMLInputElement;
 

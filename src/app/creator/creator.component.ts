@@ -3,8 +3,9 @@ import { CreatorService } from './creator.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BlogDetails, BlogParagraph } from './models';
+import { BlogWebpageObject } from './models';
 import { AppConstants } from "../app.constants";
+import { ArticlePara } from '../editor/models';
 
 @Component({
   selector: 'blog-post',
@@ -15,7 +16,7 @@ export class CreatorComponent implements OnInit {
   DEBUG_INFO: string;
   @Input() currentRow: string;
   @Output() addRowEvent = new EventEmitter<object>();
-  blogDetails = new BlogDetails();
+  blogDetails = new BlogWebpageObject();
   public currentPageLSID;
   form: FormGroup;
   fileName: string;
@@ -56,16 +57,16 @@ export class CreatorComponent implements OnInit {
       }
       else {
         let blodID = this.blogService.createPageId();
-        this.blogDetails = new BlogDetails(blodID, "new blog");
+        this.blogDetails = new BlogWebpageObject(blodID, "new blog");
       }
     });
   }
 
-  public onThisTaskMouseEnter(p: BlogParagraph) {
+  public onThisTaskMouseEnter(p: ArticlePara) {
     console.log("sidd");
   }
 
-  public onThisTaskMouseLeave(p: BlogParagraph) {
+  public onThisTaskMouseLeave(p: ArticlePara) {
     console.log("sidd");
   }
 
@@ -76,7 +77,7 @@ export class CreatorComponent implements OnInit {
   public saveObject() {
     console.log("saveObject " + JSON.stringify(this.blogDetails));
     //this.blogDetails.objectType = environment.TYPE_BLOGSTORY_OBJECT;
-    this.blogDetails.updatedDateTime = this.formDataChangedDate;
+    this.blogDetails.ud = this.formDataChangedDate;
     this.blogService.addOrUpdateObjectToLS(AppConstants.localStoreEditName, this.blogDetails);
   }
 
@@ -87,42 +88,42 @@ export class CreatorComponent implements OnInit {
   public addRow(event, index) {
     //this.blogDetails.paragraphs.push(new BlogParagraph(event['row'], event['type'], ''));
     console.log("addRow At " + event['row'] + "" + index);
-    this.blogDetails.paragraphs.splice(event['row'], 0, new BlogParagraph("" , '', event['type']))
+    this.blogDetails.displayWidgets.splice(event['row'], 0, new ArticlePara("" , event['type']))
   }
 
-  public getParagraphType(paragraph: BlogParagraph) {
+  public getParagraphType(paragraph: ArticlePara) {
     return paragraph.type;
   }
 
   filterBy(order: string) {
-    return this.blogDetails.paragraphs.sort((a, b) => a[order] > b[order] ? 1 : a[order] === b[order] ? 0 : -1);
+    return this.blogDetails.displayWidgets.sort((a, b) => a[order] > b[order] ? 1 : a[order] === b[order] ? 0 : -1);
   }
 
-  takeUp(paragraph: BlogParagraph, order: number) {
+  takeUp(paragraph: ArticlePara, order: number) {
     console.log("takeUp" + order);
     if (order > 0) {
-      let topParagraph = this.blogDetails.paragraphs[order - 1];
-      this.blogDetails.paragraphs[order - 1] = paragraph;
-      this.blogDetails.paragraphs[order] = topParagraph;
+      let topParagraph = this.blogDetails.displayWidgets[order - 1];
+      this.blogDetails.displayWidgets[order - 1] = paragraph;
+      this.blogDetails.displayWidgets[order] = topParagraph;
     }
   }
 
-  takeDown(paragraph: BlogParagraph, order: number) {
+  takeDown(paragraph: ArticlePara, order: number) {
     console.log("takeDown" + order);
   }
 
-  deleteParatraph(paragraph: BlogParagraph, order: number) {
+  deleteParatraph(paragraph: ArticlePara, order: number) {
     console.log("delete item order = " + order);
-    this.blogDetails.paragraphs.splice(order, 1);
+    this.blogDetails.displayWidgets.splice(order, 1);
   }
 
-  extactvideo(para: BlogParagraph) {
+  extactvideo(para: ArticlePara) {
     //return url;
     var video_id = ""; //bzSTpdcs-EI
     console.log("extractVideo : + val sd= " + para.content);
 
     if (para != null && para.content != null) {
-      if (para.content.indexOf("v=") > -1) {
+      /*if (para.content.indexOf("v=") > -1) {
         video_id = para.content.split('v=')[1];
         console.log("extractVideo : + val = , video_id =  " + para.content + " " + video_id);
 
@@ -130,7 +131,7 @@ export class CreatorComponent implements OnInit {
         if (ampersandPosition != -1) {
           video_id = video_id.substring(0, ampersandPosition);
         }
-      }
+      }*/
     }
     console.log("extractVideo : video_id= " + video_id);
     video_id = "https://www.youtube.com/embed/" + video_id;
@@ -179,7 +180,7 @@ export class CreatorComponent implements OnInit {
     console.log("editMe");
   }
 
-  public editVideoURL(para: BlogParagraph) {
+  public editVideoURL(para: ArticlePara) {
     para['updateVideo'] = true;
     console.log("editVideoURL" + JSON.stringify(para));
   }
