@@ -3,9 +3,9 @@ import { CreatorService } from './creator.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BlogWebpageObject } from './models';
+import { BlogWebpageView } from './models';
 import { AppConstants } from "../app.constants";
-import { ArticlePara, CodeContent, DisplayFragmentMe, GitContent, H1Content, H2Content, ListContent } from '../editor/models';
+import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ListContent } from '../editor/models';
 /**
  * HTML Structure
  * <div id="hansini">
@@ -35,7 +35,7 @@ import { ArticlePara, CodeContent, DisplayFragmentMe, GitContent, H1Content, H2C
 })
 export class HtmlResultComponent implements OnInit {
   DEBUG_INFO: string;
-  blogDetails = new BlogWebpageObject();
+  blogDetails = new BlogWebpageView();
   public currentPageLSID;
   protected sub: any;
   public HTMLOUTPUT: String;
@@ -80,7 +80,7 @@ export class HtmlResultComponent implements OnInit {
     });
   }
 
-  private encodeArticlePara(paras: DisplayFragmentMe[]) {
+  private encodeArticlePara(paras: DisplayMe[]) {
     let counter = 1;
     let HTMLOUTPUT = "";
     paras.forEach(para => {
@@ -173,7 +173,7 @@ export class HtmlResultComponent implements OnInit {
     return counter + "_" + elementType;
   }
 
-  private encodeWholeHTML(blog: BlogWebpageObject) {
+  private encodeWholeHTML(blog: BlogWebpageView) {
     let dynaId = "mainheading_h2";
     let link = '<a href="#' + dynaId + '">' + blog.name + '</a>';
     //this.htmlLinkAnchors.set(blog.name, link);

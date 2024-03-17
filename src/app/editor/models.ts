@@ -49,7 +49,13 @@ export class ArticleImageFile {
     constructor (d?:string){
       this.data = d;
     }
-  
+  }
+
+  export class H3Content implements LineContent  {
+    data:string;
+    constructor (d?:string){
+      this.data = d;
+    }
   }
   
   export class ListContent implements LineContent  {
@@ -84,8 +90,6 @@ export class ArticleImageFile {
    
   }
   
-  
-  
   export class ImageContent implements LineContent  {
     file:ArticleImageFile = new ArticleImageFile();
     caption:string;
@@ -109,6 +113,7 @@ export class ArticleImageFile {
     TEXT = "text";
     H1 = "h1";
     H2 = "h2";
+    H3 = "h3";
     IMAGE = "image";
     LIST = "list";
     CODE = "code";
@@ -125,7 +130,7 @@ export class ArticleImageFile {
     constructor (id:string, type:string) {
        this.id = id;
        this.type = type;
-       if (type=="text") {
+       if (type=="txt") {
          this.content = new TextContent();
        }
        else if (type=="h1") {
@@ -134,23 +139,29 @@ export class ArticleImageFile {
       else if (type=="h2") {
         this.content = new H2Content();
       }
-      else if (type=="image") {
+      else if (type=="h3") {
+        this.content = new H3Content();
+      }
+      else if (type=="img") {
         this.content = new ImageContent();
       }
       else if (type=="list") {
         this.content = new ListContent();
       }
-      else if (type=="code") {
+      else if (type=="cod") {
         this.content = new CodeContent();
       }
-      else if (type=="qoute") {
+      else if (type=="qot") {
         this.content= new QouteContent();
       }
       else if (type=="sec") {
         this.content= new SectionContent();
       }
-      else if (type=="video") {
+      else if (type=="vid") {
         this.content= new VideoContent();
+      }
+      else if (type=="url") {
+        this.content= new UrlContent();
       }
     }
     gettitle() {
@@ -158,14 +169,16 @@ export class ArticleImageFile {
     }
   }
   
-  export class ArticleContent implements EditorMe, DisplayFragmentMe {
+  export class ArticleContent implements EditorMe, DisplayMe {
     id: string;
     time: string;
     para: Array<ArticlePara> = [];
   }
 
   /* can display this object in webpage front end */
-  export interface DisplayFragmentMe  {}
+  export interface DisplayMe  {}
+
+  export interface DisplaySummeryMe  {}
   /* can Edit in Editor this object  */
   export interface EditorMe  {}
   /* can Edit in Editor this object  */

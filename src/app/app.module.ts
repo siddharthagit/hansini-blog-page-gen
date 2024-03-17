@@ -24,11 +24,13 @@ import { AngularFireModule } from '@angular/fire/compat/';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
+import { BlogCreatorTemplateBasedComponent } from './creator/blogcreatortemplatebased.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    BlogCreatorTemplateBasedComponent,
     CreatorComponent,
     CreateInlineTooltip,
     ListComponent,
@@ -46,7 +48,6 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     BrowserAnimationsModule,
     HansiniBlogModule,
-
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features

@@ -8,6 +8,7 @@ import { HansiniMockService } from './editor/hansinimock.service';
 import { EditorListComponent } from './editor/editorlist.component';
 import { BlogListComponent, BlogViewDetailsComponent } from './dblog';
 import { HansiniEditor } from './editor/hansinieditor.component';
+import { BlogCreatorTemplateBasedComponent } from './creator/blogcreatortemplatebased.component';
 
 
 
@@ -45,6 +46,11 @@ const routes: Routes = [
     path: 'creator',
     component: CreatorComponent
   },
+  {
+    path: 'tempaltebasedcreator',
+    component: BlogCreatorTemplateBasedComponent
+  },
+  
   {
     path: 'clist',
     component: ListComponent

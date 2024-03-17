@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 // import { HttpClient} from '@angular/common/http';
 import { from, map, Observable, of, Subscriber } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { CreatableBlogObject, KeyValPair, RootObjectType, RootObjectTypeMap, SiteConfig } from '../dblog/models';
+import {  SiteConfig } from '../dblog/models';
 const MY_TODO_PAGES_ARRAY = "MyPageIdsA"; //contains id of the TodoPages I created, assigned to me.
 import { getFirestore, collection, query, where, getDocs, orderBy, limit } from "firebase/firestore";
 

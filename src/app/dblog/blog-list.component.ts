@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppConstants } from '../app.constants';
-import { BlogWebpageListView } from '../creator/models';
-import { DisplayFragmentMe } from '../editor/models';
+import { BlogDetailsData, BlogWebpageListView } from '../creator/models';
+import { DisplayMe } from '../editor/models';
 import { BlogLSServiceImpl } from './blog.service';
-import { CreatableBlogObject, SiteConfig } from './models';
+import { SiteConfig } from './models';
 
 const BLOG_COLL_NAME = "rootblogstory";
 @Component({
@@ -47,7 +47,7 @@ export class BlogListComponent implements OnInit {
         this.pageData.displayWidgets = [];
         //var newData = data;//data.json();
         data.forEach(item1 => {
-          let item = item1 as CreatableBlogObject;
+          let item = item1 as BlogDetailsData ;
           console.log("p3" + JSON.stringify(item));
           this.pageData.displayWidgets.push(item);
         });

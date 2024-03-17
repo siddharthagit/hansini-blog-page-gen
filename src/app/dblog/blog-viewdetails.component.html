@@ -1,3 +1,4 @@
+{{blogDetails|json}}
 <div class="container">
   <div class="row">
     <!-- Latest Posts -->
@@ -18,7 +19,7 @@
         <!--            -->
 
         <div class="post-details">
-          <h1>{{blogDetails.ud.n}}
+          <h1>{{blogDetails.pre.dte}}
             <a href="#">
               <i class="fa fa-bookmark-o"></i>
             </a>
@@ -26,30 +27,31 @@
           <div class="post-footer d-flex align-items-center flex-column flex-sm-row">
             <a href="#" class="author d-flex align-items-center flex-wrap">
               <div class="avatar">
-                <img [src]="sanitize(blogDetails.hd.a.p)" width="200" height="200" class="img-fluid" />
+                <!-- Avatar-->
+                <img [src]="sanitize(blogDetails.pre.aut.i)" width="200" height="200" class="img-fluid" />
               </div>
               <div class="title">
-                <span>{{blogDetails.hd.a.f}}</span>
+                <span>{{blogDetails.pre.aut.f}}</span>
               </div>
             </a>
             <div class="d-flex align-items-center flex-wrap">
               <div class="date">
-                Posted On <i class="icon-clock"> {{blogDetails.hd.i.p | date:'mediumDate'}} </i>
+                Posted On <i class="icon-clock"> {{blogDetails.pre.dte | date:'mediumDate'}} </i>
               </div>
               <div class="views">
-                <i class="icon-eye"></i> {{blogDetails.hd.i.c}}
+                <i class="icon-eye"></i> {{blogDetails.pre.vi.v}}
               </div>
               <div class="comments meta-last">
-                <i class="icon-comment"></i>{{blogDetails.hd.i.v}}
+                <i class="icon-comment"></i>{{blogDetails.pre.vi.c}}
               </div>
             </div>
           </div>
           <div class="post-body">
             <p class="lead">
               <!--Summary-->
-              {{blogDetails.ud.s}}
+              {{blogDetails.pre.summ}}
             </p>
-            <div *ngFor="let paragraph of blogDetails.ud.p; let i = index">
+            <div *ngFor="let paragraph of blogDetails.paras; let i = index">
               <p> {{paragraph.c}}</p>
             </div>
           </div>

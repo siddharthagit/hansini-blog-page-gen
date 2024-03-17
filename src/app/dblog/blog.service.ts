@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 import { throwError } from 'rxjs';
+import { BlogDetailsData } from '../creator/models';
 import { BlogService } from './blog.iservice';
 import { KeyValPair, SiteConfig } from './models';
 const MY_TODO_PAGES_ARRAY = "MyPageIdsA"; //contains id of the TodoPages I created, assigned to me.
@@ -20,16 +21,16 @@ export class BlogLSServiceImpl implements BlogService {
         return new Observable<SiteConfig>((subscriber: Subscriber<any>) => subscriber.next(siteConfig));
     }
 
-    public getPostByID(id: string): Observable<any> {
-        console.log("BlogLSServiceImpl getBlogStoryDetails id = " + id);
-        let storedObject = JSON.parse(localStorage.getItem(id) || "");
+    getPostByID(storageName: string,  path:string): Observable<BlogDetailsData> {
+        console.log("BlogLSServiceImpl getBlogStoryDetails storageName = " + storageName);
+        let storedObject = JSON.parse(localStorage.getItem(storageName) || "");
         if (storedObject == null) {
             console.log("Service getBlogStoryDetails not found");
-            throw throwError("Object with id " + id + "  not found");
+            throw throwError("Object with id " + path + "  not found");
             //throw Observable.throw("Service getBlogStoryDetails not found");
         }
         else
-            return new Observable<Response>((subscriber: Subscriber<any>) => subscriber.next(storedObject));
+            return new Observable<BlogDetailsData>((subscriber: Subscriber<BlogDetailsData>) => subscriber.next(storedObject));
     }
 
 

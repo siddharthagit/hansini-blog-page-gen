@@ -8,11 +8,9 @@ import { AppConstants } from "../app.constants";
 import { ArticlePara } from '../editor/models';
 
 @Component({
-  selector: 'blog-post',
-  templateUrl: './creator.component.html',
-  styleUrls: ['./creator.css']
+  template: ''
 })
-export class CreatorComponent implements OnInit {
+export abstract class BaseBlogCreatorComponent implements OnInit {
   DEBUG_INFO: string;
   @Input() currentRow: string;
   @Output() addRowEvent = new EventEmitter<object>();

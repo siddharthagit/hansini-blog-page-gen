@@ -1,4 +1,10 @@
-# Blogcool
+# Unifiede Hansini Editor (hansiniuniapp)
+
+# Capability
+## Create Blog Free Flow which also shows raw html
+## Create Blog From Tempalte (Blogger) which also shows raw html
+## Live Blog App
+## Generate Static HTMl from Live Blog APP
 
 ## this one will be public repo
 ## 
@@ -11,6 +17,25 @@
   List
   URL
   Summary (github)
+
+
+# Data Model
+
+BlogWebpageListView extends WebpageView
+
+BlogWebpageView extends WebpageView
+
+CreatableObject
+
+ArticleContent
+
+ArticlePara
+
+LineContent
+
+
+EditorMe, DisplayMe, DisplayFragmentMe
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.1.
 

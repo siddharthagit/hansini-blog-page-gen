@@ -73,31 +73,32 @@
           </div>
         </div>
         <div class="col-sm-8">
+          sidd  {{paragraph |json}}
           <ng-container [ngSwitch]="paragraph.type">
             <ng-container *ngSwitchCase="'h2'">
              
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data" placeholder="H2 heading"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content" placeholder="H2 heading"
                   class="textareaVSmall" name="heading" required>
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'h3'">
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data" placeholder="H3 heading"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="H3 heading"
                   class="textareaVSmall" name="heading" required>
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'txt'">
               <div class="">
                 <textarea placeholder="Text" (keyup)="editMe($event)" (blur)="editMeDone($event)"
-                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data"
+                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content"
                   id="paragrapInput{{i}}" name="desc">
                     </textarea>
               </div>
             </ng-container>
-            <ng-container *ngSwitchCase="'git'">
+            <ng-container *ngSwitchCase="'GIT'">
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
                   (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="Git Repo Link"
@@ -110,7 +111,7 @@
                     </textarea>
               </div>
             </ng-container>
-            <ng-container *ngSwitchCase="'url'">
+            <ng-container *ngSwitchCase="'URL'">
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
                   (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="URL Title"
@@ -123,7 +124,7 @@
                   </textarea>
               </div>
             </ng-container>
-            <ng-container *ngSwitchCase="'cod'">
+            <ng-container *ngSwitchCase="'COD'">
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
                   (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="Code Filename"
@@ -141,7 +142,7 @@
                    </textarea>
               </div>
             </ng-container>
-            <ng-container *ngSwitchCase="'lis'">
+            <ng-container *ngSwitchCase="'LIS'">
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
                   (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="List Name"
@@ -154,7 +155,7 @@
                    </textarea>
               </div>
             </ng-container>
-            <ng-container *ngSwitchCase="'ima'">
+            <ng-container *ngSwitchCase="'IMA'">
               <div class="col-sm-8">
                 <ng-container>
                   <input type="file" name="imageInput" #imageInput (change)="onFileChanged(paragraph, true, $event)"
@@ -165,7 +166,7 @@
                 </ng-container>
               </div>
             </ng-container>
-            <ng-container *ngSwitchCase="'vid'">
+            <ng-container *ngSwitchCase="'VID'">
               <div class="container-fluid">
                 <div class="info row">
                   <input type="input" [(ngModel)]="paragraph.content" id="paragrapInput{{i}}" name="paragraph{{i}}"

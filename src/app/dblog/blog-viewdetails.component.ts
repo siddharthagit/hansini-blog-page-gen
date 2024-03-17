@@ -4,7 +4,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { BlogFireServiceImpl } from './blog.fireservice';
 //import { CreatableBlogObject, FormStatus } from '../creator/models';
 import { Title, Meta } from '@angular/platform-browser';
-import { CreatableBlogObject } from './models';
+import { BlogDetailsData } from '../creator/models';
+import { BlogLSServiceImpl } from './blog.service';
+import { AppConstants } from '../app.constants';
+//import { CreatableBlogObject } from './models';
 
 @Component({
   selector: 'blog-details',
@@ -18,7 +21,7 @@ import { CreatableBlogObject } from './models';
 export class BlogViewDetailsComponent implements OnInit {
   private sub: any;
   private currentPageID: string  = "";
-  blogDetails: CreatableBlogObject = new CreatableBlogObject();
+  blogDetails: BlogDetailsData = new BlogDetailsData();
 
   //from commentscomponent
   //comments: FormStatus = new FormStatus();
@@ -27,7 +30,7 @@ export class BlogViewDetailsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private router: Router,
     private activeRouter: ActivatedRoute,
-    public blogService: BlogFireServiceImpl,
+    public blogService: BlogLSServiceImpl,
     private metaService: Meta
     
   ) {
@@ -41,13 +44,13 @@ export class BlogViewDetailsComponent implements OnInit {
    });
 
     if (this.currentPageID != undefined && this.currentPageID != null) {
-      this.blogService.getPostByID("rootblogstory", this.currentPageID).subscribe(
+      this.blogService.getPostByID(AppConstants.localStoreEditName, this.currentPageID).subscribe(
         (doc) => {
-          //console.log('***** fs doc  ' + JSON.stringify(doc));
+          console.log('***** fs doc  ' + JSON.stringify(doc));
           this.blogDetails = doc;
-          let title:string = this.blogDetails.ud.n;
-          let desc: string = this.blogDetails.hd.g.d;
-          let key: string = this.blogDetails.hd.g.k;
+          let title:string = this.blogDetails.pre.tle;
+          let desc: string = this.blogDetails.pre.summ;
+          let key: string = this.blogDetails.seo.k;
           this.addSEOTag(title,desc, key);
         },
         err => {

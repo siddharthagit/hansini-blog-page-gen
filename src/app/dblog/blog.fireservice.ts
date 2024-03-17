@@ -4,11 +4,13 @@ import { from, map, Observable, of, Subscriber } from 'rxjs';
 import { throwError } from 'rxjs';
 import { BlogService } from './blog.iservice';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { CreatableBlogObject, KeyValPair, RootObjectType, RootObjectTypeMap, SiteConfig } from './models';
+import {  KeyValPair,  SiteConfig } from './models';
 const MY_TODO_PAGES_ARRAY = "MyPageIdsA"; //contains id of the TodoPages I created, assigned to me.
 import { getFirestore, collection, query, where, getDocs, orderBy, limit } from "firebase/firestore";
 
 import { initializeApp } from "firebase/app"
+import { BlogDetailsData, RootObjectType } from '../creator/models';
+//import { RootObjectType } from 'extra/models';
 
 @Injectable()
 export class BlogFireServiceImpl implements BlogService {
@@ -25,7 +27,7 @@ export class BlogFireServiceImpl implements BlogService {
       }));
   }
 
-  getPostByID(storageName: string,  path:string): Observable<CreatableBlogObject> {
+  getPostByID(storageName: string,  path:string): Observable<BlogDetailsData> {
     console.log("BlogFireServiceImpl getPostByID() id =" + path );
    //return  this.firestore.collection("rootblogstory").doc(id.toString()).get();
    return this.firestore.collection<any>(storageName).doc(path).get()
@@ -34,7 +36,7 @@ export class BlogFireServiceImpl implements BlogService {
         console.log("FSService action data = " + JSON.stringify(actions.data()));
         //const ret = this.hs.getDecodedObjectfromCollectionName(collectionName, actions.data());
         //return actions.data() as CreatableBlogObject;
-        var jsonObject: CreatableBlogObject = new CreatableBlogObject();
+        var jsonObject: BlogDetailsData = new BlogDetailsData();
         Object.assign(jsonObject, actions.data())
         return jsonObject;
       }));
@@ -106,10 +108,10 @@ export class BlogFireServiceImpl implements BlogService {
           else {
                q = query(collection(db, storageName),where("ud.z", ">", 10), where("ud.c.key", "==", catID), limit(pageSize));
           }
-          let ret: CreatableBlogObject[] = [];
+          let ret: BlogDetailsData[] = [];
           //return from(getDocs(q))
-          (ret).push(new CreatableBlogObject());
-          (ret).push(new CreatableBlogObject());
+          (ret).push(new BlogDetailsData());
+          (ret).push(new BlogDetailsData());
 
           //return getDocs(q);
           return new Observable<Response>((subscriber: Subscriber<any>) => subscriber.next(ret));
