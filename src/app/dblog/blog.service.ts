@@ -23,7 +23,7 @@ export class BlogLSServiceImpl implements BlogService {
 
     getPostByID(storageName: string,  path:string): Observable<BlogDetailsData> {
         console.log("BlogLSServiceImpl getBlogStoryDetails storageName = " + storageName);
-        let storedObject = JSON.parse(localStorage.getItem(storageName) || "");
+        let storedObject = JSON.parse(localStorage.getItem(path) || "");
         if (storedObject == null) {
             console.log("Service getBlogStoryDetails not found");
             throw throwError("Object with id " + path + "  not found");

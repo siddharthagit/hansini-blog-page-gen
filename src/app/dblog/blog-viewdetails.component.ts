@@ -22,6 +22,20 @@ export class BlogViewDetailsComponent implements OnInit {
   private sub: any;
   private currentPageID: string  = "";
   blogDetails: BlogDetailsData = new BlogDetailsData();
+  javaCode2: string = `public class JakartaRestfulApp extends Application {
+    private final <Set> classes;
+
+    public JakartaRestfulApp() {
+        HashSet> c = new HashSet>();
+        c.add(MenuResource.class);
+        classes = Collections.unmodifiableSet(c);
+    }
+
+    @Override
+    public <Set> getClasses() {
+        return classes;
+    }
+}`;
 
   //from commentscomponent
   //comments: FormStatus = new FormStatus();
@@ -44,7 +58,7 @@ export class BlogViewDetailsComponent implements OnInit {
    });
 
     if (this.currentPageID != undefined && this.currentPageID != null) {
-      this.blogService.getPostByID(AppConstants.localStoreEditName, this.currentPageID).subscribe(
+      this.blogService.getPostByID(AppConstants.TYPE_BLOGSTORY_OBJECT, this.currentPageID).subscribe(
         (doc) => {
           console.log('***** fs doc  ' + JSON.stringify(doc));
           this.blogDetails = doc;
@@ -82,6 +96,12 @@ export class BlogViewDetailsComponent implements OnInit {
     this.metaService.addTag({ name: 'robots', content: 'index,follow' });
     this.metaService.addTag({ property: 'og:title', content: title });
     this.metaService.addTag({ property: 'keywords', content: key });
+  }
+
+  explodeList(raw:string) {
+   
+    let ret = raw.split("\n");
+    return ret;
   }
 }
 

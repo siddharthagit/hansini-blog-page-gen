@@ -25,7 +25,7 @@ ngOnInit() {
 }
 
 private populateGrid() {
-  this.blogService.getObjectsFromLS(AppConstants.localStoreEditName).forEach(element => {
+  this.blogService.getObjectsFromLS(AppConstants.TYPE_BLOGSTORY_OBJECT).forEach(element => {
       console.log("Object: " + JSON.stringify(element));
       if (element != null) {
           let thisItem = new GridObject(element['_id'], element['name']);

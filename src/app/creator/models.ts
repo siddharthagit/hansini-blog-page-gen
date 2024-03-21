@@ -74,12 +74,11 @@ export class BlogDetailsData extends CreatableObject {
   public seo: SEOInfo;
   public name: string;
   public pre:PreambleInfo;
-  public list: ArticlePara[];
-
   public paras: ArticlePara[];
 
   constructor(id?: string, name?: string) {
     super(id, name);
+    this.seo = new SEOInfo();
     this.pre = new PreambleInfo();
     this.paras =  new Array<ArticlePara>();
   }
@@ -149,9 +148,9 @@ export class PreambleInfo {
   cat: KeyValPair = new KeyValPair(); //Category
   des: string = ""; //Description
   img: any = ""; //Image
-  dte: string = "published on x"; //publish date
-  aut: AuthorInfo;
-  vi: ViewInfo;
+  dte: string = "03/17/2024"; //publish date
+  aut: AuthorInfo = new AuthorInfo();
+  vi: ViewInfo = new ViewInfo();
   constructor () {
     this.cat = new KeyValPair();
   }

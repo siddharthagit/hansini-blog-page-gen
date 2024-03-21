@@ -56,8 +56,11 @@ export class CreatorComponent implements OnInit {
         }
       }
       else {
+        console.log("create new lsid");
         let blodID = this.blogService.createPageId();
+        console.log("create new lsid = " +  blodID);
         this.blogDetails = new TemplageBlogDetailsData(blodID, "new blog");
+        console.log("create object = " +  JSON.stringify(this.blogDetails));
       }
     });
   }
@@ -78,7 +81,7 @@ export class CreatorComponent implements OnInit {
     console.log("saveObject " + JSON.stringify(this.blogDetails));
     //this.blogDetails.objectType = environment.TYPE_BLOGSTORY_OBJECT;
     //this.blogDetails.ud = this.formDataChangedDate;
-    this.blogService.addOrUpdateObjectToLS(AppConstants.localStoreEditName, this.blogDetails);
+    this.blogService.addOrUpdateObjectToLS(AppConstants.TYPE_BLOGSTORY_OBJECT, this.blogDetails);
   }
 
   public goBack() {

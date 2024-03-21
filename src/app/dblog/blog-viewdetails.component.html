@@ -16,12 +16,13 @@
         <div class="post-thumbnail">
           <img src="../assets/img/image1.jpeg" width="200" height="200" class="img-fluid" />
         </div>
-        <!--            -->
+       
 
         <div class="post-details">
-          <h1>{{blogDetails.pre.dte}}
+           <!--Post title-->
+          <h1>{{blogDetails.name}}
             <a href="#">
-              <i class="fa fa-bookmark-o"></i>
+              <i class="fa fa-bookmark-o">dd</i>
             </a>
           </h1>
           <div class="post-footer d-flex align-items-center flex-column flex-sm-row">
@@ -31,6 +32,7 @@
                 <img [src]="sanitize(blogDetails.pre.aut.i)" width="200" height="200" class="img-fluid" />
               </div>
               <div class="title">
+                <!-- Author Name-->
                 <span>{{blogDetails.pre.aut.f}}</span>
               </div>
             </a>
@@ -52,7 +54,52 @@
               {{blogDetails.pre.summ}}
             </p>
             <div *ngFor="let paragraph of blogDetails.paras; let i = index">
-              <p> {{paragraph.c}}</p>
+              <ng-container [ngSwitch]="paragraph.type">
+                <ng-container *ngSwitchCase="'h1'">
+                  <h1> {{paragraph.content}}</h1>
+                </ng-container> 
+                <ng-container *ngSwitchCase="'h2'">
+                  <h2> {{paragraph.content.data}}</h2>
+                </ng-container>
+
+                <ng-container *ngSwitchCase="'h3'">
+                  <h3> {{paragraph.content}}</h3>
+                </ng-container>
+                <ng-container *ngSwitchCase="'txt'">
+                  <div class="post-text">
+                      {{paragraph.content.data}}
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'lis'">
+                  <div class="post-text">
+                      <span> {{paragraph.content.title}}</span>
+                      <ol class="list-group list-group-numbered">
+
+                        <li class="list-group-item" *ngFor="let tag of explodeList(paragraph.content.raw)">{{tag}}</li>
+                      </ol>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'cod'">
+                  <div class="post-text">
+                    
+                      <span> {{paragraph.content.title}}</span>
+                      <pre>
+                        <code class="language-{{paragraph.content.lang}} ha-code-editor" 
+                          [id]="'ha_item_' + i "  
+                          #topicTitle
+                          (input)="p.content.data=topicTitle.innerHTML" 
+                          (blur)="handleHaInputBlur()">
+                          {{javaCode2}}
+                        </code>
+                      </pre>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'git'">
+                  <div class="post-text">g
+                    {{paragraph.content|json}}
+                  </div>
+                </ng-container>
+              </ng-container>
             </div>
           </div>
           <div class="post-comments">

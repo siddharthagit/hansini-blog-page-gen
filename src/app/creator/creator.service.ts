@@ -21,12 +21,12 @@ export class CreatorService {
     //Local Store Related
 
     public addOrUpdateObjectToLS(localStoreName: string, pageData: object) {
-        console.log("addOrUpdateObjectToLS");
+        console.log("addOrUpdateObjectToLS " + localStoreName);
         if (localStoreName == null || pageData == null) {
             console.log("localStoreName or pageData is null ");
             //return;
         }
-        console.log("addOrUpdateObjectToLS pageData['lsid'] = " + pageData['lsid']);
+        console.log("addOrUpdateObjectToLS lsid = " + pageData['lsid']);
         let lSString = localStorage.getItem(localStoreName);
         let isFound = false;
         let lSObject = null

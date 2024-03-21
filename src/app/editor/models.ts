@@ -59,12 +59,11 @@ export class ArticleImageFile {
   }
   
   export class ListContent implements LineContent  {
+    title: string;
     listType: string = "ol";
+    raw: string = "";
     li: string[] = [];
-    constructor() {
-      this.li.push("");
-      //this.li.push("item 2");
-    }
+    
   }
   
   export class UrlContent implements LineContent  {
@@ -79,6 +78,7 @@ export class ArticleImageFile {
 
   export class GitContent implements LineContent  {
     title: string = "code for you!"
+    sum: string = "code for you!"
     url: string = "Auto";
   }
   
@@ -145,7 +145,7 @@ export class ArticleImageFile {
       else if (type=="img") {
         this.content = new ImageContent();
       }
-      else if (type=="list") {
+      else if (type=="lis") {
         this.content = new ListContent();
       }
       else if (type=="cod") {
@@ -193,3 +193,25 @@ export class ArticleImageFile {
    * 
    */
   
+  export class KeyValPair {
+    key: string;
+    val: string;
+    constructor(k?:string, v?: any) {
+      this.key = k!;
+      this.val = v;
+    }
+  }
+  export class CategoryInfo{
+
+    cats: Array<KeyValPair> = [];
+
+    constructor () {
+        this.cats[0] = new KeyValPair("1", "Java");
+        this.cats[1] = new KeyValPair("1", "Angular");
+        this.cats[2] = new KeyValPair("1", "Spring Boot");
+        this.cats[3] = new KeyValPair("1", "AI");
+        this.cats[4] = new KeyValPair("1", "Refactor");
+        this.cats[4] = new KeyValPair("1", "Microservice");
+        this.cats[0] = new KeyValPair("1", "Library");
+    }
+  } 

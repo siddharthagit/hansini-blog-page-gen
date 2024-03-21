@@ -41,7 +41,7 @@ export class BlogListComponent implements OnInit {
   ngOnInit() {
     console.log('BlogListComponent ngONInit invoked');
 
-    this.blogService.getPosts(AppConstants.localStoreEditName, 10, this.catID, "").subscribe(
+    this.blogService.getPosts(AppConstants.TYPE_BLOGSTORY_OBJECT, 10, this.catID, "").subscribe(
       (data) => {
         console.log("getPosts: recieved response + " + JSON.stringify(data));
         this.pageData.displayWidgets = [];

@@ -98,14 +98,15 @@
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'git'">
+              
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="Git Repo Link"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.url" placeholder="Git Repo Link"
                   class="textareaVSmall" name="heading" required>
               </div>
               <div class="">
                 <textarea placeholder="Steps Summary" (keyup)="editMe($event)" (blur)="editMeDone($event)"
-                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content"
+                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.sum"
                   id="paragrapInput{{i}}" name="desc">
                     </textarea>
               </div>
@@ -124,32 +125,35 @@
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'cod'">
+             
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="Code Filename"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.title" placeholder="Code Filename"
                   class="textareaVSmall" name="heading" required>
-                <select [(ngModel)]="paragraph.meta.codeLang">
-                  <option [value]="lang" *ngFor="let lang of languages">
+                <select [(ngModel)]="paragraph.content.lang">
+                  <option [value]="paragraph.content.lang" *ngFor="let lang of languages">
                     {{lang}}
                   </option>
                 </select>
               </div>
               <div class="">
                 <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content" placeholder="Code Sample"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data" placeholder="Code Sample"
                   class="textareaLarge" id="paragrapInput{{i}}" name="code">
                    </textarea>
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'lis'">
+              sidd c
+              {{paragraph|json}}
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="List Name"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.title" placeholder="List Name"
                   class="textareaVSmall" name="heading" required>
               </div>
               <div class="">
                 <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content" placeholder="Type List and Enter"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.raw" placeholder="Type List and Enter"
                   class="textareaLarge" id="paragrapInput{{i}}" name="list">
                    </textarea>
               </div>
