@@ -13,41 +13,34 @@
         </nav>
       </section>
       <div class="post-single">
+        <!--
         <div class="post-thumbnail">
           <img src="../assets/img/image1.jpeg" width="200" height="200" class="img-fluid" />
         </div>
-       
+        -->
 
         <div class="post-details">
-           <!--Post title-->
+          <!--Post title-->
+          <div class="post-meta d-flex justify-content-between">
+            <div class="category"><a href="#">{{blogDetails.pre.cat.val}}</a></div>
+          </div>
           <h1>{{blogDetails.name}}
-            <a href="#">
-              <i class="fa fa-bookmark-o">dd</i>
-            </a>
           </h1>
-          <div class="post-footer d-flex align-items-center flex-column flex-sm-row">
-            <a href="#" class="author d-flex align-items-center flex-wrap">
+          <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
+              class="author d-flex align-items-center flex-wrap">
               <div class="avatar">
-                <!-- Avatar-->
-                <img [src]="sanitize(blogDetails.pre.aut.i)" width="200" height="200" class="img-fluid" />
+                <img [src]="sanitize(blogDetails.pre.aut.i)" alt="..." class="img-fluid">
               </div>
-              <div class="title">
-                <!-- Author Name-->
-                <span>{{blogDetails.pre.aut.f}}</span>
-              </div>
+              <div class="title"><span>{{blogDetails.pre.aut.f}}dd</span></div>
             </a>
             <div class="d-flex align-items-center flex-wrap">
-              <div class="date">
-                Posted On <i class="icon-clock"> {{blogDetails.pre.dte | date:'mediumDate'}} </i>
-              </div>
-              <div class="views">
-                <i class="icon-eye"></i> {{blogDetails.pre.vi.v}}
-              </div>
-              <div class="comments meta-last">
-                <i class="icon-comment"></i>{{blogDetails.pre.vi.c}}
-              </div>
+              <div class="date"><i class="icon-clock"></i> {{blogDetails.pre.dte | date:'mediumDate'}}</div>
+              <div class="views"><i class="icon-eye"></i> {{blogDetails.pre.vi.v}}</div>
+              <div class="comments meta-last"><i class="icon-comment"></i>{{blogDetails.pre.vi.c}}</div>
             </div>
           </div>
+
+
           <div class="post-body">
             <p class="lead">
               <!--Summary-->
@@ -57,7 +50,7 @@
               <ng-container [ngSwitch]="paragraph.type">
                 <ng-container *ngSwitchCase="'h1'">
                   <h1> {{paragraph.content}}</h1>
-                </ng-container> 
+                </ng-container>
                 <ng-container *ngSwitchCase="'h2'">
                   <h2> {{paragraph.content.data}}</h2>
                 </ng-container>
@@ -67,23 +60,54 @@
                 </ng-container>
                 <ng-container *ngSwitchCase="'txt'">
                   <div class="post-text">
-                      {{paragraph.content.data}}
+                    {{paragraph.content.data}}
                   </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="'lis'">
                   <div class="post-text">
-                      <span> {{paragraph.content.title}}</span>
-                      <ol class="list-group list-group-numbered">
+                    <span> {{paragraph.content.title}}</span>
+                    <ol class="list-group list-group-numbered">
 
-                        <li class="list-group-item" *ngFor="let tag of explodeList(paragraph.content.raw)">{{tag}}</li>
-                      </ol>
+                      <li class="list-group-item" *ngFor="let tag of explodeList(paragraph.content.raw)">{{tag}}</li>
+                    </ol>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'qou'">
+                  <div class="post-text">
+                    <blockquote name="f5fb" class="blockquote">
+                      {{paragraph.content.data}}
+                    </blockquote>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'ssc'">
+                  <div class="sscfragment">
+                    <div class="headerblock">
+                      <span class="title"> {{paragraph.content.title}}</span>
+                    </div>
+                    <div class="bodyblock">
+                      <div class="description"> {{paragraph.content.desc}}</div>
+                      <pre><code> {{paragraph.content.data}}</code></pre>
+                    </div>
                   </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="'cod'">
+                  <div class="codeFragment">
+                    <span> {{paragraph.content.title}}</span>
+                    <pre>
+                        <code class="language-{{paragraph.content.lang}} ha-code-editor" 
+                          [id]="'ha_item_' + i "  
+                          #topicTitle
+                          (input)="p.content.data=topicTitle.innerHTML" 
+                          (blur)="handleHaInputBlur()">
+                          {{javaCode2}}
+                        </code>
+                      </pre>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'con'">
                   <div class="post-text">
-                    
-                      <span> {{paragraph.content.title}}</span>
-                      <pre>
+                    <span> {{paragraph.content.title}}</span>
+                    <pre>
                         <code class="language-{{paragraph.content.lang}} ha-code-editor" 
                           [id]="'ha_item_' + i "  
                           #topicTitle
@@ -95,11 +119,39 @@
                   </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="'git'">
-                  <div class="post-text">g
-                    {{paragraph.content|json}}
+                  {{paragraph.content |json}}
+                  <div class="post-text">
+                    <div class="sourcecoderef">
+                      <div class="filename">
+                        <span class='title'>Gitrepository</span>
+                        <a class='btn float-sm-right copyBtn' href='{{paragraph.content.url}}' target='_blank'>Repo</a>
+                      </div>
+                      <div>
+                        <div class='github'>
+                          {{paragraph.content.data}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'vid'">
+                  <div class="post-text">
+                    {{paragraph.content.title}}
+                  </div>
+                  <div class="row">
+                    <iframe width="460" height="445" [src]="showYoutubeVideo(paragraph.content.url)" frameborder="0"
+                      allowfullscreen>
+                    </iframe>
+                  </div>
+                  <div class="row">
+                    <div class="ha-text" [id]="'ha_item_' + i ">
+                      {{p.content.caption}}
+                    </div>
                   </div>
                 </ng-container>
               </ng-container>
+
+
             </div>
           </div>
           <div class="post-comments">
@@ -121,7 +173,7 @@
       <category-details> </category-details>
       <tag-details> </tag-details>
       -->
-      
+
     </aside>
   </div>
 </div>

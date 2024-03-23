@@ -16,6 +16,34 @@
 </div>
 <div class="container-fluid">
   <div class="col-sm-12" style="background-color:beige">
+
+    <div class="row">
+      <div class="col-sm-2">
+        <span>Select Author</span>
+      </div>
+      <div class="col-sm-8">
+      <select [(ngModel)]="blogDetails.pre.cat">
+          <option [ngValue]="cat" *ngFor="let cat of allCategoriesUIData.cats" >
+            {{cat.val}}
+          </option>
+      </select>
+    </div>
+    </div>
+   
+    <div class="row">
+      <div class="col-sm-2">
+        <span>Select Category</span>
+      </div>
+      <div class="col-sm-8">
+      <select [(ngModel)]="blogDetails.pre.cat">
+          <option [ngValue]="cat" *ngFor="let cat of allCategoriesUIData.cats" >
+            {{cat.val}}
+          </option>
+      </select>
+    </div>
+    </div>
+  </div>
+  <div class="col-sm-12" style="background-color:beige">
     <div class="row">
       <div class="col-sm-2">
         <label for="staticName" class="col-sm-2 col-form-label">Name</label>
@@ -98,7 +126,8 @@
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'git'">
-              
+              {{paragraph |json}}
+
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
                   (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.url" placeholder="Git Repo Link"
@@ -106,7 +135,7 @@
               </div>
               <div class="">
                 <textarea placeholder="Steps Summary" (keyup)="editMe($event)" (blur)="editMeDone($event)"
-                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.sum"
+                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data"
                   id="paragrapInput{{i}}" name="desc">
                     </textarea>
               </div>
@@ -114,18 +143,32 @@
             <ng-container *ngSwitchCase="'url'">
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.heading" placeholder="URL Title"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.title" placeholder="URL Title"
                   class="textareaVSmall" name="heading" required>
               </div>
               <div class="">
                 <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
-                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content" placeholder="URL"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.url" placeholder="URL"
                   class="textareaVSmall" id="paragrapInput{{i}}" name="url">
                   </textarea>
               </div>
             </ng-container>
+            <ng-container *ngSwitchCase="'con'">
+              <div class="">
+                <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.title" placeholder="URL Title"
+                  class="textareaVSmall" name="heading" required>
+              </div>
+              
+              
+              <div class="">
+                <textarea placeholder="Text" (keyup)="editMe($event)" (blur)="editMeDone($event)"
+                  (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data"
+                  id="paragrapInput{{i}}" name="desc">
+                    </textarea>
+              </div>
+            </ng-container>
             <ng-container *ngSwitchCase="'cod'">
-             
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
                   (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.title" placeholder="Code Filename"
@@ -141,6 +184,39 @@
                   (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data" placeholder="Code Sample"
                   class="textareaLarge" id="paragrapInput{{i}}" name="code">
                    </textarea>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'ssc'">
+              <div class="">
+                <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.title" placeholder="Code Title"
+                  class="textareaVSmall" name="heading" required>
+              </div>
+              <div class="">
+                <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.desc" placeholder="Code Description"
+                  class="textareaSmall" id="paragrapInput{{i}}" name="code">
+                   </textarea>
+              </div>
+              <div class="">
+                <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data" placeholder="Code Sample"
+                  class="textareaLarge" id="paragrapInput{{i}}" name="code">
+                   </textarea>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'sec'">
+              <div class="">
+                <hr>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'qou'">
+              ss{{paragraph | json}}
+              <div class="">
+                <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data" placeholder="Code Sample"
+                  class="textareaSmall" id="paragrapInput{{i}}" name="Qoute">
+                </textarea>
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'lis'">
@@ -172,7 +248,12 @@
             <ng-container *ngSwitchCase="'vid'">
               <div class="container-fluid">
                 <div class="info row">
-                  <input type="input" [(ngModel)]="paragraph.content" id="paragrapInput{{i}}" name="paragraph{{i}}"
+                  <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.title" placeholder="Video Name"
+                  class="textareaVSmall" name="heading" required>
+                </div>
+                <div class="info row">
+                  <input type="input" [(ngModel)]="paragraph.content.url" id="paragrapInput{{i}}" name="paragraph{{i}}"
                     (blur)="editVideoURL(paragraph)" />
                 </div>
                 <ng-container ng-show="paragraph.content" class="row">

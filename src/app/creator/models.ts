@@ -89,7 +89,7 @@ export class TemplageBlogDetailsData extends BlogDetailsData {
     super(id, name);
     this.pre = new PreambleInfo();
     this.paras [0] =  new ArticlePara("1" , "h2");
-    this.paras [0].content ="ssss1ss";
+    //this.paras [0].content ="ssss1ss";
     this.paras [1] =  new ArticlePara("2" , "text");
     this.paras [2] =  new ArticlePara("" , "h2");
     this.paras [3] =  new ArticlePara("" , "text");
@@ -149,7 +149,7 @@ export class PreambleInfo {
   des: string = ""; //Description
   img: any = ""; //Image
   dte: string = "03/17/2024"; //publish date
-  aut: AuthorInfo = new AuthorInfo();
+  aut: AuthorInfo = new AuthorInfo("");
   vi: ViewInfo = new ViewInfo();
   constructor () {
     this.cat = new KeyValPair();
@@ -162,8 +162,16 @@ export class HansiniInfo {
 }
 
 export class AuthorInfo {
+  u: string = "";
   f: string = "";
+  l: string = "";
   i: string = "../assets/img/writer.png";
+  constructor(u:string, f?:string, l?: string, i?:string) {
+    this.u = u;
+    this.f = f;
+    this.l = l;
+    this.i = i;
+  }
 }
 
 

@@ -67,7 +67,8 @@ export class ArticleImageFile {
   }
   
   export class UrlContent implements LineContent  {
-  
+    title: string = "code for you!"
+    url: string = "Auto";
   }
   
   export class CodeContent implements LineContent  {
@@ -78,16 +79,27 @@ export class ArticleImageFile {
 
   export class GitContent implements LineContent  {
     title: string = "code for you!"
-    sum: string = "code for you!"
+    data: string = "code for you!"
     url: string = "Auto";
   }
   
   export class QouteContent implements LineContent  {
-    data:string
+    data:string = "";
   }
   
   export class SectionContent implements LineContent  {
    
+  }
+
+  export class ShortCodeContent implements LineContent  {
+    title: string = "Code Title!"
+    desc:string ="Code Descripiton!"
+    data:string ="Code Sample!"
+  }
+
+  export class ConsoleContent implements LineContent  {
+    title: string = "console title!"
+    data:string ="console output!"
   }
   
   export class ImageContent implements LineContent  {
@@ -101,11 +113,11 @@ export class ArticleImageFile {
   }
   
   export class VideoContent implements LineContent  {
+    title:string;
     url:string = "";
-    caption:string;
     constructor (n?:string,  cap?:string){
       this.url = n;
-      this.caption = cap;
+      this.title = cap;
     }
   }
   
@@ -151,11 +163,17 @@ export class ArticleImageFile {
       else if (type=="cod") {
         this.content = new CodeContent();
       }
-      else if (type=="qot") {
-        this.content= new QouteContent();
+      else if (type=="qou") {
+        this.content = new QouteContent();
       }
       else if (type=="sec") {
         this.content= new SectionContent();
+      }
+      else if (type=="ssc") {
+        this.content= new ShortCodeContent();
+      }
+      else if (type=="con") {
+        this.content= new ConsoleContent();
       }
       else if (type=="vid") {
         this.content= new VideoContent();
@@ -163,6 +181,10 @@ export class ArticleImageFile {
       else if (type=="url") {
         this.content= new UrlContent();
       }
+      else if (type=="git") {
+        this.content= new GitContent();
+      }
+     
     }
     gettitle() {
 
@@ -202,16 +224,5 @@ export class ArticleImageFile {
     }
   }
   export class CategoryInfo{
-
     cats: Array<KeyValPair> = [];
-
-    constructor () {
-        this.cats[0] = new KeyValPair("1", "Java");
-        this.cats[1] = new KeyValPair("1", "Angular");
-        this.cats[2] = new KeyValPair("1", "Spring Boot");
-        this.cats[3] = new KeyValPair("1", "AI");
-        this.cats[4] = new KeyValPair("1", "Refactor");
-        this.cats[4] = new KeyValPair("1", "Microservice");
-        this.cats[0] = new KeyValPair("1", "Library");
-    }
   } 

@@ -3,9 +3,9 @@ import { CreatorService } from './creator.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BlogWebpageView, TemplageBlogDetailsData } from './models';
+import { AuthorInfo, BlogWebpageView, TemplageBlogDetailsData } from './models';
 import { AppConstants } from "../app.constants";
-import { ArticlePara } from '../editor/models';
+import { ArticlePara, CategoryInfo, VideoContent } from '../editor/models';
 
 @Component({
   selector: 'blog-post',
@@ -27,6 +27,9 @@ export class CreatorComponent implements OnInit {
   languages = ['java', 'javascript', 'html', 'xml'];
 
   paragraphTypeTitleMap = new Map();
+
+  allCategoriesUIData : CategoryInfo;
+  allAuthorUIData : Array<AuthorInfo>;
 
   constructor(protected sanitizer: DomSanitizer,
     protected blogService: CreatorService,
@@ -63,6 +66,10 @@ export class CreatorComponent implements OnInit {
         console.log("create object = " +  JSON.stringify(this.blogDetails));
       }
     });
+
+    this.allCategoriesUIData = this.blogService.getAllCategoriesStatic();
+    this.allAuthorUIData = this.blogService.getAllUsersStatic();
+    
   }
 
   public onThisTaskMouseEnter(p: ArticlePara) {
@@ -122,19 +129,22 @@ export class CreatorComponent implements OnInit {
 
   extactvideo(para: ArticlePara) {
     //return url;
+    console.log("extractVideo : + val sd= " + JSON.stringify(para));
+    if (para.type != "vid") return "";
+    let content:VideoContent = para.content as VideoContent;
     var video_id = ""; //bzSTpdcs-EI
-    console.log("extractVideo : + val sd= " + para.content);
+   
 
-    if (para != null && para.content != null) {
-      /*if (para.content.indexOf("v=") > -1) {
-        video_id = para.content.split('v=')[1];
-        console.log("extractVideo : + val = , video_id =  " + para.content + " " + video_id);
+    if (content != null && content.url != null) {
+      if (content.url.indexOf("v=") > -1) {
+        video_id = content.url.split('v=')[1];
+        //console.log("extractVideo : + val = , video_id =  " + content.url + " " + video_id);
 
         var ampersandPosition = video_id.indexOf('&');
         if (ampersandPosition != -1) {
           video_id = video_id.substring(0, ampersandPosition);
         }
-      }*/
+      }
     }
     console.log("extractVideo : video_id= " + video_id);
     video_id = "https://www.youtube.com/embed/" + video_id;

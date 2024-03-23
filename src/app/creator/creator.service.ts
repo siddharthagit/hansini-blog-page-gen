@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AppConstants } from "../app.constants";
+import { CategoryInfo, KeyValPair } from '../editor/models';
+import { AuthorInfo } from './models';
 
 @Injectable()
 export class CreatorService {
@@ -134,5 +136,25 @@ export class CreatorService {
             localStorage.setItem(localStoreName, JSON.stringify(lSObject));
         }
         localStorage.setItem(lsid, JSON.stringify(pageData));
+    }
+
+    getAllCategoriesStatic(): CategoryInfo {
+        let info = new CategoryInfo();
+        info.cats[0] = new KeyValPair("1", "Java");
+        info.cats[1] = new KeyValPair("1", "Angular");
+        info.cats[2] = new KeyValPair("1", "Spring Boot");
+        info.cats[3] = new KeyValPair("1", "AI");
+        info.cats[4] = new KeyValPair("1", "Refactor");
+        info.cats[4] = new KeyValPair("1", "Microservice");
+        info.cats[0] = new KeyValPair("1", "Library");
+       return info;
+    }
+
+    getAllUsersStatic(): Array<AuthorInfo> {
+        let result = [];
+        result[0] = new AuthorInfo("100", "Admin", "Root");
+        result[1] = new AuthorInfo("101", "Sidd", "Bhattacharjee");
+       
+       return result;
     }
 }

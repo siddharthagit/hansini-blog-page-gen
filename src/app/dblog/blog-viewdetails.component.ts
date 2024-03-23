@@ -103,5 +103,28 @@ export class BlogViewDetailsComponent implements OnInit {
     let ret = raw.split("\n");
     return ret;
   }
+
+  extactYoutubeVideo(inUrl: string) {
+    var video_id = ""; //bzSTpdcs-EI
+    console.log("extractVideo inUrl = " + inUrl);
+    if (inUrl != null) {
+      if (inUrl.indexOf("v=") > -1) {
+        video_id = inUrl.split('v=')[1];
+        var ampersandPosition = video_id.indexOf('&');
+        if (ampersandPosition != -1) {
+          video_id = video_id.substring(0, ampersandPosition);
+        }
+      }
+    }
+  
+    video_id = "https://www.youtube.com/embed/" + video_id;
+    console.log("extractVideo : video_id= " + video_id);
+    return video_id;
+}
+  showYoutubeVideo(inUrl: string) {
+    console.log("showYoutubeVideo  = " + inUrl);
+    inUrl = this.extactYoutubeVideo(inUrl);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(inUrl)
+  }
 }
 
