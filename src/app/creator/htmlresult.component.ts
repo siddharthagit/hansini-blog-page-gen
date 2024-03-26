@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { BlogWebpageView } from './models';
 import { AppConstants } from "../app.constants";
-import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ListContent } from '../editor/models';
+import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ListContent, QouteContent, ShortCodeContent, VideoContent } from '../editor/models';
 /**
  * HTML Structure
  * <div id="hansini">
@@ -68,7 +68,8 @@ export class HtmlResultComponent implements OnInit {
         }
 
         // console.clear();
-        let paragraphHTML = this.encodeArticlePara(this.blogDetails.displayWidgets);
+        console.log();
+        let paragraphHTML = this.encodeArticlePara(this.blogDetails.paras);
         console.log("Starting HTML Output");
         this.HTMLOUTPUT = "<div id='hansini'><input id='lsid' type='hidden' value='" + this.blogDetails.lsid + "'> "
         + this.buildTOC()
@@ -81,6 +82,7 @@ export class HtmlResultComponent implements OnInit {
   }
 
   private encodeArticlePara(paras: DisplayMe[]) {
+    console.log("siddx" + JSON.stringify(paras))
     let counter = 1;
     let HTMLOUTPUT = "";
     paras.forEach(para => {
@@ -91,47 +93,123 @@ export class HtmlResultComponent implements OnInit {
   }
 
   private encodeArticleParaType(para: ArticlePara, counter: number) {
-    if (para.type == 'H1') {
+    if (para.type == 'h1') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
       return "<h1 id='" + dynaId + "'>" + (para.content as H1Content).data + "</h1>";
     }
-    if (para.type == 'H2') {
+    if (para.type == 'h2') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
       return "<h2 id='" + dynaId + "'>" + (para.content as H2Content).data + "</h2>";
     }
-    if (para.type == 'H3') {
+    if (para.type == 'h3') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
-      return "<h2 id='" + dynaId + "'>" + (para.content as H1Content).data + "</h3>";
+      return "<h3 id='" + dynaId + "'>" + (para.content as H1Content).data + "</h3>";
     }
-    if (para.type == 'COD') {
-      return this.processCodeTypeParagraph(para);
-    }
-    if (para.type == 'TXT') {
+    if (para.type == 'txt') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
       //let ret = "<h3 id='" + dynaId + "'>" + para.heading + "</h3>";
       return "<div class='txt_desc'>" + para.content + "</div>";
     }
-    if (para.type == 'LIS') {
+    if (para.type == 'img') {
+      let dynaId = this.buildDynamicHTMLID(counter, para.type);
+      return "<div class='txt_desc'>" + para.content + "</div>";
+    }
+    if (para.type == 'vid') {
+      return this.processVIDTypeParagraph(counter, para);
+    }
+    if (para.type == 'url') {
+      let dynaId = this.buildDynamicHTMLID(counter, para.type);
+      return "<div class='txt_desc'>" + para.content + "</div>";
+    }
+    if (para.type == 'lis') {
       return this.processLISTypeParagraph(counter, para);
     }
-    if (para.type == 'GIT') {
+    if (para.type == 'quo') {
+      return this.processQUOTypeParagraph(counter, para);
+    }
+    if (para.type == 'sec') {
+      return this.processSSCypeParagraph(counter, para);
+    }
+    if (para.type == 'cod') {
+      return this.processCodeTypeParagraph(para);
+    }
+    if (para.type == 'ssc') {
+      return this.processCodeTypeParagraph(para);
+    }
+    if (para.type == 'con') {
+      return this.processCodeTypeParagraph(para);
+    }
+    if (para.type == 'git') {
       //for GIT type heading contains the github URL
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
 
+    
       this.buildAndStoreLink(para);
-      let container =   "<div class='sourcecoderef' id='" + dynaId + "'>"
-                      +     "<div class=\"filename\"><span class='title'>Download Sourcecode<span>"
+      let container =   "<div class='sourceFragment' id='" + dynaId + "'>"
+                      +     "<div class=\"headerblock\"><span class='title'>Download Sourcecode<span>"
                       +       "<a class='btn float-sm-right copyBtn' href='" + (para as unknown as GitContent).title + "' target='_blank'>Repo</a>"
                       +     "</div>";
 
-      return container + "<div class='github'><ul>" + (para as unknown as GitContent).url + "</ul></div></div>";
+      return container + "<div class='bodyblock'><div class='github'><ul>" + (para as unknown as GitContent).url + "</ul></div></div></div>";
     }
     else return "";
   }
+
+  private processSSCypeParagraph(counter: number, para: ArticlePara) {
+    let cc: ShortCodeContent = para.content as ShortCodeContent;
+    let cx = '<div class="sscfragment">'
+                    + '<div class="headerblock">'
+                    +'<span class="title">'
+                    + cc.title
+                    + '</span>'
+                    +'</div>'
+                    +'<div class="bodyblock">'
+                    +'<div class="description">'
+                    cc.desc
+                    + '</div>'
+                    +'<pre><code>'
+                    + this.encodeCode(cc.data)
+                    +'</code></pre>'
+                    +'</div>'
+                  +'</div>'
+
+    return cx;
+  }
+
+  private processVIDTypeParagraph(counter: number, para: ArticlePara) {
+    let cc: VideoContent = para.content as VideoContent;
+
+    let cx = 
+    '<div class="post-text">'
+       + cc.title
+    + '</div>'
+    + '<div class="row">'
+        + '<iframe width="460" height="445" [src]="showYoutubeVideo(paragraph.content.url)" frameborder="0" allowfullscreen>'
+        + '</iframe>'
+    + '</div>'
+    + '<div class="row">'
+    
+    + '</div>'
+
+    return cx;
+  }
+
+  private processQUOTypeParagraph(counter: number, para: ArticlePara) {
+    let cc: QouteContent = para.content as QouteContent;
+
+    let cx ='<div class="qoufragment">'
+                    +'<blockquote class="blockquote">'
+                    + cc.data
+                    + '</blockquote>'
+                    +'</div>';
+
+    return cx;
+  }
+
 
   /**
    * Returns <tasklistref><header>title</header><tasks><ul>
@@ -141,8 +219,8 @@ export class HtmlResultComponent implements OnInit {
   private processLISTypeParagraph(counter: number, para: ArticlePara) {
     let dynaId = this.buildDynamicHTMLID(counter, para.type);
     this.buildAndStoreLink(para);
-    let taskArr = (para as unknown as ListContent).li;
-    console.log("tasklist splitted size" + taskArr.length);
+    let taskArr = (para.content as unknown as ListContent).li;
+    //console.log("tasklist splitted size" + JSON.stringify(para));
     let list = "";
     for (let i = 0; i < taskArr.length; i++) {
       if ( taskArr[i].length>1 && taskArr[i]!=' ') {
@@ -163,7 +241,7 @@ export class HtmlResultComponent implements OnInit {
 
   private buildAndStoreLink(para: ArticlePara) {
     console.warn("adding a new link " + para.type);
-    let link = '<a href="' + para.id + '">' + para.gettitle() + '</a>';
+    let link = '<a href="' + para.id + '">'  + '</a>';
     //this.htmlLinkAnchors.set(para.heading, link);
     this.htmlLinkAnchors.push(link);
     console.warn("this.htmlLinkAnchors size = " + this.htmlLinkAnchors.length);

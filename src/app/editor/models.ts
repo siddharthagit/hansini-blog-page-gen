@@ -23,9 +23,9 @@ export class PopOverAct {
 
   
 export class ArticleImageFile {
-    name : string
-    url: string
-    type:string
+    name : string = "";
+    url: string = "";
+    type:string = "";
   }
   export interface LineContent  {}
   
@@ -67,8 +67,9 @@ export class ArticleImageFile {
   }
   
   export class UrlContent implements LineContent  {
-    title: string = "code for you!"
-    url: string = "Auto";
+    title: string = "url for you!"
+    url: string = "http://jsonedit.com";
+    data: string = "http://jsonedit.com";
   }
   
   export class CodeContent implements LineContent  {
@@ -104,7 +105,8 @@ export class ArticleImageFile {
   
   export class ImageContent implements LineContent  {
     file:ArticleImageFile = new ArticleImageFile();
-    caption:string;
+    pv: string = "x";
+    caption:string = "";
     constructor (n?:string, u?:string, cap?:string){
       this.file.name = n;
       this.file.url = u;
@@ -142,10 +144,8 @@ export class ArticleImageFile {
     constructor (id:string, type:string) {
        this.id = id;
        this.type = type;
-       if (type=="txt") {
-         this.content = new TextContent();
-       }
-       else if (type=="h1") {
+       
+      if (type=="h1") {
         this.content = new H1Content();
       }
       else if (type=="h2") {
@@ -154,14 +154,20 @@ export class ArticleImageFile {
       else if (type=="h3") {
         this.content = new H3Content();
       }
+      if (type=="txt") {
+        this.content = new TextContent();
+      }
       else if (type=="img") {
         this.content = new ImageContent();
       }
+      else if (type=="vid") {
+        this.content= new VideoContent();
+      }
+      else if (type=="url") {
+        this.content= new UrlContent();
+      }
       else if (type=="lis") {
         this.content = new ListContent();
-      }
-      else if (type=="cod") {
-        this.content = new CodeContent();
       }
       else if (type=="qou") {
         this.content = new QouteContent();
@@ -169,17 +175,14 @@ export class ArticleImageFile {
       else if (type=="sec") {
         this.content= new SectionContent();
       }
+      else if (type=="cod") {
+        this.content = new CodeContent();
+      }
       else if (type=="ssc") {
         this.content= new ShortCodeContent();
       }
       else if (type=="con") {
         this.content= new ConsoleContent();
-      }
-      else if (type=="vid") {
-        this.content= new VideoContent();
-      }
-      else if (type=="url") {
-        this.content= new UrlContent();
       }
       else if (type=="git") {
         this.content= new GitContent();

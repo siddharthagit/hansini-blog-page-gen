@@ -115,7 +115,7 @@ export class BlogWebpageView extends WebpageView {
   public seo: SEOInfo;
   public pre:PreambleInfo;
   public name: string;
-  public displayWidgets: DisplayMe[];
+  public paras: DisplayMe[];
 
   constructor(id?: string, name?: string) {
     super();
@@ -123,7 +123,7 @@ export class BlogWebpageView extends WebpageView {
     this.lsid = id;
     this.name = name;
     this.pre = new PreambleInfo();
-    this.displayWidgets =  new Array<ArticleContent>();
+    this.paras =  new Array<ArticleContent>();
   }
 
   decodeBlog(json: Object): BlogWebpageView {
@@ -198,5 +198,36 @@ export const RootObjectType = {
   rootforum: "rootforum",
   rootquiz:  "rootquiz",
    rootevent: "rootevent"
+
+}
+
+export class FormStatus {
+  key: number;
+  msg: string;
+  constructor( v?: any) {
+    this.key = 0;
+    this.msg = v;
+  }
+}
+
+export class FileUpload {
+  key: string = "";
+  name: string = "";;
+  url: string = "";
+  file: File | null;
+
+  constructor(file: File | null) {
+    this.file = file;
+  }
+
+}
+
+
+export class FileUpload2 {
+  name: string = "";;
+  url: string = "";
+  
+  constructor() {
+  }
 
 }

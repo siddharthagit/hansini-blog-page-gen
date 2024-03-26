@@ -152,6 +152,12 @@
                   class="textareaVSmall" id="paragrapInput{{i}}" name="url">
                   </textarea>
               </div>
+              <div class="">
+                <textarea (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.data" placeholder="URL Extract"
+                  class="textareaVSmall" id="paragrapInput{{i}}" name="Data">
+                  </textarea>
+              </div>
             </ng-container>
             <ng-container *ngSwitchCase="'con'">
               <div class="">
@@ -220,8 +226,7 @@
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'lis'">
-              sidd c
-              {{paragraph|json}}
+           
               <div class="">
                 <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
                   (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.title" placeholder="List Name"
@@ -234,8 +239,38 @@
                    </textarea>
               </div>
             </ng-container>
-            <ng-container *ngSwitchCase="'ima'">
+            <ng-container *ngSwitchCase="'img'">
               <div class="col-sm-8">
+
+                <!--image-->
+                {{paragraph | json}}
+                <div class="ha-image"  [id]="'ha_item_' + i ">
+                  <div class="row ha-image-src">
+                    <img [src]=sanitize(paragraph.content.file.url)>
+                  </div>
+                  <div class="row">
+                    <div class="ha-image-cap" 
+                      [id]="'ha_item_' + i " #topicTitle [textContent]="paragraph.content.caption"
+                      (input)="paragraph.content.caption=topicTitle.innerText">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="ha-image-upload" [id]="'ha_item_' + i "
+                      style="border: 1px solid green;">
+                      <label for="actual-btn" (click)="imageInput.click()">Add/Update Image</label>
+                      <input type="file" id="actual-btn" name="imageInput" #imageInput (change)="onFileChanged($event, paragraph.content)"
+                        accept="image/*" style="display: none" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <ng-container *ngIf="paragraph.content.pv!='' && paragraph.content.pv !=null"> ss{{paragraph.content.pv}}ss
+                      <img [src]="sanitize(paragraph.content.pv)" width="400" height="400" />
+                    </ng-container>
+                  </div>
+                </div>
+                <!--image-->
+
+                <!--
                 <ng-container>
                   <input type="file" name="imageInput" #imageInput (change)="onFileChanged(paragraph, true, $event)"
                     accept="image/*" />
@@ -243,6 +278,7 @@
                 <ng-container *ngIf="paragraph.content!='content'">
                   <img [src]="sanitize(paragraph.content)" width="400" height="400" />
                 </ng-container>
+                -->
               </div>
             </ng-container>
             <ng-container *ngSwitchCase="'vid'">

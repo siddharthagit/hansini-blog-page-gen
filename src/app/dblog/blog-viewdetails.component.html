@@ -1,4 +1,3 @@
-{{blogDetails|json}}
 <div class="container">
   <div class="row">
     <!-- Latest Posts -->
@@ -18,7 +17,7 @@
           <img src="../assets/img/image1.jpeg" width="200" height="200" class="img-fluid" />
         </div>
         -->
-
+        {{blogDetails | json}}
         <div class="post-details">
           <!--Post title-->
           <div class="post-meta d-flex justify-content-between">
@@ -47,6 +46,7 @@
               {{blogDetails.pre.summ}}
             </p>
             <div *ngFor="let paragraph of blogDetails.paras; let i = index">
+             
               <ng-container [ngSwitch]="paragraph.type">
                 <ng-container *ngSwitchCase="'h1'">
                   <h1> {{paragraph.content}}</h1>
@@ -63,76 +63,8 @@
                     {{paragraph.content.data}}
                   </div>
                 </ng-container>
-                <ng-container *ngSwitchCase="'lis'">
-                  <div class="post-text">
-                    <span> {{paragraph.content.title}}</span>
-                    <ol class="list-group list-group-numbered">
-
-                      <li class="list-group-item" *ngFor="let tag of explodeList(paragraph.content.raw)">{{tag}}</li>
-                    </ol>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'qou'">
-                  <div class="post-text">
-                    <blockquote name="f5fb" class="blockquote">
-                      {{paragraph.content.data}}
-                    </blockquote>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'ssc'">
-                  <div class="sscfragment">
-                    <div class="headerblock">
-                      <span class="title"> {{paragraph.content.title}}</span>
-                    </div>
-                    <div class="bodyblock">
-                      <div class="description"> {{paragraph.content.desc}}</div>
-                      <pre><code> {{paragraph.content.data}}</code></pre>
-                    </div>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'cod'">
-                  <div class="codeFragment">
-                    <span> {{paragraph.content.title}}</span>
-                    <pre>
-                        <code class="language-{{paragraph.content.lang}} ha-code-editor" 
-                          [id]="'ha_item_' + i "  
-                          #topicTitle
-                          (input)="p.content.data=topicTitle.innerHTML" 
-                          (blur)="handleHaInputBlur()">
-                          {{javaCode2}}
-                        </code>
-                      </pre>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'con'">
-                  <div class="post-text">
-                    <span> {{paragraph.content.title}}</span>
-                    <pre>
-                        <code class="language-{{paragraph.content.lang}} ha-code-editor" 
-                          [id]="'ha_item_' + i "  
-                          #topicTitle
-                          (input)="p.content.data=topicTitle.innerHTML" 
-                          (blur)="handleHaInputBlur()">
-                          {{javaCode2}}
-                        </code>
-                      </pre>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'git'">
-                  {{paragraph.content |json}}
-                  <div class="post-text">
-                    <div class="sourcecoderef">
-                      <div class="filename">
-                        <span class='title'>Gitrepository</span>
-                        <a class='btn float-sm-right copyBtn' href='{{paragraph.content.url}}' target='_blank'>Repo</a>
-                      </div>
-                      <div>
-                        <div class='github'>
-                          {{paragraph.content.data}}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <ng-container *ngSwitchCase="'img'">
+                  
                 </ng-container>
                 <ng-container *ngSwitchCase="'vid'">
                   <div class="post-text">
@@ -149,6 +81,82 @@
                     </div>
                   </div>
                 </ng-container>
+                <ng-container *ngSwitchCase="'url'">
+                  <h2> <a href="{{paragraph.content.url}}">{{paragraph.content.title}}</a></h2>
+                  <div class="post-text">
+                    <span> {{paragraph.content.data}}</span>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'lis'">
+                  <div class="post-text">
+                    <span> {{paragraph.content.title}}</span>
+                    <ol class="list-group list-group-numbered">
+                      <li class="list-group-item" *ngFor="let tag of explodeList(paragraph.content.raw)">{{tag}}</li>
+                    </ol>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'qou'">
+                  <div class="qoufragment">
+                    <blockquote name="f5fb" class="blockquote">
+                     ssssx {{paragraph.content.data}}
+                    </blockquote>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'sec'">
+                  <div class="row"> 
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'cod'">
+                  <div class="codeFragment">
+                    <span> {{paragraph.content.title}}</span>
+                    <pre>
+                        <code class="language-{{paragraph.content.lang}} ha-code-editor" 
+                          [id]="'ha_item_' + i "  
+                          #topicTitle
+                          (input)="p.content.data=topicTitle.innerHTML" 
+                          (blur)="handleHaInputBlur()">
+                          {{javaCode2}}
+                        </code>
+                      </pre>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'ssc'">
+                  <div class="sscfragment">
+                    <div class="headerblock">
+                      <span class="title"> {{paragraph.content.title}}</span>
+                    </div>
+                    <div class="bodyblock">
+                      <div class="description"> {{paragraph.content.desc}}</div>
+                      <pre><code> {{paragraph.content.data}}</code></pre>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'con'">
+                  <div class="consoleFragment">
+                    <span> {{paragraph.content.title}}</span>
+                    <pre>
+                        <code class="language-{{paragraph.content.lang}} ha-code-editor" 
+                          [id]="'ha_item_' + i "  
+                          #topicTitle>
+                          {{paragraph.content.data}}
+                        </code>
+                    </pre>
+                  </div>
+                </ng-container>
+                <ng-container *ngSwitchCase="'git'">
+                  <div class="sourceFragment">
+                      <div class="headerblock">
+                        <span class='title'>Gitrepository</span>
+                        <a class='btn float-sm-right copyBtn' href='{{paragraph.content.url}}' target='_blank'>Repo</a>
+                      </div>
+                      <div class="bodyblock">
+                        <div class='github'>
+                          {{paragraph.content.data}}
+                        </div>
+                    </div>
+                  </div>
+                </ng-container>
+                
               </ng-container>
 
 

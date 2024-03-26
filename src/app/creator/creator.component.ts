@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthorInfo, BlogWebpageView, TemplageBlogDetailsData } from './models';
 import { AppConstants } from "../app.constants";
-import { ArticlePara, CategoryInfo, VideoContent } from '../editor/models';
+import { ArticleImageFile, ArticlePara, CategoryInfo, VideoContent } from '../editor/models';
 
 @Component({
   selector: 'blog-post',
@@ -153,6 +153,7 @@ export class CreatorComponent implements OnInit {
   }
 
   sanitize(val) {
+    if (!val) return "";
     console.log("sanitize " + JSON.stringify(val));
     if (val != null) {
       return this.sanitizer.bypassSecurityTrustUrl(val);
@@ -160,7 +161,7 @@ export class CreatorComponent implements OnInit {
     else return "";
   }
 
-  onFileChanged(paragraph, isParagraph, event: any) {
+  onFileChanged(event: any, paragraph) {
     console.log("onFileChanged event" + JSON.stringify(event));
     if (event.target.files && event.target.files.length > 0) {
       let reader = new FileReader();
@@ -168,17 +169,14 @@ export class CreatorComponent implements OnInit {
       console.log("onFileChanged file " + JSON.stringify(file));
       reader.readAsDataURL(file);
       reader.onload = () => {
-        let fileMeta = { name: file.name, type: file.type };
-        //alert("done" + JSON.stringify(reader));
-        //let filePreview = 'data:image/png' + ';base64,' + reader.result.slice(',')[1];
-        let filePreview = "";
-        //alert("done" + filePreview);
-        alert("done" + isParagraph);
-        if (isParagraph)
-          paragraph.content = filePreview;
-        else {
-          paragraph.mainImage = filePreview;
-        }
+        let aif: ArticleImageFile = new ArticleImageFile();
+        aif.name = file.name;
+        aif.type = file.type;
+        aif.url = "";
+        let filePreview = reader.result;
+        console.log("filePreview = " + filePreview);
+        paragraph.file = aif;
+        paragraph.pv = reader.result;
       };
     }
   }
