@@ -226,7 +226,6 @@ export class FileUpload {
 export class FileUpload2 {
   name: string = "";;
   url: string = "";
-  
   constructor() {
   }
 

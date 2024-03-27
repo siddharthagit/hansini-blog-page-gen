@@ -9,6 +9,7 @@ import { EditorListComponent } from './editor/editorlist.component';
 import { BlogListComponent, BlogViewDetailsComponent } from './dblog';
 import { HansiniEditor } from './editor/hansinieditor.component';
 import { BlogCreatorTemplateBasedComponent } from './creator/blogcreatortemplatebased.component';
+import { FirebaseImageBrowserComponent } from './creator/firebaseimages.component';
 
 
 
@@ -49,6 +50,11 @@ const routes: Routes = [
   {
     path: 'tempaltebasedcreator',
     component: BlogCreatorTemplateBasedComponent
+  },
+
+  {
+    path: 'imagelist',
+    component: FirebaseImageBrowserComponent
   },
   
   {

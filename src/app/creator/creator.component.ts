@@ -3,9 +3,11 @@ import { CreatorService } from './creator.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AuthorInfo, BlogWebpageView, TemplageBlogDetailsData } from './models';
+import { AuthorInfo, BlogWebpageView, FileUpload2, TemplageBlogDetailsData } from './models';
 import { AppConstants } from "../app.constants";
 import { ArticleImageFile, ArticlePara, CategoryInfo, VideoContent } from '../editor/models';
+import { UploadService } from './upload.service';
+import { HansiniKeyVal } from '../dblog/models';
 
 @Component({
   selector: 'blog-post',
@@ -25,16 +27,16 @@ export class CreatorComponent implements OnInit {
   protected formDataChangedDate: Date = new Date();
   protected sub: any;
   languages = ['java', 'javascript', 'html', 'xml'];
-
+  uploadFilestoFirebase: boolean = true;
   paragraphTypeTitleMap = new Map();
-
   allCategoriesUIData : CategoryInfo;
   allAuthorUIData : Array<AuthorInfo>;
 
   constructor(protected sanitizer: DomSanitizer,
     protected blogService: CreatorService,
     protected router: Router,
-    protected activeRouter: ActivatedRoute, protected fb: FormBuilder) {
+    protected activeRouter: ActivatedRoute, protected fb: FormBuilder, 
+    protected uploadS: UploadService) {
       this.paragraphTypeTitleMap.set("TXT", "Description");
       this.paragraphTypeTitleMap.set("VID", "Video");
       this.paragraphTypeTitleMap.set("URL", "URL");
@@ -154,7 +156,7 @@ export class CreatorComponent implements OnInit {
 
   sanitize(val) {
     if (!val) return "";
-    console.log("sanitize " + JSON.stringify(val));
+    //console.log("sanitize " + JSON.stringify(val));
     if (val != null) {
       return this.sanitizer.bypassSecurityTrustUrl(val);
     }
@@ -162,23 +164,40 @@ export class CreatorComponent implements OnInit {
   }
 
   onFileChanged(event: any, paragraph) {
-    console.log("onFileChanged event" + JSON.stringify(event));
+    //console.log("onFileChanged event" + JSON.stringify(event));
     if (event.target.files && event.target.files.length > 0) {
       let reader = new FileReader();
       let file = event.target.files[0];
-      console.log("onFileChanged file " + JSON.stringify(file));
-      reader.readAsDataURL(file);
-      reader.onload = () => {
+
+    if (this.uploadFilestoFirebase) {
+      this.uploadS.onFileChangedFS6("hansini-blogfiles", event).then((data: FileUpload2) => {
+        console.log("upload to firebase" + JSON.stringify(data));
         let aif: ArticleImageFile = new ArticleImageFile();
         aif.name = file.name;
         aif.type = file.type;
-        aif.url = "";
-        let filePreview = reader.result;
-        console.log("filePreview = " + filePreview);
+        aif.url = data.url;
         paragraph.file = aif;
-        paragraph.pv = reader.result;
-      };
+        paragraph.pv = aif.url;
+      })
+      .catch((error) => {
+          console.log(error);
+          return error;
+      });
     }
+    else {
+        //handle locale file without storing any where
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            let aif: ArticleImageFile = new ArticleImageFile();
+            aif.name = file.name;
+            aif.type = file.type;
+            aif.url = "";
+            paragraph.file = aif;
+            paragraph.pv = reader.result;
+        };
+        
+    }
+  }
   }
 
   public editMeDone(event) {

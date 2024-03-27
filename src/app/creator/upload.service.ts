@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FileUpload, FileUpload2, FormStatus } from 'src/app/creator/models';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { ArticleImageFile, ImageContent as ImageContentInfo, ImageContentData } from '../editor/models';
 
 
 @Injectable()
 export class UploadService {
 
-  constructor(private http: HttpClient,
+  constructor(
     public afs: AngularFirestore,
     private storage: AngularFireStorage,
-    private db: AngularFireDatabase
+    private db: AngularFireDatabase,
+    private firestore: AngularFirestore
   ) {
 
   }
@@ -36,88 +37,10 @@ export class UploadService {
       )
   }
 
-  onFileChanged5(event: any): Promise<any> {
-    console.log("onFileChanged event" + JSON.stringify(event));
-    let filePreview: any = "";
-    if (event.target.files && event.target.files.length > 0) {
-      let reader = new FileReader();
-      let file = event.target.files[0];
-      //console.log("onFileChanged file " + JSON.stringify(file));
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        let fileMeta = { name: file.name, type: file.type };
-        //console.log("done" + JSON.stringify(reader.result));
-        filePreview = JSON.stringify(reader.result);//'data:image/png' + ';base64,' + reader.result.slice(',')[1];
-      };
-    }
 
-    return filePreview;
-  }
-
-  onFileChanged(event: any) {
-    let promise = new Promise(function (resolve, reject) {
-      if (event.target.files && event.target.files.length > 0) {
-        let reader = new FileReader();
-        let file = event.target.files[0];
-        //console.log("onFileChanged file " + JSON.stringify(file));
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          let fileMeta = { name: file.name, type: file.type };
-          //console.log("done" + JSON.stringify(reader.result));
-          let filePreview = reader.result;//'data:image/png' + ';base64,' + reader.result.slice(',')[1];
-          resolve(filePreview);
-        };
-
-      }
-      else {
-        reject("no file selected");
-      }
-    });
-    return promise;
-  }
-
-
-  onFileChangedFS5(fp: string, event: Event) {
-    console.log("onFileChangedFS5 event" + JSON.stringify(event));
-    let status: FormStatus = new FormStatus();
-    const target = event.target as HTMLInputElement;
-    const files = target.files as FileList;
-    console.log(files)
-    let file: File | null = files.item(0);
-    let promise = new Promise((resolve, reject) => {
-      let fileUpload: FileUpload = new FileUpload(file);
-      const randomId = Math.random().toString(36).substring(2);
-      fp = fp + "/" + randomId;
-      const fileRef = this.storage.ref(fp);
-      const task = this.storage.upload(fp, fileUpload.file);
-      return task
-        .snapshotChanges()
-        .pipe(
-          finalize(() => {
-            fileRef.getDownloadURL().subscribe(downloadURL => {
-              return downloadURL;
-            })
-          })
-        ).subscribe(data => {
-          data?.ref?.getDownloadURL().then(
-            (data) => {
-              resolve(data);
-            }
-          ).catch(err => {
-            status.msg = "error occured while uploading";
-            status.key = -1;
-            console.log("error" + err);
-            reject(status);
-          });
-        });
-    });
-
-    return promise;
-  }
 
   onFileChangedFS6(fp: string, event: Event) {
     console.log("onFileChangedFS6 event" + JSON.stringify(event));
-    let status: FormStatus = new FormStatus();
     const target = event.target as HTMLInputElement;
     const files = target.files as FileList;
     console.log(files)
@@ -128,7 +51,6 @@ export class UploadService {
         const randomId = Math.random().toString(36).substring(2);
         fileUpload.name = file?.name || randomId;
         fp = fp + "/" + fileUpload.name;
-        const fileRef = this.storage.ref(fp);
         const task = this.storage.upload(fp, file);
         task.then(snap => {
           if (snap.state === 'success') {
@@ -153,32 +75,127 @@ export class UploadService {
   }
 
 
-  onFileChangedFS(event: Event) {
-    console.log("onFileChangedFS event" + JSON.stringify(event));
-    let status: FormStatus = new FormStatus();
-    const target = event.target as HTMLInputElement;
-    const files = target.files as FileList;
-    console.log(files)
-    let file: File | null = files.item(0);
-    if (file != null) {
-      let fileUpload: FileUpload = new FileUpload(file);
-      this.uploadImage("hansini-blogfiles", fileUpload).subscribe(data => {
-        data?.ref?.getDownloadURL().then(
-          (data) => {
-            return data
-          }
-        ).catch(err => {
-          status.msg = "error occured while uploading";
-          status.key = -1;
-          console.log("error" + err);
+
+
+  listImages(fp: string): ImageContentInfo[] {
+    let ret: ImageContentInfo[] = [];
+    console.log("listImages called fp = " + fp);
+    const fileRef = this.storage.ref(fp);
+    // Create a reference under which you want to list
+    // var listRef = fileRef.;
+    fileRef.listAll().subscribe
+      ((res) => {
+        res.prefixes.forEach((folderRef) => {
+          // All the prefixes under listRef.
+          // You may call listAll() recursively on them.
+          console.log("sr" + folderRef);
         });
+        res.items.forEach((itemRef) => {
+          // All the items under listRef.
+          let item: ImageContentInfo = new ImageContentInfo();
+          itemRef.getDownloadURL().then(
+            (data) => {
+              console.log("ssp + " + data);
+              item.file.url = data;
+            }
+          ).catch(err => {
+
+          });
+          item.file.name = itemRef.fullPath;
+          item.caption = "image caption x";
+          ret.push(item);
+        });
+
       });
-    }
+
+    return ret;
+
+  }
+
+  addImageDataDb(path: string, data: ImageContentData):Promise<any> {
+    console.log("FSService updateDocument() collectionName, path =" + " " + path + " " + data);
+    //Object.assign(targetData, data);
+    let targetData = JSON.parse(JSON.stringify(data));
+    return this.firestore.collection<any>("rootimagecontentdata").add(targetData);
   }
 
 
-
-
+  onFileChangedUIStep1(event: any): Promise<ArticleImageFile> {
+    console.log("onFileChangedUIStep1 event" + JSON.stringify(event));
+    let aif: ArticleImageFile = new ArticleImageFile();
+    let promise = new Promise<ArticleImageFile>((resolve, reject) => {
+      
+      if (event.target.files && event.target.files.length > 0) {
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        aif.name = file.name;
+        aif.type = file.type;
+          //handle locale file without storing any where
+          reader.readAsDataURL(file);
+          reader.onload = (d) => {
+            aif.url = reader.result.toString();
+            resolve(aif);
+          }
+        };
+      
+    });
+    
+    return promise;
+    
+}
+  onFileChangedUI(event: any, caption:string, fbenabled: boolean, fblocal: string): Promise<ImageContentInfo> {
+    //console.log("onFileChanged event" + JSON.stringify(event));
+    let ic: ImageContentInfo = new ImageContentInfo();
+    let aif: ArticleImageFile = new ArticleImageFile();
+    let promise = new Promise<ImageContentInfo>((resolve, reject) => {
+      
+      if (event.target.files && event.target.files.length > 0) {
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        aif.name = file.name;
+        aif.type = file.type;
+        if (fbenabled) {
+          //"hansini-blogfiles"
+          this.onFileChangedFS6(fblocal, event).then((data: FileUpload2) => {
+            console.log("upload to firebase " + JSON.stringify(data));
+            aif.url = data.url;
+  
+            let idb:ImageContentData = new ImageContentData();
+            idb.cap = caption;
+            idb.fname = file.name;
+            this.addImageDataDb("", idb).then(
+              (data) => {
+                ic.caption = idb.cap;
+                ic.file = aif;
+              resolve(ic);
+              }
+            ).catch((error) => {
+              console.log(error);
+              reject("error");
+            });
+          }).catch((error) => {
+              console.log(error);
+              reject("error");
+            });
+        }
+        else {
+          //handle locale file without storing any where
+          reader.readAsDataURL(file);
+          reader.onload = () => {
+            aif.url = "";
+          }
+        }
+  
+        }
+        else {
+          reject("error no file");
+        }
+      return ic;
+    });
+    
+    return promise;
+    
 }
 
 
+}

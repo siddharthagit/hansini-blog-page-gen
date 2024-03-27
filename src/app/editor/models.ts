@@ -23,7 +23,7 @@ export class PopOverAct {
 
   
 export class ArticleImageFile {
-    name : string = "";
+    name : string = ""; //file name
     url: string = "";
     type:string = "";
   }
@@ -105,8 +105,8 @@ export class ArticleImageFile {
   
   export class ImageContent implements LineContent  {
     file:ArticleImageFile = new ArticleImageFile();
-    pv: string = "x";
-    caption:string = "";
+    //pv: string = "x"; //optional todo remove it
+    caption:string = ""; // comes from db
     constructor (n?:string, u?:string, cap?:string){
       this.file.name = n;
       this.file.url = u;
@@ -229,3 +229,8 @@ export class ArticleImageFile {
   export class CategoryInfo{
     cats: Array<KeyValPair> = [];
   } 
+
+  export class ImageContentData {
+    fname : string = ""; //file name
+    cap: string = ""; //caption
+  }

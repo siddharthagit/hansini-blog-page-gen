@@ -25,6 +25,8 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { environment } from '../environments/environment';
 import { BlogCreatorTemplateBasedComponent } from './creator/blogcreatortemplatebased.component';
+import { UploadService } from './creator/upload.service';
+import { FirebaseImageBrowserComponent } from './creator/firebaseimages.component';
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { BlogCreatorTemplateBasedComponent } from './creator/blogcreatortemplate
     HansiniEditor,
     PopoverToolBar,
     PopoverActionBar,
-    EditorListComponent
+    EditorListComponent,
+    FirebaseImageBrowserComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,7 @@ import { BlogCreatorTemplateBasedComponent } from './creator/blogcreatortemplate
 
     
   ],
-  providers: [CreatorService],
+  providers: [CreatorService, UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

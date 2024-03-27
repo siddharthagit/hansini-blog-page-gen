@@ -1,0 +1,68 @@
+<div class="row">
+  <ul class="nav nav-tabs">
+    
+  </ul>
+</div>
+<div class="row h-100">
+</div>
+<div class="container-fluid">
+
+  <!--image-->
+  <div class="ha-image"  [id]="'ha_item_'">
+    <div class="row">
+      
+    </div>
+    <div class="row">
+      <div class="ha-image-upload" [id]="'ha_item_'"
+        style="border: 1px solid green;">
+        <label for="actual-btn" >Add/Update Image</label>
+        <input type="file" id="actual-btn" name="imageInput" #imageInput (change)="startUpload($event)"
+          accept="image/*" style="display: none" />
+      </div>
+    </div>
+    <div class="row">
+      <ng-container *ngIf="newupload"> 
+        <img [src]="sanitize(newfbfile.url)" width="400" height="400" />
+        <input [(ngModel)]="newfbcaption" placeholder="Image Caption"
+                  class="textareaVSmall" name="heading" required>
+        <button type="button" class="btn btn-primary" 
+                  (click)="startUpload2()">Upload</button>
+      
+
+      </ng-container>
+    </div>
+  </div>
+  <!--image-->
+
+  <div class="row" style="background-color:beige">
+    <!-- Paragraphs-->
+    <div class="row">
+      <div class="col-12">
+        No Image Found
+      </div>
+    </div>
+    <ng-container *ngFor="let fbimage of fbImages; let i = index">
+      <div class="row blogContentRow">
+        <div class="col-sm-2 ">
+          <div class="row">
+            <div class="badge badge-info"> {{fbimage.file.name}}</div>
+          </div>
+          <div class="row">
+            <ng-container>
+              <img [src]="sanitize(fbimage.file.url)" width="400" height="400" />
+              <span>{{fbimage.file.caption}}</span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-sm-2">
+        </div>
+      </div>
+    </ng-container>
+    <!-- Images-->
+  </div>
+  <div class="row h-100">
+  </div>
+  <div class="row" id="debugInfo" style="display:block;">
+    <!-- Debug messages comes here-->
+  </div>
+</div>
