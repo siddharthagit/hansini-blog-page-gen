@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { BlogWebpageView } from './models';
 import { AppConstants } from "../app.constants";
-import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ListContent, QouteContent, ShortCodeContent, VideoContent } from '../editor/models';
+import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ImageContent, ListContent, QouteContent, ShortCodeContent, VideoContent } from '../editor/models';
 /**
  * HTML Structure
  * <div id="hansini">
@@ -115,8 +115,11 @@ export class HtmlResultComponent implements OnInit {
       return "<div class='txt_desc'>" + para.content + "</div>";
     }
     if (para.type == 'img') {
-      let dynaId = this.buildDynamicHTMLID(counter, para.type);
-      return "<div class='txt_desc'>" + para.content + "</div>";
+      let paragraph: ImageContent = para.content as ImageContent;
+      return '<figure class="figure">'
+      +'<img src="' + paragraph.url +'" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">'
+      + '<figcaption class="figure-caption">' + paragraph.caption + '</figcaption>'
+      + '</figure>';
     }
     if (para.type == 'vid') {
       return this.processVIDTypeParagraph(counter, para);

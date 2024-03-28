@@ -243,30 +243,21 @@
               <div class="col-sm-8">
 
                 <!--image-->
-                {{paragraph | json}}
                 <div class="ha-image"  [id]="'ha_item_' + i ">
                   <div class="row ha-image-src">
-                    <img [src]=sanitize(paragraph.content.file.url)>
+                    <img [src]=sanitize(paragraph.content.url)>
                   </div>
                   <div class="row">
-                    <div class="ha-image-cap" 
-                      [id]="'ha_item_' + i " #topicTitle [textContent]="paragraph.content.caption"
-                      (input)="paragraph.content.caption=topicTitle.innerText">
-                    </div>
+                    <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.caption" placeholder="Caption"
+                  class="textareaVSmall" name="heading" required>
                   </div>
                   <div class="row">
-                    <div class="ha-image-upload" [id]="'ha_item_' + i "
-                      style="border: 1px solid green;">
-                      <label for="actual-btn" (click)="imageInput.click()">Add/Update Image</label>
-                      <input type="file" id="actual-btn" name="imageInput" #imageInput (change)="onFileChanged($event, paragraph.content)"
-                        accept="image/*" style="display: none" />
-                    </div>
+                    <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                  (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.content.url" placeholder="Image url"
+                  class="textareaVSmall" name="heading" required>
                   </div>
-                  <div class="row">
-                    <ng-container *ngIf="paragraph.content.pv!='' && paragraph.content.pv !=null"> ss{{paragraph.content.pv}}ss
-                      <img [src]="sanitize(paragraph.content.pv)" width="400" height="400" />
-                    </ng-container>
-                  </div>
+              
                 </div>
                 <!--image-->
 

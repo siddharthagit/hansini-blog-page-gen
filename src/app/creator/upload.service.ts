@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { FileUpload, FileUpload2, FormStatus } from 'src/app/creator/models';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { ArticleImageFile, ImageContent as ImageContentInfo, ImageContentData } from '../editor/models';
+import { ArticleImageFile, ImageContent as ImageContentInfo } from '../editor/models';
 
 
 @Injectable()
@@ -47,7 +47,7 @@ export class UploadService {
     let promise = new Promise((resolve, reject) => {
       if (files.item(0) != null) {
         let file: File | null = files.item(0);
-        let fileUpload: FileUpload2 = new FileUpload2();
+        let fileUpload: ArticleImageFile = new ArticleImageFile();
         const randomId = Math.random().toString(36).substring(2);
         fileUpload.name = file?.name || randomId;
         fp = fp + "/" + fileUpload.name;
@@ -76,7 +76,11 @@ export class UploadService {
 
 
 
-
+  /**
+   * list images from storage
+   * @param fp
+   * @returns 
+   */
   listImages(fp: string): ImageContentInfo[] {
     let ret: ImageContentInfo[] = [];
     console.log("listImages called fp = " + fp);
@@ -96,12 +100,12 @@ export class UploadService {
           itemRef.getDownloadURL().then(
             (data) => {
               console.log("ssp + " + data);
-              item.file.url = data;
+              item.url = data;
             }
           ).catch(err => {
 
           });
-          item.file.name = itemRef.fullPath;
+          item.name = itemRef.fullPath;
           item.caption = "image caption x";
           ret.push(item);
         });
@@ -112,7 +116,7 @@ export class UploadService {
 
   }
 
-  addImageDataDb(path: string, data: ImageContentData):Promise<any> {
+  addImageDataDb(path: string, data: ImageContentInfo):Promise<any> {
     console.log("FSService updateDocument() collectionName, path =" + " " + path + " " + data);
     //Object.assign(targetData, data);
     let targetData = JSON.parse(JSON.stringify(data));
@@ -146,27 +150,24 @@ export class UploadService {
   onFileChangedUI(event: any, caption:string, fbenabled: boolean, fblocal: string): Promise<ImageContentInfo> {
     //console.log("onFileChanged event" + JSON.stringify(event));
     let ic: ImageContentInfo = new ImageContentInfo();
-    let aif: ArticleImageFile = new ArticleImageFile();
+    //let aif: ArticleImageFile = new ArticleImageFile();
     let promise = new Promise<ImageContentInfo>((resolve, reject) => {
       
       if (event.target.files && event.target.files.length > 0) {
         let reader = new FileReader();
         let file = event.target.files[0];
-        aif.name = file.name;
-        aif.type = file.type;
+       
         if (fbenabled) {
           //"hansini-blogfiles"
-          this.onFileChangedFS6(fblocal, event).then((data: FileUpload2) => {
+          this.onFileChangedFS6(fblocal, event).then((data: ArticleImageFile) => {
             console.log("upload to firebase " + JSON.stringify(data));
-            aif.url = data.url;
-  
-            let idb:ImageContentData = new ImageContentData();
-            idb.cap = caption;
-            idb.fname = file.name;
-            this.addImageDataDb("", idb).then(
+           
+            ic.url = data.url
+            ic.caption = caption;
+            ic.name = data.name;
+          
+            this.addImageDataDb("", ic).then(
               (data) => {
-                ic.caption = idb.cap;
-                ic.file = aif;
               resolve(ic);
               }
             ).catch((error) => {
@@ -182,7 +183,7 @@ export class UploadService {
           //handle locale file without storing any where
           reader.readAsDataURL(file);
           reader.onload = () => {
-            aif.url = "";
+            
           }
         }
   

@@ -163,43 +163,7 @@ export class CreatorComponent implements OnInit {
     else return "";
   }
 
-  onFileChanged(event: any, paragraph) {
-    //console.log("onFileChanged event" + JSON.stringify(event));
-    if (event.target.files && event.target.files.length > 0) {
-      let reader = new FileReader();
-      let file = event.target.files[0];
-
-    if (this.uploadFilestoFirebase) {
-      this.uploadS.onFileChangedFS6("hansini-blogfiles", event).then((data: FileUpload2) => {
-        console.log("upload to firebase" + JSON.stringify(data));
-        let aif: ArticleImageFile = new ArticleImageFile();
-        aif.name = file.name;
-        aif.type = file.type;
-        aif.url = data.url;
-        paragraph.file = aif;
-        paragraph.pv = aif.url;
-      })
-      .catch((error) => {
-          console.log(error);
-          return error;
-      });
-    }
-    else {
-        //handle locale file without storing any where
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-            let aif: ArticleImageFile = new ArticleImageFile();
-            aif.name = file.name;
-            aif.type = file.type;
-            aif.url = "";
-            paragraph.file = aif;
-            paragraph.pv = reader.result;
-        };
-        
-    }
-  }
-  }
-
+ 
   public editMeDone(event) {
     console.log("editMeDone");
     this.formDataChanged = true;

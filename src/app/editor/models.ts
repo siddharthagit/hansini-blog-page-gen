@@ -104,12 +104,13 @@ export class ArticleImageFile {
   }
   
   export class ImageContent implements LineContent  {
-    file:ArticleImageFile = new ArticleImageFile();
-    //pv: string = "x"; //optional todo remove it
+    //file:ArticleImageFile = new ArticleImageFile();
+    name: string = "";
+    url: string = "x"; //optional todo remove it
     caption:string = ""; // comes from db
     constructor (n?:string, u?:string, cap?:string){
-      this.file.name = n;
-      this.file.url = u;
+      this.name = n;
+      this.url = u;
       this.caption = cap;
     }
   }
@@ -158,6 +159,7 @@ export class ArticleImageFile {
         this.content = new TextContent();
       }
       else if (type=="img") {
+        console.log("add img");
         this.content = new ImageContent();
       }
       else if (type=="vid") {
@@ -229,8 +231,9 @@ export class ArticleImageFile {
   export class CategoryInfo{
     cats: Array<KeyValPair> = [];
   } 
-
+/*
   export class ImageContentData {
     fname : string = ""; //file name
     cap: string = ""; //caption
   }
+  */

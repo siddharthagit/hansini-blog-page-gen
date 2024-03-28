@@ -17,7 +17,7 @@
           <img src="../assets/img/image1.jpeg" width="200" height="200" class="img-fluid" />
         </div>
         -->
-        {{blogDetails | json}}
+       
         <div class="post-details">
           <!--Post title-->
           <div class="post-meta d-flex justify-content-between">
@@ -64,7 +64,10 @@
                   </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="'img'">
-                  
+                  <figure class="figure">
+                    <img src="{{paragraph.content.url}}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                    <figcaption class="figure-caption">{{paragraph.content.caption}}</figcaption>
+                  </figure>
                 </ng-container>
                 <ng-container *ngSwitchCase="'vid'">
                   <div class="post-text">
