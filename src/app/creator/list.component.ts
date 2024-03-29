@@ -25,6 +25,7 @@ ngOnInit() {
 }
 
 private populateGrid() {
+  this.displayObjectList = [];
   this.blogService.getObjectsFromLS(AppConstants.TYPE_BLOGSTORY_OBJECT).forEach(element => {
       console.log("Object: " + JSON.stringify(element));
       if (element != null) {
@@ -60,7 +61,7 @@ private populateGrid() {
 
 public deleteAction(lsid: string) {
   console.log("deleteAction ");
-  this.blogService.removeSpecificEntryWithIDFromNamedLS(AppConstants.localStoreEditName, lsid);
+  this.blogService.removeSpecificEntryWithIDFromNamedLS(AppConstants.TYPE_BLOGSTORY_OBJECT, lsid);
   this.populateGrid();
 }
 

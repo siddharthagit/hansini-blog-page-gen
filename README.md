@@ -39,6 +39,46 @@ LineContent
 EditorMe, DisplayMe, DisplayFragmentMe
 
 
+# CSS Structure
+
+/**
+container-fluid
+  aside
+
+  main-section
+      main
+        post-main             <main>
+          post  ->post-single <article>
+            breadcrumb
+            masthead
+            header
+              title
+            meta
+              date
+                published
+                hsb-tags
+                post-comment-link
+                  comment-link
+            body <Hansini>
+              hsb-post-main
+                h2 post-title
+                post-summary
+                h3
+                codeFragment
+                  headerblock
+                  bodyblock
+                    title
+                post-te           
+            footer
+          box-frame
+            related-posts
+        comments
+
+    aside
+**/
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.1.
 
 ## Development server
@@ -62,3 +102,4 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
 
+##
