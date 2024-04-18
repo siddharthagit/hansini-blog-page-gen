@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
-   
-    <main class="post blog-post col-lg-8">
+
+    <main class="post-main col-lg-8">
       <section class="breadcrumb">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
@@ -10,108 +10,128 @@
           </ol>
         </nav>
       </section>
-      <div class="post-single">
-        <!--
+      <article>
+        <div class="post-single">
+          <!--
         <div class="post-thumbnail">
           <img src="../assets/img/image1.jpeg" width="200" height="200" class="img-fluid" />
         </div>
         -->
-       
-        <div class="post-details">
-          <!--Post title-->
-          <div class="post-meta d-flex justify-content-between">
-            <div class="category"><a href="#">{{blogDetails.pre.cat.val}}</a></div>
-          </div>
-          <h1>{{blogDetails.name}}
-          </h1>
-          <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
-              class="author d-flex align-items-center flex-wrap">
-              <div class="avatar">
-                <img [src]="sanitize(blogDetails.pre.aut.i)" alt="..." class="img-fluid">
-              </div>
-              <div class="title"><span>{{blogDetails.pre.aut.f}}dd</span></div>
-            </a>
-            <div class="d-flex align-items-center flex-wrap">
-              <div class="date"><i class="icon-clock"></i> {{blogDetails.pre.dte | date:'mediumDate'}}</div>
-              <div class="views"><i class="icon-eye"></i> {{blogDetails.pre.vi.v}}</div>
-              <div class="comments meta-last"><i class="icon-comment"></i>{{blogDetails.pre.vi.c}}</div>
+
+          <div class="post-details">
+            <!--Post title-->
+            <div class="post-meta d-flex justify-content-between">
+              <div class="category"><a href="#">{{blogDetails.pre.cat.val}}</a></div>
             </div>
-          </div>
+            <h1 class="page-title">{{blogDetails.name}}
+            </h1>
+            <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="#"
+                class="author d-flex align-items-center flex-wrap">
+                <div class="avatar">
+                  <img [src]="sanitize(blogDetails.pre.aut.i)" alt="..." class="img-fluid">
+                </div>
+                <div class="title"><span>{{blogDetails.pre.aut.f}}dd</span></div>
+              </a>
+              <div class="d-flex align-items-center flex-wrap">
+                <div class="date"><i class="icon-clock"></i> {{blogDetails.pre.dte | date:'mediumDate'}}</div>
+                <div class="views"><i class="icon-eye"></i> {{blogDetails.pre.vi.v}}</div>
+                <div class="comments meta-last"><i class="icon-comment"></i>{{blogDetails.pre.vi.c}}</div>
+              </div>
+            </div>
 
 
-          <div class="post-body">
-            <p class="lead">
-              <!--Summary-->
-              {{blogDetails.pre.summ}}
-            </p>
-            <div *ngFor="let paragraph of blogDetails.paras; let i = index">
-             
-              <ng-container [ngSwitch]="paragraph.type">
-                <ng-container *ngSwitchCase="'h1'">
-                  <h1> {{paragraph.content}}</h1>
-                </ng-container>
-                <ng-container *ngSwitchCase="'h2'">
-                  <h2> {{paragraph.content.data}}</h2>
-                </ng-container>
+            <div class="post-body">
+              <div class="post-summary">
+                <!--Summary-->
+                {{blogDetails.pre.summ}}
+              </div>
+              <div *ngFor="let paragraph of blogDetails.paras; let i = index">
+                <ng-container [ngSwitch]="paragraph.type">
+                  <!--
+                  <ng-container *ngSwitchCase="'h1'">
+                    <h1> {{paragraph.content}}</h1>
+                  </ng-container>
+                  -->
+                  <ng-container *ngSwitchCase="'h2'">
+                    <h2> {{paragraph.content.data}}</h2>
+                  </ng-container>
 
-                <ng-container *ngSwitchCase="'h3'">
-                  <h3> {{paragraph.content}}</h3>
-                </ng-container>
-                <ng-container *ngSwitchCase="'txt'">
-                  <div class="post-text">
-                    {{paragraph.content.data}}
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'img'">
-                  <figure class="figure">
-                    <img src="{{paragraph.content.url}}" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                    <figcaption class="figure-caption">{{paragraph.content.caption}}</figcaption>
-                  </figure>
-                </ng-container>
-                <ng-container *ngSwitchCase="'vid'">
-                  <div class="post-text">
-                    {{paragraph.content.title}}
-                  </div>
-                  <div class="row">
-                    <iframe width="460" height="445" [src]="showYoutubeVideo(paragraph.content.url)" frameborder="0"
-                      allowfullscreen>
-                    </iframe>
-                  </div>
-                  <div class="row">
-                    <div class="ha-text" [id]="'ha_item_' + i ">
-                      {{p.content.caption}}
+                  <ng-container *ngSwitchCase="'h3'">
+                    <h3> {{paragraph.content}}</h3>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'txt'">
+                    <div class="post-text">
+                      {{paragraph.content.data}}
                     </div>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'url'">
-                  <h2> <a href="{{paragraph.content.url}}">{{paragraph.content.title}}</a></h2>
-                  <div class="post-text">
-                    <span> {{paragraph.content.data}}</span>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'lis'">
-                  <div class="post-text">
-                    <span> {{paragraph.content.title}}</span>
-                    <ol class="list-group list-group-numbered">
-                      <li class="list-group-item" *ngFor="let tag of explodeList(paragraph.content.raw)">{{tag}}</li>
-                    </ol>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'qou'">
-                  <div class="qoufragment">
-                    <blockquote name="f5fb" class="blockquote">
-                     ssssx {{paragraph.content.data}}
-                    </blockquote>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'sec'">
-                  <div class="row"> 
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'cod'">
-                  <div class="codeFragment">
-                    <span> {{paragraph.content.title}}</span>
-                    <pre>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'img'">
+                    <figure class="figure">
+                      <img src="{{paragraph.content.url}}" class="figure-img img-fluid rounded"
+                        alt="A generic square placeholder image with rounded corners in a figure.">
+                      <figcaption class="figure-caption">{{paragraph.content.caption}}</figcaption>
+                    </figure>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'vid'">
+                    <div class="vidfragment">
+                      <div class="headerblock">
+                        <span class="title"> {{paragraph.content.title}}</span>
+                      </div>
+                    </div>
+                    <div class="bodyblock">
+
+
+                      <div class="row">
+                        <iframe width="460" height="445" [src]="showYoutubeVideo(paragraph.content.url)" frameborder="0"
+                          allowfullscreen>
+                        </iframe>
+                      </div>
+                      <div class="row">
+                        <div class="ha-text" [id]="'ha_item_' + i ">
+                          {{p.content.caption}}
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'url'">
+                    <div class="urlfragment">
+                      <div class="headerblock">
+                        <span class="title"> <a href="{{paragraph.content.url}}">{{paragraph.content.title}}</a></span>
+                      </div>
+                    </div>
+                    <div class="bodyblock">
+                      <div class="post-text"> {{paragraph.content.data}}</div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'lis'">
+                    <div class="lisfragment">
+                      <div class="headerblock">
+                        <span class="title"> {{paragraph.content.title}}</span>
+                      </div>
+                    </div>
+                    <div class="post-text">
+                      <ol class="list-group list-group-numbered">
+                        <li class="list-group-item" *ngFor="let tag of explodeList(paragraph.content.raw)">{{tag}}</li>
+                      </ol>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'qou'">
+                    <div class="qoufragment">
+                      <blockquote name="f5fb" class="blockquote">
+                        ssssx {{paragraph.content.data}}
+                      </blockquote>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'sec'">
+                    <div class="row">
+                    </div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'cod'">
+                    <div class="codeFragment">
+                      <div class="headerblock">
+                        <span class="title"> {{paragraph.content.title}}</span>
+                      </div>
+                      <div class="bodyblock">
+                        <pre>
                         <code class="language-{{paragraph.content.lang}} ha-code-editor" 
                           [id]="'ha_item_' + i "  
                           #topicTitle
@@ -120,33 +140,38 @@
                           {{javaCode2}}
                         </code>
                       </pre>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'ssc'">
-                  <div class="sscfragment">
-                    <div class="headerblock">
-                      <span class="title"> {{paragraph.content.title}}</span>
+                      </div>
                     </div>
-                    <div class="bodyblock">
-                      <div class="description"> {{paragraph.content.desc}}</div>
-                      <pre><code> {{paragraph.content.data}}</code></pre>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'ssc'">
+                    <div class="sscfragment">
+                      <div class="headerblock">
+                        <span class="title"> {{paragraph.content.title}}</span>
+                      </div>
+                      <div class="bodyblock">
+                        <div class="description"> {{paragraph.content.desc}}</div>
+                        <pre><code> {{paragraph.content.data}}</code></pre>
+                      </div>
                     </div>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'con'">
-                  <div class="consoleFragment">
-                    <span> {{paragraph.content.title}}</span>
-                    <pre>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'con'">
+                    <div class="consoleFragment">
+                      <div class="headerblock">
+                        <span class='title'> {{paragraph.content.title}}</span>
+                      </div>
+                      <div class="bodyblock">
+                        <pre>
                         <code class="language-{{paragraph.content.lang}} ha-code-editor" 
                           [id]="'ha_item_' + i "  
                           #topicTitle>
                           {{paragraph.content.data}}
                         </code>
                     </pre>
-                  </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'git'">
-                  <div class="sourceFragment">
+                      </div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'git'">
+                    <div class="sourceFragment">
                       <div class="headerblock">
                         <span class='title'>Gitrepository</span>
                         <a class='btn float-sm-right copyBtn' href='{{paragraph.content.url}}' target='_blank'>Repo</a>
@@ -155,27 +180,31 @@
                         <div class='github'>
                           {{paragraph.content.data}}
                         </div>
+                      </div>
                     </div>
-                  </div>
+                  </ng-container>
+
                 </ng-container>
-                
-              </ng-container>
 
 
+              </div>
             </div>
-          </div>
-          <div class="post-comments">
 
-            <!--<comments-details [docid]="blogDetails.u" (comments)="addCommentsAction()"></comments-details> -->
-          </div>
-          <!--
+            <!--
                         <div class="post-tags" >
                             <a href="#" class="tag" *ngFor="let tag of blogDetails.tags; let i = index">{{tag.name}}</a>
                         </div>
                         -->
+          </div>
         </div>
-      </div>
+      </article>
     </main>
+    <section>
+      <div class="post-comments">
+
+        <!--<comments-details [docid]="blogDetails.u" (comments)="addCommentsAction()"></comments-details> -->
+      </div>
+    </section>
     <aside class="col-lg-4">
 
       <!---->

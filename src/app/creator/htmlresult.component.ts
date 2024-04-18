@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { BlogWebpageView } from './models';
 import { AppConstants } from "../app.constants";
-import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ImageContent, ListContent, QouteContent, ShortCodeContent, VideoContent } from '../editor/models';
+import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ImageContent, ListContent, QouteContent, ShortCodeContent, TextContent, VideoContent } from '../editor/models';
 /**
  * HTML Structure
  * <div id="hansini">
@@ -112,7 +112,7 @@ export class HtmlResultComponent implements OnInit {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
       this.buildAndStoreLink(para);
       //let ret = "<h3 id='" + dynaId + "'>" + para.heading + "</h3>";
-      return "<div class='txt_desc'>" + para.content + "</div>";
+      return "<div class='post-text'>" + (para.content as TextContent).data + "</div>";
     }
     if (para.type == 'img') {
       let paragraph: ImageContent = para.content as ImageContent;
@@ -230,8 +230,8 @@ export class HtmlResultComponent implements OnInit {
         list = list + "<li>" + taskArr[i] + "</li>";
       }
     }
-    let ret =   "<div class=\"tasklistblock\" id='" + dynaId + "'>"
-              +     "<div class=\"header\"><span class='title'></span></div>"
+    let ret =   "<div class=\"lisfragment\" id='" + dynaId + "'>"
+              +     "<div class=\"headerblock\"><span class='title'></span></div>"
               +     "<div class='bodyblock'>"
               +         "<ul>"
               +            list

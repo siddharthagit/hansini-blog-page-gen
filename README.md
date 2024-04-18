@@ -48,31 +48,32 @@ container-fluid
   main-section
       main
         post-main             <main>
+          breadcrumb
           post  ->post-single <article>
-            breadcrumb
-            masthead
-            header
-              title
-            meta
-              date
-                published
-                hsb-tags
-                post-comment-link
-                  comment-link
-            body <Hansini>
-              hsb-post-main
-                h2 post-title
-                post-summary
-                h3
-                codeFragment
-                  headerblock
-                  bodyblock
-                    title
-                post-te           
-            footer
+            post-thumbnail/asthead
+            post-details
+                header
+                  title
+                meta -> post-meta
+                  date
+                    published
+                    hsb-tags
+                    post-comment-link
+                      comment-link
+                body <Hansini>   ->post-body
+                  hsb-post-main
+                    h2 post-title
+                    post-summary
+                    h3
+                    codeFragment
+                      headerblock
+                      bodyblock
+                        title
+                    post-text           
+                footer    ->post-footer
           box-frame
             related-posts
-        comments
+        comments -> post-comments
 
     aside
 **/
