@@ -1,35 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 import { EditorGridObject } from './models';
 import { AppConstants, EditorAppConstants } from "../app.constants";
-import { CreatorService } from '../creator/creator.service';
-
-import {CommonModule} from '@angular/common';
-
-import { DomSanitizer } from '@angular/platform-browser';
-import { ArticleContent, ArticleImageFile, ArticlePara, CodeContent, ImageContent, LineContent, ListContent, TextContent, VideoContent } from './models';
-import { HansiniMockService } from './hansinimock.service';
-import 'prismjs';
-import { PopOverAct } from './models';
-
+import { CreatorBaseComponent } from '../creator/creatorbase.comp';
 
 @Component({
   selector: 'hs-postlist',
   templateUrl: './editorlist.component.html',
   styleUrls: ['./hansinieditor.css']
 })
-export class EditorListComponent implements OnInit {
-  DEBUG_INFO: string;
+export class EditorListComponent extends CreatorBaseComponent {
   displayObjectList: any[] ;
-  constructor(
-    public blogService: CreatorService,
-    public router: Router,
-    public activeRouter: ActivatedRoute) {
-      let thisItem = new EditorGridObject("ss", "sssd");
-      this.displayObjectList = [];
-}
 
-ngOnInit() {
+override ngOnInit() {
     this.populateGrid();
 }
 

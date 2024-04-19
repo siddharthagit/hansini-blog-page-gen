@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { FileUpload, FileUpload2, FormStatus } from 'src/app/creator/models';
+import { FileUpload } from 'src/app/creator/models';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { ArticleImageFile, ImageContent as ImageContentInfo } from '../editor/models';
@@ -116,7 +116,7 @@ export class UploadService {
 
   }
 
-  addImageDataDb(path: string, data: ImageContentInfo):Promise<any> {
+  addImageDataDb(path: string, data: ImageContentInfo): Promise<any> {
     console.log("FSService updateDocument() collectionName, path =" + " " + path + " " + data);
     //Object.assign(targetData, data);
     let targetData = JSON.parse(JSON.stringify(data));
@@ -128,75 +128,75 @@ export class UploadService {
     console.log("onFileChangedUIStep1 event" + JSON.stringify(event));
     let aif: ArticleImageFile = new ArticleImageFile();
     let promise = new Promise<ArticleImageFile>((resolve, reject) => {
-      
+
       if (event.target.files && event.target.files.length > 0) {
         let reader = new FileReader();
         let file = event.target.files[0];
         aif.name = file.name;
         aif.type = file.type;
-          //handle locale file without storing any where
-          reader.readAsDataURL(file);
-          reader.onload = (d) => {
-            aif.url = reader.result.toString();
-            resolve(aif);
-          }
-        };
-      
+        //handle locale file without storing any where
+        reader.readAsDataURL(file);
+        reader.onload = (d) => {
+          aif.url = reader.result.toString();
+          resolve(aif);
+        }
+      };
+
     });
-    
+
     return promise;
-    
-}
-  onFileChangedUI(event: any, caption:string, fbenabled: boolean, fblocal: string): Promise<ImageContentInfo> {
+
+  }
+  onFileChangedUI(event: any, caption: string, fbenabled: boolean, fblocal: string): Promise<ImageContentInfo> {
     //console.log("onFileChanged event" + JSON.stringify(event));
     let ic: ImageContentInfo = new ImageContentInfo();
     //let aif: ArticleImageFile = new ArticleImageFile();
     let promise = new Promise<ImageContentInfo>((resolve, reject) => {
-      
+
       if (event.target.files && event.target.files.length > 0) {
         let reader = new FileReader();
         let file = event.target.files[0];
-       
+
         if (fbenabled) {
           //"hansini-blogfiles"
           this.onFileChangedFS6(fblocal, event).then((data: ArticleImageFile) => {
             console.log("upload to firebase " + JSON.stringify(data));
-           
+
             ic.url = data.url
             ic.caption = caption;
             ic.name = data.name;
-          
+
             this.addImageDataDb("", ic).then(
               (data) => {
-              resolve(ic);
+                resolve(ic);
               }
             ).catch((error) => {
               console.log(error);
               reject("error");
             });
           }).catch((error) => {
-              console.log(error);
-              reject("error");
-            });
+            console.log(error);
+            reject("error");
+          });
         }
         else {
           //handle locale file without storing any where
           reader.readAsDataURL(file);
           reader.onload = () => {
-            
+
           }
         }
-  
-        }
-        else {
-          reject("error no file");
-        }
+
+      }
+      else {
+        reject("error no file");
+      }
       return ic;
     });
-    
+
     return promise;
-    
-}
+
+  }
 
 
 }

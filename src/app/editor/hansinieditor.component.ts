@@ -1,12 +1,9 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ArticleContent, ArticleImageFile, ArticlePara, CodeContent, ImageContent, LineContent, ListContent, TextContent, VideoContent } from './models';
-import { HansiniMockService } from './hansinimock.service';
+import { Component, ElementRef, HostListener, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
+import { ArticleContent, ArticleImageFile, ArticlePara, CodeContent, TextContent, VideoContent } from './models';
 import 'prismjs';
 import { PopOverAct } from './models';
-import { CreatorService } from '../creator/creator.service';
-import { ActivatedRoute } from '@angular/router';
 import { EditorAppConstants } from '../app.constants';
+import { CreatorBaseComponent } from '../creator/creatorbase.comp';
 
 
 @Component({
@@ -20,7 +17,9 @@ import { EditorAppConstants } from '../app.constants';
  * Enter => create new line next to current
  * Shift + Enter = > insert <BR>
  */
-export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
+
+//implements OnInit, OnChanges, AfterViewInit
+export class HansiniEditor extends CreatorBaseComponent  {
 
     blogcontent: ArticleContent = new ArticleContent();
     openLineExists: boolean = false;
@@ -59,12 +58,13 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
     }`;
 
     //localStoreName:string = "";
-    protected sub: any;
-    public currentPageLSID;
-
+   
     @ViewChildren('hansiniBlogFields') hansiniBlogFields: QueryList<ElementRef>
-    
-    constructor(protected sanitizer: DomSanitizer, mockService: HansiniMockService, protected localService:CreatorService,
+    /*
+    TODO:
+    constructor(protected sanitizer: DomSanitizer, 
+        mockService: HansiniMockService, 
+        protected localService:CreatorService,
         protected activeRouter: ActivatedRoute) {
         //this.blogcontent = service.populateWithTestData();
         let para1 = new ArticlePara("", "text");
@@ -73,7 +73,7 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
         para1.content = dc
         this.blogcontent.para.push(para1);
 
-    }
+    }*/
 
     ngAfterContentInit 
     ngAfterViewInit(): void {
@@ -89,7 +89,7 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
             console.log('route parameter lsid = ' + this.currentPageLSID);
             if (this.currentPageLSID != undefined && this.currentPageLSID != null) {
               console.log('load from LS or Server lsid = ' + this.currentPageLSID);
-              let localBlogDetails = this.localService.findObjectByIDFromLS(this.currentPageLSID);
+              let localBlogDetails = this.blogFSService.findObjectByIDFromLS(this.currentPageLSID);
               if (localBlogDetails != null) {
                 console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
                 this.blogcontent = this.decodeBlogContent(localBlogDetails);
@@ -100,14 +100,14 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
               }
             }
             else {
-                this.currentPageLSID = this.localService.createPageId();
+                this.currentPageLSID = this.blogService.createPageId();
             }
           });
         console.log("ngOnChanges" + this.hansiniBlogFields.toArray());
     }
 
 
-    ngOnInit(): void {
+    override ngOnInit(): void {
        
         console.log("ngOnInit");
         //load and call Prism  
@@ -117,7 +117,7 @@ export class HansiniEditor implements OnInit, OnChanges, AfterViewInit  {
 
     saveConentLS() {
         this.blogcontent.id = this.currentPageLSID;
-        this.localService.addOrUpdateObjectWithKeyToLS(EditorAppConstants.localStoreEditName,  this.currentPageLSID, this.blogcontent);
+        this.blogService.addOrUpdateObjectWithKeyToLS(EditorAppConstants.localStoreEditName,  this.currentPageLSID, this.blogcontent);
     }
 
     decodeBlogContent(json: Object): ArticleContent {

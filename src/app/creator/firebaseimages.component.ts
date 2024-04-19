@@ -1,33 +1,23 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { CreatorService } from './creator.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AuthorInfo, BlogWebpageView, FileUpload2, TemplageBlogDetailsData } from './models';
-import { AppConstants } from "../app.constants";
-import { ArticleImageFile, ArticlePara, CategoryInfo, ImageContent, VideoContent } from '../editor/models';
-import { UploadService } from './upload.service';
-import { HansiniKeyVal } from '../dblog/models';
+import { Component } from '@angular/core';
+import { ArticleImageFile, ImageContent } from '../editor/models';
+import { CreatorBaseComponent } from './creatorbase.comp';
 
 @Component({
   selector: 'blog-image-list',
   templateUrl: './firebaseimages.component.html',
   styleUrls: ['./creator.css']
 })
-export class FirebaseImageBrowserComponent implements OnInit {
-  DEBUG_INFO: string;
+export class FirebaseImageBrowserComponent extends CreatorBaseComponent {
   
   fbImages:ImageContent[] = [];
   newfbcaption: string = "";
   newupload:boolean = false;
   newlocalfile:any = null;
   newfbfile :ArticleImageFile = new ArticleImageFile();
-  constructor(protected sanitizer: DomSanitizer,
-    protected blogService: CreatorService,
-    protected router: Router,
-    protected activeRouter: ActivatedRoute, protected fb: FormBuilder, 
-    protected uploadS: UploadService) {
-   
+ 
+
+  override ngOnInit() {
+    this.fbImages = this.uploadS.listImages("hansini-blogfiles");
   }
 
   sanitize(val) {
@@ -65,11 +55,6 @@ export class FirebaseImageBrowserComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-    
-    this.fbImages = this.uploadS.listImages("hansini-blogfiles");
-    
-  }
 
 }
 

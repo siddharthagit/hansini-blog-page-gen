@@ -266,3 +266,19 @@ export class TimelineData extends CreatableObject {
     this.paras [0] = new TimelineEntry("","","","");
   }
 }
+
+
+export class SiteConfig {
+  name: string = ""; //name
+  summary: string = ""; //summary
+  copyright: string = ""; //copyright
+  description: string = ""; //Description
+  email: string = "";
+
+  eventDescription: string = ""
+
+  quizDescription: string = ""
+
+  constructor () {
+  }
+}

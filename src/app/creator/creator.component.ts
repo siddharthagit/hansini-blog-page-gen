@@ -1,51 +1,27 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { CreatorService } from './creator.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AuthorInfo, BlogWebpageView, FileUpload2, TemplageBlogDetailsData } from './models';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormGroup } from "@angular/forms";
+import { AuthorInfo, TemplageBlogDetailsData } from './models';
 import { AppConstants } from "../app.constants";
-import { ArticleImageFile, ArticlePara, CategoryInfo, VideoContent } from '../editor/models';
-import { UploadService } from './upload.service';
-import { HansiniKeyVal } from '../dblog/models';
+import { ArticlePara, CategoryInfo, VideoContent } from '../editor/models';
+import { CreatorBaseComponent } from './creatorbase.comp';
 
 @Component({
   selector: 'blog-post',
   templateUrl: './creator.component.html',
   styleUrls: ['./creator.css']
 })
-export class CreatorComponent implements OnInit {
-  DEBUG_INFO: string;
+export class CreatorComponent extends CreatorBaseComponent {
   @Input() currentRow: string;
   @Output() addRowEvent = new EventEmitter<object>();
   blogDetails = new TemplageBlogDetailsData();
-  public currentPageLSID;
-  form: FormGroup;
-  fileName: string;
-  fileData: object;
-  protected formDataChanged: boolean = false;
-  protected formDataChangedDate: Date = new Date();
-  protected sub: any;
   languages = ['java', 'javascript', 'html', 'xml'];
   uploadFilestoFirebase: boolean = true;
   paragraphTypeTitleMap = new Map();
   allCategoriesUIData : CategoryInfo;
   allAuthorUIData : Array<AuthorInfo>;
 
-  constructor(protected sanitizer: DomSanitizer,
-    protected blogService: CreatorService,
-    protected router: Router,
-    protected activeRouter: ActivatedRoute, protected fb: FormBuilder, 
-    protected uploadS: UploadService) {
-      this.paragraphTypeTitleMap.set("TXT", "Description");
-      this.paragraphTypeTitleMap.set("VID", "Video");
-      this.paragraphTypeTitleMap.set("URL", "URL");
-      this.paragraphTypeTitleMap.set("COD", "Code");
-      this.paragraphTypeTitleMap.set("GIT", "Git");
-      this.paragraphTypeTitleMap.set("LIS", "List");
-  }
-
-  ngOnInit() {
+  
+  override ngOnInit() {
     this.sub = this.activeRouter.queryParams.subscribe(params => {
       this.currentPageLSID = params['lsid'];
       console.log('route parameter lsid = ' + this.currentPageLSID);

@@ -1,44 +1,19 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { CreatorService } from './creator.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BlogWebpageView, TemplageBlogDetailsData } from './models';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormGroup } from "@angular/forms";
+import { TemplageBlogDetailsData } from './models';
 import { AppConstants } from "../app.constants";
 import { ArticlePara } from '../editor/models';
+import { CreatorBaseComponent } from './creatorbase.comp';
 
 @Component({
   template: ''
 })
-export abstract class BaseBlogCreatorComponent implements OnInit {
-  DEBUG_INFO: string;
+export abstract class BaseBlogCreatorComponent extends CreatorBaseComponent  {
   @Input() currentRow: string;
   @Output() addRowEvent = new EventEmitter<object>();
   blogDetails = new TemplageBlogDetailsData();
-  public currentPageLSID;
-  form: FormGroup;
-  fileName: string;
-  fileData: object;
-  protected formDataChanged: boolean = false;
-  protected formDataChangedDate: Date = new Date();
-  protected sub: any;
-  languages = ['java', 'javascript', 'html', 'xml'];
-
-  paragraphTypeTitleMap = new Map();
-
-  constructor(protected sanitizer: DomSanitizer,
-    protected blogService: CreatorService,
-    protected router: Router,
-    protected activeRouter: ActivatedRoute, protected fb: FormBuilder) {
-      this.paragraphTypeTitleMap.set("TXT", "Description");
-      this.paragraphTypeTitleMap.set("VID", "Video");
-      this.paragraphTypeTitleMap.set("URL", "URL");
-      this.paragraphTypeTitleMap.set("COD", "Code");
-      this.paragraphTypeTitleMap.set("GIT", "Git");
-      this.paragraphTypeTitleMap.set("LIS", "List");
-  }
-
-  ngOnInit() {
+  
+  override ngOnInit() {
     this.sub = this.activeRouter.queryParams.subscribe(params => {
       this.currentPageLSID = params['lsid'];
       console.log('route parameter lsid = ' + this.currentPageLSID);

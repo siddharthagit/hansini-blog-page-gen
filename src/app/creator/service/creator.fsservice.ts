@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AppConstants } from "../app.constants";
-import { CategoryInfo, KeyValPair } from '../editor/models';
-import { AuthorInfo } from './models';
+import { Observable } from 'rxjs';
+import { CategoryInfo } from 'src/app/editor/models';
+import { AuthorInfo, KeyValPair, SiteConfig } from '../models';
+import { CreatorIService } from './creator.iservice';
+
 
 @Injectable()
-export class CreatorService {
-    thisPageId: string;
-    thisPageArrayId: string
-    localStoreEditName: string
-    localStoreSearchName: string
+export class CreatorFSService implements CreatorIService{
+   
 
     constructor() {
-        this.localStoreEditName = AppConstants.localStoreEditName;
-        this.localStoreSearchName = AppConstants.localStoreSearchName;
     }
 
     public createPageId(): string {
@@ -20,6 +17,20 @@ export class CreatorService {
         return randomNumberBetween111111and999999 + "";
     }
 
+    getSiteConfig(): Observable<SiteConfig> {
+        throw new Error('Method not implemented.');
+    }
+
+    getObjectByID(storeName: string, lsid: string, pageData: object) {
+        throw new Error('Method not implemented.');
+    }
+
+    saveObject(storeName: string, lsid: string, pageData: object) {
+        //addOrUpdateObjectToLS
+        throw new Error('Method not implemented.');
+    }
+
+   
     //Local Store Related
 
     public addOrUpdateObjectToLS(localStoreName: string, pageData: object) {

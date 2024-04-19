@@ -1,11 +1,7 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { CreatorService } from './creator.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component} from '@angular/core';
 import { BlogWebpageView } from './models';
-import { AppConstants } from "../app.constants";
 import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ImageContent, ListContent, QouteContent, ShortCodeContent, TextContent, VideoContent } from '../editor/models';
+import { CreatorBaseComponent } from './creatorbase.comp';
 /**
  * HTML Structure
  * <div id="hansini">
@@ -33,25 +29,15 @@ import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, 
   templateUrl: './htmlresult.component.html',
   styleUrls: ['./creator.css', './htmlresult.css']
 })
-export class HtmlResultComponent implements OnInit {
-  DEBUG_INFO: string;
+export class HtmlResultComponent extends CreatorBaseComponent {
   blogDetails = new BlogWebpageView();
-  public currentPageLSID;
-  protected sub: any;
   public HTMLOUTPUT: String;
   //htmlLinkAnchors = new Map();
-  htmlLinkAnchors : string[];
+  htmlLinkAnchors : string[] = [];
   public JSONOUTPUT : String;
   frompage: string = "";
 
-  constructor(protected sanitizer: DomSanitizer,
-    protected blogService: CreatorService,
-    protected router: Router,
-    protected activeRouter: ActivatedRoute, protected fb: FormBuilder) {
-      this.htmlLinkAnchors = [];
-  }
-
-  ngOnInit() {
+  override ngOnInit() {
     this.sub = this.activeRouter.queryParams.subscribe(params => {
       this.currentPageLSID = params['lsid'];
       this.frompage = params['frompage'];

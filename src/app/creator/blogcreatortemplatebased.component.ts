@@ -1,11 +1,5 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { CreatorService } from './creator.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { BlogWebpageView, TemplageBlogDetailsData } from './models';
-import { AppConstants } from "../app.constants";
-import { ArticlePara } from '../editor/models';
+import { Component} from '@angular/core';
+import { TemplageBlogDetailsData } from './models';
 import { BaseBlogCreatorComponent } from './baseblogcreator.component';
 
 @Component({
@@ -15,14 +9,6 @@ import { BaseBlogCreatorComponent } from './baseblogcreator.component';
 })
 export class BlogCreatorTemplateBasedComponent extends BaseBlogCreatorComponent {
   override blogDetails = new TemplageBlogDetailsData();
-  
-  constructor( sanitizer: DomSanitizer,
-      blogService: CreatorService,
-     router: Router,
-     activeRouter: ActivatedRoute,  fb: FormBuilder) {
-    super(sanitizer,blogService, router, activeRouter, fb );
-      
-  }
 }
 
 

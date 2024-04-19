@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AppConstants } from "../app.constants";
 import { ArticleContent, ArticlePara, ImageContent, TextContent } from './models';
 
 @Injectable()

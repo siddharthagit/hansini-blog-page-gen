@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CreatorComponent } from './creator/creator.component';
 import { CreateInlineTooltip } from './creator/inline-tooltip.component';
-import { CreatorService } from './creator/creator.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ListComponent } from './creator/list.component';
@@ -30,6 +29,8 @@ import { FirebaseImageBrowserComponent } from './creator/firebaseimages.componen
 import { TimelineComponent } from './creator/timeline.component';
 import { SimpleInlineTooltip } from './creator/inline-simpletooltip.component';
 import { TimelineViewComponent } from './creator/timelineview.component';
+import { CreatorLSService } from './creator/service/creator.lsservice';
+import { CreatorFSService } from './creator/service/creator.fsservice';
 
 
 @NgModule({
@@ -63,7 +64,7 @@ import { TimelineViewComponent } from './creator/timelineview.component';
 
     
   ],
-  providers: [CreatorService, UploadService],
+  providers: [CreatorLSService,CreatorFSService, UploadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

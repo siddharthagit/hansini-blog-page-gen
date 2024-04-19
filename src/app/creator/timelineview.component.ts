@@ -1,40 +1,22 @@
-import { Component, EventEmitter, Input, Output, OnInit, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
-import { CreatorService } from './creator.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { AuthorInfo, BlogWebpageView, FileUpload2, TemplageBlogDetailsData, TimelineData, TimelineEntry } from './models';
-import { AppConstants } from "../app.constants";
-import { ArticleImageFile, ArticlePara, CategoryInfo, VideoContent } from '../editor/models';
-import { UploadService } from './upload.service';
-import { HansiniKeyVal } from '../dblog/models';
+import { Component, EventEmitter, Input, Output, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
+import { TimelineData } from './models';
+import { CreatorBaseComponent } from './creatorbase.comp';
 
 @Component({
   selector: 'timeline-view',
   templateUrl: './timelineview.component.html',
   styleUrls: ['./timeline.css']
 })
-export class TimelineViewComponent implements OnInit {
+export class TimelineViewComponent extends CreatorBaseComponent {
   @Input() inData: TimelineData;
   @Output() outData = new EventEmitter<string>();
-
-  DEBUG_INFO: string;
   blogDetails = new TimelineData();
-  public currentPageLSID;
-  protected sub: any;
   
   timelineviewcontainer: ViewContainerRef;
   @ViewChild('timelineviewcontainer') someHTML: ElementRef;
 
-  constructor(protected sanitizer: DomSanitizer,
-    protected blogService: CreatorService,
-    protected router: Router,
-    protected activeRouter: ActivatedRoute, protected fb: FormBuilder, 
-    protected uploadS: UploadService) {
-     
-  }
 
-  ngOnInit() {
+  override ngOnInit() {
     this.sub = this.activeRouter.queryParams.subscribe(params => {
       this.currentPageLSID = params['lsid'];
       console.log('route parameter lsid = ' + this.currentPageLSID);
