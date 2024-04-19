@@ -2,10 +2,10 @@
 <div class="row">
   <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link active" routerLink="/htmlview" [queryParams]="{lsid: currentPageLSID}">HTML</a>
+      <a class="nav-link active" routerLink="/{{frompage}}" [queryParams]="{lsid: currentPageLSID}">HTML</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link " routerLink="/creator" [queryParams]="{lsid: currentPageLSID}">EDIT</a>
+      <a class="nav-link " routerLink="/{{frompage}}" [queryParams]="{lsid: currentPageLSID}">EDIT</a>
     </li>
     <li class="nav-item">
       <a class="nav-link disabled" href="#">Export</a>

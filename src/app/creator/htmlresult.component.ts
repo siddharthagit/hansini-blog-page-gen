@@ -42,6 +42,7 @@ export class HtmlResultComponent implements OnInit {
   //htmlLinkAnchors = new Map();
   htmlLinkAnchors : string[];
   public JSONOUTPUT : String;
+  frompage: string = "";
 
   constructor(protected sanitizer: DomSanitizer,
     protected blogService: CreatorService,
@@ -53,6 +54,10 @@ export class HtmlResultComponent implements OnInit {
   ngOnInit() {
     this.sub = this.activeRouter.queryParams.subscribe(params => {
       this.currentPageLSID = params['lsid'];
+      this.frompage = params['frompage'];
+      console.log('route parameter frompage = ' + this.frompage);
+      if (this.frompage =="") 
+        this.frompage = "creator";
       console.log('route parameter lsid = ' + this.currentPageLSID);
       if (this.currentPageLSID != undefined && this.currentPageLSID != null) {
         console.log('load from LS or Server lsid = ' + this.currentPageLSID);
@@ -60,7 +65,6 @@ export class HtmlResultComponent implements OnInit {
         if (localBlogDetails != null) {
           console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
           this.blogDetails = this.blogDetails.decodeBlog(localBlogDetails);
-
           this.JSONOUTPUT = JSON.stringify(localBlogDetails);
         }
         else {
@@ -68,15 +72,19 @@ export class HtmlResultComponent implements OnInit {
         }
 
         // console.clear();
-        console.log();
-        let paragraphHTML = this.encodeArticlePara(this.blogDetails.paras);
-        console.log("Starting HTML Output");
-        this.HTMLOUTPUT = "<div id='hansini'><input id='lsid' type='hidden' value='" + this.blogDetails.lsid + "'> "
-        + this.buildTOC()
-        + this.encodeWholeHTML(this.blogDetails)
-        + paragraphHTML
-        +  "</div>";
-        console.log("Ending HTML Output");
+        if (this.frompage == "creator") {
+          let paragraphHTML = this.encodeArticlePara(this.blogDetails.paras);
+          console.log("Starting HTML Output");
+          this.HTMLOUTPUT = "<div id='hansini'><input id='lsid' type='hidden' value='" + this.blogDetails.lsid + "'> "
+          + this.buildTOC()
+          + this.encodeWholeHTML(this.blogDetails)
+          + paragraphHTML
+          +  "</div>";
+          console.log("Ending HTML Output");
+        }
+        else if (this.frompage == "timelinecreator") {
+          console.log("Starting timelinecreator HTMLOUTPUT");
+        }
       }
     });
   }
@@ -159,6 +167,7 @@ export class HtmlResultComponent implements OnInit {
 
       return container + "<div class='bodyblock'><div class='github'><ul>" + (para as unknown as GitContent).url + "</ul></div></div></div>";
     }
+    
     else return "";
   }
 

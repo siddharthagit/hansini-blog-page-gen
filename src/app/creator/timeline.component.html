@@ -1,0 +1,131 @@
+{{blogDetails|json}}
+<div class="row">
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link " routerLink="/htmlview" [queryParams]="{lsid: currentPageLSID, frompage:'timelinecreator'}">HTML</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" routerLink="/timelinecreator" [queryParams]="{lsid: currentPageLSID}">EDIT</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link disabled" href="#">Export</a>
+    </li>
+  </ul>
+</div>
+<div class="row h-100">
+</div>
+<div class="container-fluid">
+  <div class="col-sm-12" style="background-color:beige">
+    <div class="row">
+      <div class="col-sm-2">
+        <label for="staticName" class="col-sm-2 col-form-label">Name</label>
+      </div>
+      <div class="col-sm-8">
+        <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+          (keyup.enter)="editMeDone($event)" [(ngModel)]="blogDetails.name" placeholder="Page Name"
+          class="textareaVSmall" name="name" required>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">
+        <label for="staticSummary" class="col-sm-2 col-form-label">Summary</label>
+      </div>
+      <div class="col-sm-8">
+        <textarea id="pageSummary" class="textareaSmall" placeholder="Page Summary" (keyup)="editMe($event)"
+          (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)" (keyup.enter)="editMeDone($event)"
+          [(ngModel)]="blogDetails.sum">
+          </textarea>
+      </div>
+      <div class="col-sm-2"></div>
+    </div>
+    sss {{blogDetails.paras.length}}
+    <!-- Paragraphs-->
+    <div class="row" *ngIf="blogDetails.paras.length==0">
+      x
+      <simple-add-tooltip [currentRow]=0 (addRowEvent)="addRow($event, 0)"> </simple-add-tooltip>
+    </div>
+    ssslk
+    <ng-container *ngFor="let paragraph of blogDetails.paras; let i = index">
+
+      <div class="row tooltipRow">
+        <div class="col-sm-2"><label for="staticName" class="col-sm-2 col-form-label"></label></div>
+        <div class="col-sm-8" (mouseenter)='paragraph.toggle=true;' (mouseleave)='paragraph.toggle=false;'>
+          <simple-add-tooltip [currentRow]=i (addRowEvent)="addRow($event, i+1)" *ngIf="paragraph.toggle">
+          </simple-add-tooltip>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+      <div class="row blogContentRow">
+        <div class="col-sm-2 " (mouseenter)='paragraph.controlToggle=true;'
+          (mouseleave)='paragraph.controlToggle=false;'>
+          <div class="row">
+            <div class="badge badge-info"> {{paragraph.type}} {{i}}</div>
+          </div>
+          <div class="row">
+            <ng-container *ngIf="paragraph.controlToggle">
+              <button type="button" ng-disabled="true" *ngIf="i==0" class="btn btn-primary btn-sm disabled">UP</button>
+              <button type="button" *ngIf="i>0" (click)="takeUp(paragraph, i)"
+                class="btn btn-primary btn-sm ">UP</button>
+            </ng-container>
+            <ng-container *ngIf="paragraph.controlToggle">
+              <button type="button" class="badge badge-info" (click)="deleteParatraph(paragraph, i)"
+                class="btn btn-outline-danger btn-sm">Delete</button>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="">
+              <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.date" placeholder="Date"
+                class="textareaVSmall" name="heading" required>
+            </div>
+            <div class="">
+              <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.title" placeholder="Title"
+                class="textareaVSmall" name="heading" required>
+            </div>
+            <div class="">
+              <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.desc" placeholder="Description"
+                class="textareaVSmall" name="heading" required>
+            </div>
+            <div class="">
+              <input (keyup)="editMe($event)" (blur)="editMeDone($event)" (keyup.escape)="editMeDone($event)"
+                (keyup.enter)="editMeDone($event)" [(ngModel)]="paragraph.url" placeholder="H2 heading"
+                class="textareaVSmall" name="heading" required>
+            </div>
+            
+        </div>
+        <div class="col-sm-2">
+        </div>
+      </div>
+    </ng-container>
+    <div class="row">
+      <div class="col-sm-2" style="margin-top: 2px;"></div>
+      <div class="col-sm-8">
+        <div class="info" *ngIf="blogDetails.paras.length>0">
+          <simple-add-tooltip [currentRow]=blogDetails.paras.length
+            (addRowEvent)="addRow($event, blogDetails.paras.length)"> </simple-add-tooltip>
+        </div>
+        <div class="col-sm-2" style="margin-top: 2px;"></div>
+      </div>
+    </div>
+    <!-- Paragraphs-->
+  </div>
+  <div class="row h-100">
+  </div>
+  <div class="row" style="display:block;">
+    <button type="button" class="btn btn-primary" [disabled]="checkifNoUpdateNeeded()"
+      (click)="saveObject()">Save</button>
+    <button type="button" class="btn btn-primary" (click)="goBack()">Cancel</button>
+  </div>
+  <div class="row" id="debugInfo" style="display:block;">
+    <!-- Debug messages comes here-->
+  </div>
+  {{blogDetails|json}}
+  <div id ="timelinediv">
+    <timeline-view [inData]="blogDetails" (outData)= "echoHTML($event)"></timeline-view>
+  </div>
+  
+</div>

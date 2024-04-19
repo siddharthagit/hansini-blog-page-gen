@@ -29,8 +29,8 @@ export class GridObject {
  * Base class which can be saved in DB
  */
 export abstract class CreatableObject {
-  public _id: string;
-  public lsid: string;
+  public _id: string = "0";
+  public lsid: string = "0";
   public _rev: string;
   public ud: Date;
   public created: Date;
@@ -39,7 +39,11 @@ export abstract class CreatableObject {
   constructor(id?: string, name?: string ) {
     this._id = id;
     this.lsid = id;
-    }
+    this.ud= new Date();
+    this.created = new Date();
+    this.status = 1;
+   
+  }
 }
 
 export class SEOInfo {
@@ -229,4 +233,36 @@ export class FileUpload2 {
   constructor() {
   }
 
+}
+
+//Related to timeline
+
+export class TimelineEntry {
+  public date: string;
+  public title: string;
+  public desc: string;
+  public url : string;
+  constructor(d:string, t:string, de:string, u:string) {
+    this.date = d;
+    this.title = t;
+    this.desc = de;
+    this.url = u;
+  }
+}
+
+export class TimelineData extends CreatableObject {
+  public seo: SEOInfo;
+  public name: string;
+  public sum: string;
+  public pre:PreambleInfo;
+  public paras: TimelineEntry[];
+  public style:number = 1; // 1=ho, 2=vertical left 3=vertical alternate
+
+  constructor(id?: string, name?: string) {
+    super(id, name);
+    this.seo = new SEOInfo();
+    this.pre = new PreambleInfo();
+    this.paras =  new Array<TimelineEntry>();
+    this.paras [0] = new TimelineEntry("","","","");
+  }
 }

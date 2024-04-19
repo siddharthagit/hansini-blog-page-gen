@@ -10,6 +10,7 @@ import { BlogListComponent, BlogViewDetailsComponent } from './dblog';
 import { HansiniEditor } from './editor/hansinieditor.component';
 import { BlogCreatorTemplateBasedComponent } from './creator/blogcreatortemplatebased.component';
 import { FirebaseImageBrowserComponent } from './creator/firebaseimages.component';
+import { TimelineComponent } from './creator/timeline.component';
 
 
 
@@ -43,6 +44,8 @@ const routes: Routes = [
     path: 'display',
     component: AppComponent
   },
+
+
   {
     path: 'creator',
     component: CreatorComponent
@@ -72,8 +75,14 @@ const routes: Routes = [
   {
     path: 'editorlist',
     component: EditorListComponent
-    
-  }
+  },
+
+  //timeline related
+  {
+    path: 'timelinecreator',
+    component: TimelineComponent
+  },
+  
 
 ];
 

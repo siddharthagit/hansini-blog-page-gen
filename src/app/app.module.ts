@@ -27,6 +27,9 @@ import { environment } from '../environments/environment';
 import { BlogCreatorTemplateBasedComponent } from './creator/blogcreatortemplatebased.component';
 import { UploadService } from './creator/upload.service';
 import { FirebaseImageBrowserComponent } from './creator/firebaseimages.component';
+import { TimelineComponent } from './creator/timeline.component';
+import { SimpleInlineTooltip } from './creator/inline-simpletooltip.component';
+import { TimelineViewComponent } from './creator/timelineview.component';
 
 
 @NgModule({
@@ -42,7 +45,10 @@ import { FirebaseImageBrowserComponent } from './creator/firebaseimages.componen
     PopoverToolBar,
     PopoverActionBar,
     EditorListComponent,
-    FirebaseImageBrowserComponent
+    FirebaseImageBrowserComponent,
+    TimelineComponent,
+    SimpleInlineTooltip,
+    TimelineViewComponent
   ],
   imports: [
     BrowserModule,

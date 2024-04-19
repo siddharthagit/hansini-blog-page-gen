@@ -11,6 +11,7 @@ export class AppConstants {
   public static TYPE_CATEGORY_OBJECT = "rootcategory";
   public static TYPE_SYSTEMUSER_OBJECT = "rootsystemuser";
   public static TYPE_BLOGSTORY_OBJECT = "rootblogstory";
+  public static TYPE_TIMELINE_OBJECT = "roottimeline";
   public static SEARCHABLE_OBJECTS = ["rootblogstory", "rootcategory", "rootsystemuser"];
   public static dashboardPageUrl = "creator";
   public static loginPageUrl = "loginme";
