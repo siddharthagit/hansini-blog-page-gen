@@ -1,43 +1,67 @@
-
-<div class="row">
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <a class="nav-link active" routerLink="/{{frompage}}" [queryParams]="{lsid: currentPageLSID}">HTML</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link " routerLink="/{{frompage}}" [queryParams]="{lsid: currentPageLSID}">EDIT</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled" href="#">Export</a>
-    </li>
-  </ul>
-</div>
-<div class="row h-100">
-
-</div>
 <div class="container-fluid">
-  <div>
-    <h1> Content HTML Source</h1>
-  </div>
-  <div class="row" id="htmlgen">
-    <span [innerHTML]="HTMLOUTPUT" >
-      <span class="reset-this">
-
-      </span>
-    </span>
-  </div>
-
   <div class="row">
-    <textarea class="textareaLarge">
-      {{HTMLOUTPUT}}
-    </textarea>
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" routerLink="/{{frompage}}" [queryParams]="{lsid: currentPageLSID}">HTML</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " routerLink="/{{frompage}}" [queryParams]="{lsid: currentPageLSID}">EDIT</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Export</a>
+      </li>
+    </ul>
   </div>
   <div class="row h-100">
-    <hr>
   </div>
-  <div class="row">
-    <textarea>
+  <div class="container-fluid">
+    <div class="container-fluid" style="border: 1px solid green;">
+      <div class="row">
+        <h1> Settings</h1>
+        <div style="padding-top:7px; display:inline-block;">Update status flags</div>
+      </div>
+      <div class="row">
+        <div class="col-6" style="border:0px solid red;">
+          <div style="display:inline-block; position: relative;top: -1px;">
+            <label class="checkbox-inline">
+              Include TOC
+            </label>
+            <input class="" type="checkbox" [(ngModel)]="includeTOC" value="" id="flexCheckDefault">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6" style="border:0px solid red;">
+          <div style="display:inline-block; position: relative;top: -1px;">
+            <button type="button" class="btn btn-primary" (click)="generate()">Generate HTML</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <h1> Content HTML Source</h1>
+    </div>
+    <div class="row" id="htmlgen">
+      <span [innerHTML]="HTMLOUTPUT">
+        <span class="reset-this">
+
+        </span>
+      </span>
+    </div>
+
+    <div class="row">
+      <textarea class="textareaLarge">
+      {{HTMLOUTPUT}}
+    </textarea>
+    </div>
+    <div class="row h-100">
+      <hr>
+    </div>
+    <div class="row">
+      <textarea>
       {{JSONOUTPUT}}
     </textarea>
+    </div>
   </div>
 </div>

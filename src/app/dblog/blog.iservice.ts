@@ -1,5 +1,6 @@
 import { Observable } from "rxjs";
-import { KeyValPair, SiteConfig } from './models';
+import { SiteConfig } from "../creator/models";
+import { KeyValPair } from './models';
 
 export interface BlogService {
 
@@ -11,8 +12,6 @@ export interface BlogService {
      getCategories(pageSize:number): Observable<KeyValPair[]> ;
 
      getTags(pageSize:number):Observable<KeyValPair[]> ;
-
-     getSiteConfig(): Observable<SiteConfig>;
 
      addEmailForNewsLetter(path: string, data: object): Observable<Object> ;
 }

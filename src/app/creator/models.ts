@@ -46,6 +46,10 @@ export abstract class CreatableObject {
   }
 }
 
+export class RootCreatableObject extends CreatableObject {
+
+}
+
 export class SEOInfo {
   t: string // todo
   k: string //keywords
@@ -56,7 +60,7 @@ export class SEOInfo {
     this.d = "";
   }
 }
-export class CreatorAuthorObject extends CreatableObject {
+export class CreatorAuthorObject extends RootCreatableObject {
   u: String;
   e: string = "";  //email
   f: string;       //fname
@@ -250,7 +254,7 @@ export class TimelineEntry {
   }
 }
 
-export class TimelineData extends CreatableObject {
+export class TimelineData extends RootCreatableObject {
   public seo: SEOInfo;
   public name: string;
   public sum: string;
@@ -274,9 +278,7 @@ export class SiteConfig {
   copyright: string = ""; //copyright
   description: string = ""; //Description
   email: string = "";
-
   eventDescription: string = ""
-
   quizDescription: string = ""
 
   constructor () {

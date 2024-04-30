@@ -23,7 +23,7 @@ export class TimelineComponent extends CreatorBaseComponent {
       console.log('route parameter lsid = ' + this.currentPageLSID);
       if (this.currentPageLSID != undefined && this.currentPageLSID != null) {
         console.log('load from LS or Server lsid = ' + this.currentPageLSID);
-        let localBlogDetails = this.blogService.findObjectByIDFromLS(this.currentPageLSID);
+        let localBlogDetails = this.blogService.getObjectByID(AppConstants.TYPE_TIMELINE_OBJECT,this.currentPageLSID);
         if (localBlogDetails != null) {
           console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
           this.blogDetails = localBlogDetails;
@@ -58,7 +58,7 @@ export class TimelineComponent extends CreatorBaseComponent {
 
   public saveObject() {
     console.log("saveObject " + JSON.stringify(this.blogDetails));
-    this.blogService.addOrUpdateObjectToLS(AppConstants.TYPE_TIMELINE_OBJECT, this.blogDetails);
+    this.blogService.saveObject(AppConstants.TYPE_TIMELINE_OBJECT, this.blogDetails.lsid,this.blogDetails);
 
   }
 

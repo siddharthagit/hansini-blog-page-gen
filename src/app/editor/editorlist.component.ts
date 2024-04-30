@@ -16,7 +16,7 @@ override ngOnInit() {
 }
 
 private populateGrid() {
-  this.blogService.getObjectsFromLS(EditorAppConstants.localStoreEditName).forEach(element => {
+  this.blogService.getAllObjects(EditorAppConstants.localStoreEditName).forEach(element => {
       console.log("Object: " + JSON.stringify(element));
       if (element != null) {
        
@@ -54,7 +54,7 @@ private populateGrid() {
 
 public deleteAction(lsid: string) {
   console.log("deleteAction ");
-  this.blogService.removeSpecificEntryWithIDFromNamedLS(AppConstants.localStoreEditName, lsid);
+  this.blogService.deleteByID(AppConstants.localStoreEditName, lsid);
   this.populateGrid();
 }
 

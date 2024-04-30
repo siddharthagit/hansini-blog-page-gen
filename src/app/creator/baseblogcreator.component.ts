@@ -19,7 +19,7 @@ export abstract class BaseBlogCreatorComponent extends CreatorBaseComponent  {
       console.log('route parameter lsid = ' + this.currentPageLSID);
       if (this.currentPageLSID != undefined && this.currentPageLSID != null) {
         console.log('load from LS or Server lsid = ' + this.currentPageLSID);
-        let localBlogDetails = this.blogService.findObjectByIDFromLS(this.currentPageLSID);
+        let localBlogDetails = this.blogService.getObjectByID(AppConstants.TYPE_BLOGSTORY_OBJECT, this.currentPageLSID);
         if (localBlogDetails != null) {
           console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
           this.blogDetails = localBlogDetails;
@@ -51,7 +51,7 @@ export abstract class BaseBlogCreatorComponent extends CreatorBaseComponent  {
     console.log("saveObject " + JSON.stringify(this.blogDetails));
     //this.blogDetails.objectType = environment.TYPE_BLOGSTORY_OBJECT;
     //this.blogDetails.ud = this.formDataChangedDate;
-    this.blogService.addOrUpdateObjectToLS(AppConstants.localStoreEditName, this.blogDetails);
+    this.blogService.saveObject(AppConstants.localStoreEditName,this.blogDetails.lsid, this.blogDetails);
   }
 
   public goBack() {

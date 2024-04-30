@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { CategoryInfo } from 'src/app/editor/models';
-import { AuthorInfo, KeyValPair, SiteConfig } from '../models';
-import { CreatorIService } from './creator.iservice';
-
+import { AppConstants } from "../app.constants";
+import { CategoryInfo, KeyValPair } from '../editor/models';
+import { AuthorInfo } from './models';
 
 @Injectable()
-export class CreatorLSService implements CreatorIService{
-   
+export class CreatorService {
+    thisPageId: string;
+    thisPageArrayId: string
+    localStoreEditName: string
+    localStoreSearchName: string
+
     constructor() {
+        this.localStoreEditName = AppConstants.localStoreEditName;
+        this.localStoreSearchName = AppConstants.localStoreSearchName;
     }
 
     public createPageId(): string {
@@ -16,18 +20,96 @@ export class CreatorLSService implements CreatorIService{
         return randomNumberBetween111111and999999 + "";
     }
 
-    getSiteConfig(): Observable<SiteConfig> {
-        throw new Error('Method not implemented.');
+    //Local Store Related
+
+    public addOrUpdateObjectToLS(localStoreName: string, pageData: object) {
+        console.log("addOrUpdateObjectToLS " + localStoreName);
+        if (localStoreName == null || pageData == null) {
+            console.log("localStoreName or pageData is null ");
+            //return;
+        }
+        console.log("addOrUpdateObjectToLS lsid = " + pageData['lsid']);
+        let lSString = localStorage.getItem(localStoreName);
+        let isFound = false;
+        let lSObject = null
+
+        if (lSString != null) {
+            lSObject = JSON.parse(lSString);
+            lSObject.forEach((t) => {
+                if (t === pageData['lsid']) {
+                    console.log("Object already stored in LS");
+                    isFound = true;
+                }
+            });
+        }
+        else {
+            lSObject = [];
+        }
+        if (!isFound) {
+            lSObject.push(pageData['lsid']);
+            localStorage.setItem(localStoreName, JSON.stringify(lSObject));
+        }
+        localStorage.setItem(pageData['lsid'], JSON.stringify(pageData));
     }
 
-    getObjectByID(storeName: string, lsid:string):any {
-        let retObject = JSON.parse(localStorage.getItem(lsid));
+    public findObjectByIDFromLS(objectLSID: string): any {
+        let retObject = JSON.parse(localStorage.getItem(objectLSID));
         return retObject;
     }
 
+    public getObjectsFromLS(storageName: string): any[] {
+        let lSString = localStorage.getItem(storageName);
+        let lSObject = null
+        let retObjectArray: Array<object> = [];
+        if (lSString != null) {
+            lSObject = JSON.parse(lSString);
+            lSObject.forEach((t) => {
+                let thisObject = JSON.parse(localStorage.getItem(t));
+                retObjectArray.push(thisObject);
+            });
+        }
+        return retObjectArray;
+    }
 
-    saveObject(localStoreName: string, lsid: string, pageData: object) {
-        //addOrUpdateObjectToLS
+
+    public clearLS(): void {
+        localStorage.clear();
+    }
+
+    public removeAlldEntryFromNamedLS(storageName: string): void {
+        let lSString = localStorage.getItem(storageName);
+        let lSObject = null
+        if (lSString != null) {
+            lSObject = JSON.parse(lSString);
+            lSObject.forEach((t) => {
+                localStorage.removeItem(t);
+            });
+        }
+        localStorage.removeItem(storageName);
+    }
+
+    public removeSpecificEntryWithIDFromNamedLS(storageName: string, id: string): void {
+        console.log("removeSpecificEntryWithIDFromNamedLS invoked " + storageName + " " + id);
+        let lSString = localStorage.getItem(storageName);
+        if (lSString != null) {
+            let lSObject = JSON.parse(lSString);
+
+            lSObject.forEach((val, index) => {
+                if (val == id) {
+                    //localStorage.removeItem(val);
+                    console.log(val);
+                    lSObject.splice(index,1);
+                    localStorage.setItem(storageName, JSON.stringify(lSObject));
+
+                    return;
+                }
+            });
+        }
+        // localStorage.removeItem(storageName);
+    }
+
+
+    public addOrUpdateObjectWithKeyToLS(localStoreName: string, lsid:string, pageData: object) {
         console.log("addOrUpdateObjectWithKeyToLS");
         if (localStoreName == null || pageData == null) {
             console.log("localStoreName or pageData is null ");
@@ -54,59 +136,6 @@ export class CreatorLSService implements CreatorIService{
             localStorage.setItem(localStoreName, JSON.stringify(lSObject));
         }
         localStorage.setItem(lsid, JSON.stringify(pageData));
-    }
-
-   
-   
-
-    public getAllObjects(storeName: string): any[] {
-        let lSString = localStorage.getItem(storeName);
-        let lSObject = null
-        let retObjectArray: Array<object> = [];
-        if (lSString != null) {
-            lSObject = JSON.parse(lSString);
-            lSObject.forEach((t) => {
-                let thisObject = JSON.parse(localStorage.getItem(t));
-                retObjectArray.push(thisObject);
-            });
-        }
-        return retObjectArray;
-    }
-
-    public clearLS(): void {
-        localStorage.clear();
-    }
-
-    public clearStore(storageName: string): void {
-        let lSString = localStorage.getItem(storageName);
-        let lSObject = null
-        if (lSString != null) {
-            lSObject = JSON.parse(lSString);
-            lSObject.forEach((t) => {
-                localStorage.removeItem(t);
-            });
-        }
-        localStorage.removeItem(storageName);
-    }
-
-    public deleteByID(storageName: string, id: string): void {
-        console.log("removeSpecificEntryWithIDFromNamedLS invoked " + storageName + " " + id);
-        let lSString = localStorage.getItem(storageName);
-        if (lSString != null) {
-            let lSObject = JSON.parse(lSString);
-
-            lSObject.forEach((val, index) => {
-                if (val == id) {
-                    //localStorage.removeItem(val);
-                    console.log(val);
-                    lSObject.splice(index,1);
-                    localStorage.setItem(storageName, JSON.stringify(lSObject));
-
-                    return;
-                }
-            });
-        }
-        // localStorage.removeItem(storageName);
     }
 
     getAllCategoriesStatic(): CategoryInfo {

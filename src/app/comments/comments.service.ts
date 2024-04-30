@@ -2,18 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { collection, getDocs, getFirestore, limit, query, where } from 'firebase/firestore';
 import { Observable, Subscriber } from 'rxjs';
-import { throwError } from 'rxjs';
-import { SiteConfig } from '../dblog/models';
 const MY_TODO_PAGES_ARRAY = "MyPageIdsA"; //contains id of the TodoPages I created, assigned to me.
 
 @Injectable()
 export class CommentsService {
     constructor(public firestore: AngularFirestore) { }
-    getSiteConfig(): Observable<SiteConfig> {
-        throw new Error('Method not implemented.');
-    }
-
-
+    
     public getCommentsLocal(postid: string, storageName: string, pageSize: number): Observable<any> {
         let lSString = localStorage.getItem(storageName);
         let lSObject = null

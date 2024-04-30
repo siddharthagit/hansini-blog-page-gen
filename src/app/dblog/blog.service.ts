@@ -1,27 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscriber } from 'rxjs';
 import { throwError } from 'rxjs';
-import { BlogDetailsData } from '../creator/models';
+import { BlogDetailsData, SiteConfig } from '../creator/models';
 import { BlogService } from './blog.iservice';
-import { KeyValPair, SiteConfig } from './models';
+import { KeyValPair } from './models';
 const MY_TODO_PAGES_ARRAY = "MyPageIdsA"; //contains id of the TodoPages I created, assigned to me.
 
 @Injectable()
 export class BlogLSServiceImpl implements BlogService {
     constructor() { }
-    addEmailForNewsLetter(path: string, data: object): Observable<Object> {
-        console.log("addEmailForNewsLetter service" + JSON.stringify(path));
-        let targetData = JSON.parse(JSON.stringify(data));
-        return new Observable<Response>((subscriber: Subscriber<any>) => subscriber.next(targetData));
-    }
 
-    getSiteConfig(): Observable<SiteConfig> {
-        //throw new Error('Method not implemented.');
-        let siteConfig:SiteConfig = new SiteConfig();
-        return new Observable<SiteConfig>((subscriber: Subscriber<any>) => subscriber.next(siteConfig));
-    }
-
-    getPostByID(storageName: string,  path:string): Observable<BlogDetailsData> {
+    getPostByID(storageName: string, path: string): Observable<BlogDetailsData> {
         console.log("BlogLSServiceImpl getBlogStoryDetails storageName = " + storageName);
         let storedObject = JSON.parse(localStorage.getItem(path) || "");
         if (storedObject == null) {
@@ -32,8 +21,6 @@ export class BlogLSServiceImpl implements BlogService {
         else
             return new Observable<BlogDetailsData>((subscriber: Subscriber<BlogDetailsData>) => subscriber.next(storedObject));
     }
-
-
 
     getPosts(storageName: string, pageSize: number, catID: string, tagName: string): Observable<any> {
         console.log("Storage name::  " + storageName);
@@ -60,4 +47,11 @@ export class BlogLSServiceImpl implements BlogService {
         let tags = [{ uniqueName: "Java" }, { uniqueName: "Stocks" }];
         return new Observable<Response>((subscriber: Subscriber<any>) => subscriber.next(tags));
     }
+
+    addEmailForNewsLetter(path: string, data: object): Observable<Object> {
+        console.log("addEmailForNewsLetter service" + JSON.stringify(path));
+        let targetData = JSON.parse(JSON.stringify(data));
+        return new Observable<Response>((subscriber: Subscriber<any>) => subscriber.next(targetData));
+    }
+
 }

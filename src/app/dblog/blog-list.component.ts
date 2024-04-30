@@ -2,11 +2,7 @@ import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppConstants } from '../app.constants';
 import { BlogDetailsData, BlogWebpageListView } from '../creator/models';
-import { DisplayMe } from '../editor/models';
 import { BlogLSServiceImpl } from './blog.service';
-import { SiteConfig } from './models';
-
-const BLOG_COLL_NAME = "rootblogstory";
 @Component({
   selector: 'blog-details',
   templateUrl: './blog-list.component.html',

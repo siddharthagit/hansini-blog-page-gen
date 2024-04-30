@@ -7,9 +7,13 @@ export interface CreatorIService {
 
      getSiteConfig(): Observable<SiteConfig>;
 
-     getObjectByID(storeName: string, lsid:string, pageData: object):any;
-
-     saveObject(storeName: string, lsid:string, pageData: object):any;
+     getObjectByID(storeName: string, lsid:string):any;
      
+     saveObject(storeName: string, lsid:string, pageData: object):any;
+
+     deleteByID(storageName: string, id: string): void
+     
+     getAllObjects(storeName: string): any[] 
+
      
 }

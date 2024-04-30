@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, QueryList, SimpleChanges, ViewChil
 import { ArticleContent, ArticleImageFile, ArticlePara, CodeContent, TextContent, VideoContent } from './models';
 import 'prismjs';
 import { PopOverAct } from './models';
-import { EditorAppConstants } from '../app.constants';
+import { AppConstants, EditorAppConstants } from '../app.constants';
 import { CreatorBaseComponent } from '../creator/creatorbase.comp';
 
 
@@ -89,7 +89,7 @@ export class HansiniEditor extends CreatorBaseComponent  {
             console.log('route parameter lsid = ' + this.currentPageLSID);
             if (this.currentPageLSID != undefined && this.currentPageLSID != null) {
               console.log('load from LS or Server lsid = ' + this.currentPageLSID);
-              let localBlogDetails = this.blogFSService.findObjectByIDFromLS(this.currentPageLSID);
+              let localBlogDetails = this.blogFSService.getObjectByID(AppConstants.TYPE_BLOGSTORY_OBJECT,this.currentPageLSID);
               if (localBlogDetails != null) {
                 console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
                 this.blogcontent = this.decodeBlogContent(localBlogDetails);
@@ -117,7 +117,7 @@ export class HansiniEditor extends CreatorBaseComponent  {
 
     saveConentLS() {
         this.blogcontent.id = this.currentPageLSID;
-        this.blogService.addOrUpdateObjectWithKeyToLS(EditorAppConstants.localStoreEditName,  this.currentPageLSID, this.blogcontent);
+        this.blogService.saveObject(EditorAppConstants.localStoreEditName,  this.currentPageLSID, this.blogcontent);
     }
 
     decodeBlogContent(json: Object): ArticleContent {

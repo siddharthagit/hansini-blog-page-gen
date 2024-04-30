@@ -17,7 +17,7 @@ export class ListComponent extends CreatorBaseComponent {
 
   private populateGrid() {
     this.displayObjectList = [];
-    this.blogService.getObjectsFromLS(AppConstants.TYPE_BLOGSTORY_OBJECT).forEach(element => {
+    this.blogService.getAllObjects(AppConstants.TYPE_BLOGSTORY_OBJECT).forEach(element => {
       console.log("Object: " + JSON.stringify(element));
       if (element != null) {
         let thisItem = new GridObject(element['_id'], element['name']);
@@ -52,7 +52,7 @@ export class ListComponent extends CreatorBaseComponent {
 
   public deleteAction(lsid: string) {
     console.log("deleteAction ");
-    this.blogService.removeSpecificEntryWithIDFromNamedLS(AppConstants.TYPE_BLOGSTORY_OBJECT, lsid);
+    this.blogService.deleteByID(AppConstants.TYPE_BLOGSTORY_OBJECT, lsid);
     this.populateGrid();
   }
 

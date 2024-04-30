@@ -2,6 +2,7 @@ import { Component} from '@angular/core';
 import { BlogWebpageView } from './models';
 import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ImageContent, ListContent, QouteContent, ShortCodeContent, TextContent, VideoContent } from '../editor/models';
 import { CreatorBaseComponent } from './creatorbase.comp';
+import { AppConstants } from '../app.constants';
 /**
  * HTML Structure
  * <div id="hansini">
@@ -36,18 +37,19 @@ export class HtmlResultComponent extends CreatorBaseComponent {
   htmlLinkAnchors : string[] = [];
   public JSONOUTPUT : String;
   frompage: string = "";
+  includeTOC:boolean=false;
 
   override ngOnInit() {
     this.sub = this.activeRouter.queryParams.subscribe(params => {
       this.currentPageLSID = params['lsid'];
       this.frompage = params['frompage'];
       console.log('route parameter frompage = ' + this.frompage);
-      if (this.frompage =="") 
+      if (this.frompage == undefined) 
         this.frompage = "creator";
       console.log('route parameter lsid = ' + this.currentPageLSID);
       if (this.currentPageLSID != undefined && this.currentPageLSID != null) {
         console.log('load from LS or Server lsid = ' + this.currentPageLSID);
-        let localBlogDetails = this.blogService.findObjectByIDFromLS(this.currentPageLSID);
+        let localBlogDetails = this.blogService.getObjectByID(AppConstants.TYPE_BLOGSTORY_OBJECT,this.currentPageLSID);
         if (localBlogDetails != null) {
           console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
           this.blogDetails = this.blogDetails.decodeBlog(localBlogDetails);
@@ -57,20 +59,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
           console.log("not found in LS");
         }
 
-        // console.clear();
-        if (this.frompage == "creator") {
-          let paragraphHTML = this.encodeArticlePara(this.blogDetails.paras);
-          console.log("Starting HTML Output");
-          this.HTMLOUTPUT = "<div id='hansini'><input id='lsid' type='hidden' value='" + this.blogDetails.lsid + "'> "
-          + this.buildTOC()
-          + this.encodeWholeHTML(this.blogDetails)
-          + paragraphHTML
-          +  "</div>";
-          console.log("Ending HTML Output");
-        }
-        else if (this.frompage == "timelinecreator") {
-          console.log("Starting timelinecreator HTMLOUTPUT");
-        }
+        
       }
     });
   }
@@ -135,7 +124,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
       return this.processCodeTypeParagraph(para);
     }
     if (para.type == 'ssc') {
-      return this.processCodeTypeParagraph(para);
+      return this.processSSCTypeParagraph(para);
     }
     if (para.type == 'con') {
       return this.processCodeTypeParagraph(para);
@@ -260,10 +249,10 @@ export class HtmlResultComponent extends CreatorBaseComponent {
   }
 
   private buildTOC() {
+    if (!this.includeTOC) return "";
     console.log("build TOC with link size = " + this.htmlLinkAnchors.length);
     let ul = "<div id='toc' class='toc'><h2>Table of Content</h2><ul class=\"toc_list\">";
     let li = "";
-
     /*
     this.htmlLinkAnchors.forEach((value: string, key: string) => {
       li = li + "<li>" + value + "</li>";
@@ -274,10 +263,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
       console.log(value);
       li = li + "<li>" + value + "</li>";
     });
-
     ul = ul + li + "</ul></div>";
-
-
     return ul;
   }
 
@@ -287,11 +273,32 @@ export class HtmlResultComponent extends CreatorBaseComponent {
    */
   private processCodeTypeParagraph(code: ArticlePara) {
     let cc: CodeContent = code.content as CodeContent;
-    let codePrefix = '<div class="codeFragment"><div class="filename">'
-                     + '<button class="btn float-sm-right copyBtn">Copy</button>'
-                     + '</div>'
+    let codePrefix = '<div class="codeFragment"><div class="header><div class="filename">'
+                    // + '<button class="btn float-sm-right copyBtn">Copy</button>'
+                     + '</div></div>'
+                     + '<div class="body">'
+                     + cc.data
+                     + '</body>'
                      + '<div class="w8-100"><pre class="prettyprint w8-100">'
                      + '<code class="language-' + cc.lang + '">';
+    let codeSuffix = '</code></pre></div></div>';
+    return codePrefix + this.encodeCode(cc.data) + codeSuffix;
+  }
+
+   /**
+   * Returns <CodeFragment><fileName><pre><code>
+   * @param code
+   */
+   private processSSCTypeParagraph(code: ArticlePara) {
+    let cc: ShortCodeContent = code.content as ShortCodeContent;
+    let codePrefix = '<div class="codeFragment"><div class="headerblock><div class="filename">'
+                    // + '<button class="btn float-sm-right copyBtn">Copy</button>'
+                     + '</div></div>'
+                     + '<div class="bodyBlock">'
+                     + cc.desc
+                     + '</body>'
+                     + '<div class="w8-100"><pre class="prettyprint w8-100">'
+                     + '<code class="language-java">';
     let codeSuffix = '</code></pre></div></div>';
     return codePrefix + this.encodeCode(cc.data) + codeSuffix;
   }
@@ -311,6 +318,29 @@ export class HtmlResultComponent extends CreatorBaseComponent {
 
   private char2entity = { "'": '&#39;', '"': '&quot;', '<': '&lt;', '>': '&gt;', '&#038;': '&amp;' };
 
+  generate() {
+    console.log("Starting generate");
+    this.HTMLOUTPUT ="";
+    this.htmlLinkAnchors = [];
+    // console.clear();
+    if (this.frompage == "creator" || this.frompage == "") {
+      let paragraphHTML = this.encodeArticlePara(this.blogDetails.paras);
+      console.log("Starting HTML Output");
+      this.HTMLOUTPUT = "<div id='hansini'><input id='lsid' type='hidden' value='" + this.blogDetails.lsid + "'> "
+      + this.buildTOC()
+      + this.encodeWholeHTML(this.blogDetails)
+      + paragraphHTML
+      +  "</div>";
+      console.log("Ending HTML Output");
+    }
+    else if (this.frompage == "timelinecreator") {
+      console.log("Starting timelinecreator HTMLOUTPUT");
+    }
+
+    
+  }
+
+  
 }
 
 

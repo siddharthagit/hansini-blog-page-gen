@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
-import { SiteConfig } from '../dblog/models';
+import { SiteConfig } from '../creator/models';
 import { CommonUIService } from './commonui.service';
 
 @Component({

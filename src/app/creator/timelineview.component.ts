@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, ViewContainerRef, ViewChild, ElementRef } from '@angular/core';
 import { TimelineData } from './models';
 import { CreatorBaseComponent } from './creatorbase.comp';
+import { AppConstants } from '../app.constants';
 
 @Component({
   selector: 'timeline-view',
@@ -22,7 +23,7 @@ export class TimelineViewComponent extends CreatorBaseComponent {
       console.log('route parameter lsid = ' + this.currentPageLSID);
       if (this.currentPageLSID != undefined && this.currentPageLSID != null) {
         console.log('load from LS or Server lsid = ' + this.currentPageLSID);
-        let localBlogDetails = this.blogService.findObjectByIDFromLS(this.currentPageLSID);
+        let localBlogDetails = this.blogService.getObjectByID(AppConstants.TYPE_TIMELINE_OBJECT,this.currentPageLSID);
         if (localBlogDetails != null) {
           console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
           this.blogDetails = localBlogDetails;

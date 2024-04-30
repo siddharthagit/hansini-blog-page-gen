@@ -378,21 +378,6 @@ class ParagraphMetaBlog implements ParagraphMeta {
 }
 
 
-  export class SiteConfig {
-    name: string = ""; //name
-    summary: string = ""; //summary
-    copyright: string = ""; //copyright
-    description: string = ""; //Description
-    email: string = "";
-
-    eventDescription: string = ""
-
-    quizDescription: string = ""
-
-    constructor () {
-    }
-  }
-
   export class SearchKey {
     public text: string = "";
     public status: number = -1;
