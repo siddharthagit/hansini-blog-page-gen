@@ -72,21 +72,19 @@
                     </figure>
                   </ng-container>
                   <ng-container *ngSwitchCase="'vid'">
-                    <div class="vidfragment">
+                    <div class="videofragment">
                       <div class="headerblock">
                         <span class="title"> {{paragraph.content.title}}</span>
                       </div>
                     </div>
                     <div class="bodyblock">
-
-
                       <div class="row">
                         <iframe width="460" height="445" [src]="showYoutubeVideo(paragraph.content.url)" frameborder="0"
                           allowfullscreen>
                         </iframe>
                       </div>
                       <div class="row">
-                        <div class="ha-text" [id]="'ha_item_' + i ">
+                        <div class="desc" [id]="'ha_item_' + i ">
                           {{p.content.caption}}
                         </div>
                       </div>

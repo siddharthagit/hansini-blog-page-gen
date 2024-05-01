@@ -17,7 +17,7 @@ import { CommonUIService } from './commonui.service';
     </ul>
 </div>
   `,
-  styleUrls: ['../common/css/blog.theme-default.css']
+  styleUrls: ['../common/css/hansiniblog.css']
 })
 
 export class TagsComponent implements OnInit {

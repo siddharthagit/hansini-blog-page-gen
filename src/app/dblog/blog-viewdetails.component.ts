@@ -12,7 +12,7 @@ import { AppConstants } from '../app.constants';
 @Component({
   selector: 'blog-details',
   templateUrl: './blog-viewdetails.component.html',
-  styleUrls: ['./blog.component.css', '../common/css/blog.theme-default.css']
+  styleUrls: ['../common/css/hansiniblog.css']
 })
 
 /**

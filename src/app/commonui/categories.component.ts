@@ -15,7 +15,7 @@ import { CommonUIService } from './commonui.service';
     </div>
   </div>
   `,
-  styleUrls: ['../common/css/blog.theme-default.css']
+  styleUrls: ['../common/css/hansiniblog.css']
 })
 
 export class CategoriesComponent implements OnInit {

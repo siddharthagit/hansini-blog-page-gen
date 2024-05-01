@@ -6,7 +6,7 @@ import { BlogLSServiceImpl } from './blog.service';
 @Component({
   selector: 'blog-details',
   templateUrl: './blog-list.component.html',
-  styleUrls: ['./blog.component.css', '../common/css/hansiniblog.css']
+  styleUrls: ['../common/css/hansiniblog.css']
 })
 
 /**

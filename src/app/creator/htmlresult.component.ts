@@ -1,6 +1,6 @@
 import { Component} from '@angular/core';
 import { BlogWebpageView } from './models';
-import { ArticlePara, CodeContent, DisplayMe, GitContent, H1Content, H2Content, ImageContent, ListContent, QouteContent, ShortCodeContent, TextContent, VideoContent } from '../editor/models';
+import { ArticlePara, CodeContent, ConsoleContent, DisplayMe, GitContent, H1Content, H2Content, ImageContent, ListContent, QouteContent, ShortCodeContent, TextContent, UrlContent, VideoContent } from '../editor/models';
 import { CreatorBaseComponent } from './creatorbase.comp';
 import { AppConstants } from '../app.constants';
 /**
@@ -51,7 +51,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
         console.log('load from LS or Server lsid = ' + this.currentPageLSID);
         let localBlogDetails = this.blogService.getObjectByID(AppConstants.TYPE_BLOGSTORY_OBJECT,this.currentPageLSID);
         if (localBlogDetails != null) {
-          console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
+          //console.log('load object from LS =  ' + JSON.stringify(localBlogDetails));
           this.blogDetails = this.blogDetails.decodeBlog(localBlogDetails);
           this.JSONOUTPUT = JSON.stringify(localBlogDetails);
         }
@@ -65,7 +65,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
   }
 
   private encodeArticlePara(paras: DisplayMe[]) {
-    console.log("siddx" + JSON.stringify(paras))
+   // console.log("siddx" + JSON.stringify(paras))
     let counter = 1;
     let HTMLOUTPUT = "";
     paras.forEach(para => {
@@ -93,7 +93,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
     }
     if (para.type == 'txt') {
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
-      this.buildAndStoreLink(para);
+      //this.buildAndStoreLink(para);
       //let ret = "<h3 id='" + dynaId + "'>" + para.heading + "</h3>";
       return "<div class='post-text'>" + (para.content as TextContent).data + "</div>";
     }
@@ -108,8 +108,8 @@ export class HtmlResultComponent extends CreatorBaseComponent {
       return this.processVIDTypeParagraph(counter, para);
     }
     if (para.type == 'url') {
-      let dynaId = this.buildDynamicHTMLID(counter, para.type);
-      return "<div class='txt_desc'>" + para.content + "</div>";
+      let urlCont: UrlContent =  para.content as unknown as UrlContent
+      return this.processURLTypeParagraph(urlCont);
     }
     if (para.type == 'lis') {
       return this.processLISTypeParagraph(counter, para);
@@ -118,7 +118,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
       return this.processQUOTypeParagraph(counter, para);
     }
     if (para.type == 'sec') {
-      return this.processSSCypeParagraph(counter, para);
+      return this.processSectionParagraph();
     }
     if (para.type == 'cod') {
       return this.processCodeTypeParagraph(para);
@@ -127,13 +127,11 @@ export class HtmlResultComponent extends CreatorBaseComponent {
       return this.processSSCTypeParagraph(para);
     }
     if (para.type == 'con') {
-      return this.processCodeTypeParagraph(para);
+      return this.processConsoleTypeParagraph(para);
     }
     if (para.type == 'git') {
       //for GIT type heading contains the github URL
       let dynaId = this.buildDynamicHTMLID(counter, para.type);
-
-    
       this.buildAndStoreLink(para);
       let container =   "<div class='sourceFragment' id='" + dynaId + "'>"
                       +     "<div class=\"headerblock\"><span class='title'>Download Sourcecode<span>"
@@ -146,30 +144,12 @@ export class HtmlResultComponent extends CreatorBaseComponent {
     else return "";
   }
 
-  private processSSCypeParagraph(counter: number, para: ArticlePara) {
-    let cc: ShortCodeContent = para.content as ShortCodeContent;
-    let cx = '<div class="sscfragment">'
-                    + '<div class="headerblock">'
-                    +'<span class="title">'
-                    + cc.title
-                    + '</span>'
-                    +'</div>'
-                    +'<div class="bodyblock">'
-                    +'<div class="description">'
-                    cc.desc
-                    + '</div>'
-                    +'<pre><code>'
-                    + this.encodeCode(cc.data)
-                    +'</code></pre>'
-                    +'</div>'
-                  +'</div>'
-
-    return cx;
+  private processSectionParagraph() {
+    return '<div class="sectionfragment">'+'</div>'
   }
 
   private processVIDTypeParagraph(counter: number, para: ArticlePara) {
     let cc: VideoContent = para.content as VideoContent;
-
     let cx = 
     '<div class="post-text">'
        + cc.title
@@ -197,6 +177,17 @@ export class HtmlResultComponent extends CreatorBaseComponent {
     return cx;
   }
 
+  processURLTypeParagraph(urlCont: UrlContent) {
+    console.log("processURLTypeParagraph" + JSON.stringify(urlCont));
+    return "<div class='urlfragment'>"
+              + "<div class='headerblock'>"
+                + "<span class='title'> <a href='" + urlCont.url + "'>"+urlCont.title+"</a></span>"
+              + "</div>" 
+              + "<div class='bodyblock'>"
+                  + "<div class='post-text'>" + urlCont.data  + "</div>"
+              + "</div>"
+            + "</div>";
+  }
 
   /**
    * Returns <tasklistref><header>title</header><tasks><ul>
@@ -228,7 +219,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
 
   private buildAndStoreLink(para: ArticlePara) {
     console.warn("adding a new link " + para.type);
-    let link = '<a href="' + para.id + '">'  + '</a>';
+    let link = '<a href="' + para.id + '">' + para.content['data'] + '</a>';
     //this.htmlLinkAnchors.set(para.heading, link);
     this.htmlLinkAnchors.push(link);
     console.warn("this.htmlLinkAnchors size = " + this.htmlLinkAnchors.length);
@@ -243,7 +234,7 @@ export class HtmlResultComponent extends CreatorBaseComponent {
     let link = '<a href="#' + dynaId + '">' + blog.name + '</a>';
     //this.htmlLinkAnchors.set(blog.name, link);
     this.htmlLinkAnchors.push(link);
-    let heading = "<h2 classs='ss' id='a'>" + blog.name + "</h2>";
+    let heading = "<h2 classs='title' id='a'>" + blog.name + "</h2>";
     let summary = "<div class='summary'>" + blog.pre.summ + "</div>";
     return  heading + summary;
   }
@@ -251,19 +242,13 @@ export class HtmlResultComponent extends CreatorBaseComponent {
   private buildTOC() {
     if (!this.includeTOC) return "";
     console.log("build TOC with link size = " + this.htmlLinkAnchors.length);
-    let ul = "<div id='toc' class='toc'><h2>Table of Content</h2><ul class=\"toc_list\">";
+    let ul = "<div id='toc' class='toc'><div class='headerblock'><h2>Table of Content</h2></div><div class='bodyblock'><ul>";
     let li = "";
-    /*
-    this.htmlLinkAnchors.forEach((value: string, key: string) => {
-      li = li + "<li>" + value + "</li>";
-    });
-    */
-
     this.htmlLinkAnchors.forEach(function (value) {
       console.log(value);
       li = li + "<li>" + value + "</li>";
     });
-    ul = ul + li + "</ul></div>";
+    ul = ul + li + "</ul></div></div>";
     return ul;
   }
 
@@ -303,9 +288,26 @@ export class HtmlResultComponent extends CreatorBaseComponent {
     return codePrefix + this.encodeCode(cc.data) + codeSuffix;
   }
 
+  processConsoleTypeParagraph (code: ArticlePara) {
+    let cc: ConsoleContent = code.content as ConsoleContent;
+    return '<div class="consoleFragment">'
+                    +   '<div class="headerblock">'
+                    +     '<span class="title">' + cc.title + "</span>"
+                    +   '</div>'
+                     + '<div class="bodyBlock">'
+                     +    '<div class="w8-100">'
+                     +      '<pre><code class="console">'
+                     +          this.encodeCode(cc.data)
+                     +      '</code></<pre>'
+                     + '  </div></div>'
+                     + '</div>'
+                    + '</div>';
+    
+  }
+
   private encodeCode(code: String) {
     code = this.encode_entities(code);
-    console.log("C= " + code);
+    //console.log("C= " + code);
     return code;
   }
 
@@ -324,12 +326,11 @@ export class HtmlResultComponent extends CreatorBaseComponent {
     this.htmlLinkAnchors = [];
     // console.clear();
     if (this.frompage == "creator" || this.frompage == "") {
-      let paragraphHTML = this.encodeArticlePara(this.blogDetails.paras);
       console.log("Starting HTML Output");
       this.HTMLOUTPUT = "<div id='hansini'><input id='lsid' type='hidden' value='" + this.blogDetails.lsid + "'> "
       + this.buildTOC()
       + this.encodeWholeHTML(this.blogDetails)
-      + paragraphHTML
+      + this.encodeArticlePara(this.blogDetails.paras)
       +  "</div>";
       console.log("Ending HTML Output");
     }

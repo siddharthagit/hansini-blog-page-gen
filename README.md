@@ -61,7 +61,7 @@ container-fluid
                     post-comment-link
                       comment-link
                 body <Hansini>   ->post-body
-                  hsb-post-main
+                  post-main
                     h2 post-title
                     post-summary
                     h3

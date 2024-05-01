@@ -75,10 +75,9 @@ Global CSS with prefix g-
   padding-right: 0px;
   color: var(--hs-color-text);
 }
+/** Globals **/
 
-html body * {
-  
-}
+html body * {}
 
 html {
   font-size: 1.2em;
@@ -89,7 +88,7 @@ body {
   background-color: var(--hs-color-page-body-bg);
 }
 
-/** Globals **/
+
 a {
   color: var(--hs-color-href-focus);
   text-decoration: none;
@@ -115,7 +114,7 @@ h1 {
   font-size: var(--fs1);
   font-weight: 600;
   margin-top: 25px;
-  margin-botton: 5px;
+  margin-bottom: 5px;
   color: var(--hs-color-title);
 }
 
@@ -123,7 +122,7 @@ h2 {
   font-size: var(--fs2);
   font-weight: 500;
   margin-top: 25px;
-  margin-botton: 5px;
+  margin-bottom: 5px;
   color: var(--hs-color-title);
 }
 
@@ -131,7 +130,7 @@ h3 {
   font-size: var(--fs3);
   font-weight: 400;
   margin-top: 20px;
-  margin-botton: 5px;
+  margin-bottom: 5px;
   color: var(--hs-color-title);
 }
 
@@ -140,18 +139,15 @@ h4 {
   font-weight: 100;
   font-weight: 250;
   margin-top: 5px;
-  margin-botton: 5px;
+  margin-bottom: 5px;
   color: var(--hs-color-title);
 }
-
-
-.title {}
 
 .summary {
   visibility: hidden;
 }
 
-.description {
+.post-text {
   visibility: visible;
   font-style: normal;
   font-weight: 100;
@@ -161,71 +157,32 @@ h4 {
   margin-bottom: 1em;
 }
 
-.txt_desc {
-  visibility: visible;
-  font-style: normal;
-  font-weight: 100;
-  font-style: normal;
-  line-height: 1.2129;
-  font-size: var(--fsbb);
-  margin-top: 1em;
-  margin-bottom: 1em;
 
-}
+/** Image Fragment **/
+.figure{}
+.figure-caption{}
 
-.mediafragment {
-  border: 0px solid var(--hs-color-border);
-  background-color: var(--hs-color-block-bg);
-  width: 100%;
-}
-
-.mediafragment .headerblock {
-  margin-top: 1rem;
-}
-
-.mediafragment .headerblock .title {
-  font-size: var(--fs4);
-  color: var(--hs-color-subtitle);
-}
-
-.mediafragment .bodyblock {
-  border-bottom: 1px solid var(--hs-color-border);
-  margin-top: 0rem;
-}
-
-.mediafragment .bodyblock .description {
-  display: block;
-  margin-block-start: 1em;
-  margin-block-end: 1em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-size: var(--fsbb);
-}
-
-.sscfragment {
+/** Video Fragment **/
+.videofragment {
   border: 0px solid var(--hs-color-border);
   background-color: var(--hs-color-block-bg);
   width: 100%;
   margin-bottom: 10px;
 }
-
-.sscfragment .headerblock {
+.videofragment .headerblock {
   margin-top: 1rem;
 }
-
-.sscfragment .headerblock .title {
+.videofragment .headerblock .title {
   font-size: var(--fs4);
   color: var(--hs-color-subtitle);
 }
-
-.sscfragment .bodyblock {
+.videofragment .bodyblock {
   border-bottom: 1px solid var(--hs-color-border);
   margin-top: 0rem;
   background-color: var(--hs-color-block-bg);
   padding: 5px;
 }
-
-.sscfragment .bodyblock .description {
+.videofragment .bodyblock .desc {
   display: block;
   margin-block-start: 1em;
   margin-block-end: 1em;
@@ -234,37 +191,184 @@ h4 {
   font-size: var(--fsbb);
 }
 
+/** URL Fragment **/
+.urlfragment {
+  border: 0px solid var(--hs-color-border);
+  background-color: var(--hs-color-block-bg);
+  width: 100%;
+  margin-bottom: 10px;
+}
+.urlfragment .headerblock {
+  margin-top: 1rem;
+}
+.urlfragment .headerblock .title {
+  font-size: var(--fs4);
+  color: var(--hs-color-subtitle);
+}
+.urlfragment .bodyblock {
+  border-bottom: 1px solid var(--hs-color-border);
+  margin-top: 0rem;
+  background-color: var(--hs-color-block-bg);
+  padding: 5px;
+}
+.urlfragment .bodyblock .desc {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-size: var(--fsbb);
+}
+/** LIST Fragment **/
+.lisfragment {
+  border: 0px solid var(--hs-color-border);
+  background-color: var(--hs-color-block-bg);
+  width: 100%;
+  margin-bottom: 10px;
+}
+.lisfragment .headerblock {
+  margin-top: 1rem;
+}
+.lisfragment .headerblock .title {
+  font-size: var(--fs4);
+  color: var(--hs-color-subtitle);
+}
+.lisfragment .bodyblock {
+  border-bottom: 1px solid var(--hs-color-border);
+  margin-top: 0rem;
+  background-color: var(--hs-color-block-bg);
+  padding: 5px;
+}
+.lisfragment .bodyblock .desc {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-size: var(--fsbb);
+}
+/** quote Fragment **/
+.qoufragment{
 
-.hsb-codeFragment {
+}
+blockquote.blockquote {
+  line-height: 1.7em;
+  border-color: var(--hs-main-border-color);
+  border: 1px solid #eee;
+  border-left: 6px solid #eee;
+  padding: 20px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-bottom: 30px
+}
+
+/** section fragment **/
+.sectionfragment{}
+
+
+/** code fragment **/
+.codeFragment {
   background-color: var(--hs-color-block-bg);
   border: 1px solid #575252;
 }
-
-.hsb-codeFragment .headerblock {
+.codeFragment .headerblock {
   background-color: var(--hs-color-header-bg);
   font-weight: 200px;
    border-bottom: 1px solid #575252;
    padding: 5px;
    margin: 5px;
 }
-
-.hsb-codeFragment .headerblock .title {
+.codeFragment .headerblock .title {
   padding: 5px;
 }
-
-.hsb-codeFragment .headerblock .copyBtn {
+.codeFragment .headerblock .copyBtn {
   float: right;
   vertical-align: middle;
   margin-right: 1em;
   margin: 2px;
   padding: 2px;
 }
-
-
-.hsb-codeFragment .bodyblock {
+.codeFragment .bodyblock {
   margin-top: 0rem;
 }
 
+/** shortcode fragment **/
+.sscfragment {
+  border: 0px solid var(--hs-color-border);
+  background-color: var(--hs-color-block-bg);
+  width: 100%;
+  margin-bottom: 10px;
+}
+.sscfragment .headerblock {
+  margin-top: 1rem;
+}
+.sscfragment .headerblock .title {
+  font-size: var(--fs4);
+  color: var(--hs-color-subtitle);
+}
+.sscfragment .bodyblock {
+  border-bottom: 1px solid var(--hs-color-border);
+  margin-top: 0rem;
+  background-color: var(--hs-color-block-bg);
+  padding: 5px;
+}
+.sscfragment .bodyblock .desc {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-size: var(--fsbb);
+}
+
+/** console fragment **/
+
+.consoleFragment {
+  color: #abb2bf;
+  background-color: #282c34;
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, liberation mono, courier new, monospace;
+  font-size: 87.5%;
+}
+.consoleFragment .headerblock {
+  border-left: 1px solid #282c34;
+  border-right: 1px solid #282c34;
+  border-top: 1px solid #282c34;
+  border-bottom: 1px solid #5c6370;
+  padding: 1rem 1.5rem;
+}
+.consoleFragment .bodyblock {
+  border-left: 1px solid #282c34;
+  border-right: 1px solid #282c34;
+  border-bottom: 1px solid #282c34;
+  word-wrap: normal;
+  overflow: auto;
+  padding: 0;
+  margin-bottom: 2rem;
+  display: block;
+  padding: 1rem 1.5rem
+}
+.consoleFragment .footerblock {}
+
+/** github fragment **/
+.sourceFragment {
+  border: 0px solid var(--hs-color-border);
+  background-color: var(--hs-color-block-bg);
+  width: 100%;
+  margin-bottom: 10px;
+}
+.sourceFragment .headerblock {
+  margin-top: 1rem;
+}
+.sourceFragment .headerblock .title {
+  font-size: var(--fs4);
+  color: var(--hs-color-subtitle);
+}
+.sourceFragment .bodyblock {
+  border-bottom: 1px solid var(--hs-color-border);
+  margin-top: 0rem;
+  background-color: var(--hs-color-block-bg);
+  padding: 5px;
+}
 .sourcecoderef .github {
   padding: 20px 45px;
   border: 0px solid #d1d1e8;
@@ -279,153 +383,36 @@ h4 {
   font-size: var(--fs2);
 }
 
-.hsb-toc {
+.toc {
   width: 100%;
 }
 
-.hsb-toc .headerblock .title {
+.toc .headerblock .title {
   font-size: var(--fs2);
 }
 
-.hsb-toc .bodyblock {
+.toc .bodyblock {
   padding: 0.5rem;
 }
 
-.hsb-toc .bodyblock ul {
+.toc .bodyblock ul {
   font-weight: 100;
   margin-top: 0px;
 }
 
-.hsb-toc .bodyblock ul li {
+.toc .bodyblock ul li {
   font-weight: 300;
   font-size: var(--fs4);
   color: var(--hs-color-list-item);
 }
 
-.hsb-toc .bodyblock ul li a {
+.toc .bodyblock ul li a {
   color: var(--hs-color-list-item);
-}
-
-
-.hsb-fragmentList {
-  border: 2px solid red;
-  color: #abb2bf;
-  background-color: #282c34;
-  font-family: SFMono-Regular,Menlo,Monaco,Consolas,liberation mono,courier new,monospace;
-  font-size: 87.5%;
-}
-
-.hsb-fragmentList .headerblock {
-  border-left: 1px solid #282c34;
-  border-right: 1px solid #282c34;
-  border-top: 1px solid #282c34;
-  border-bottom: 1px solid #5c6370;
-  padding: 1rem 1.5rem;
-}
-.hsb-fragmentList .headerblock  .title {
-
-}
-
-.hsb-fragmentList .bodyblock {
-  border-left: 1px solid #282c34;
-  border-right: 1px solid #282c34;
-  border-bottom: 1px solid #282c34;
-  word-wrap: normal;
-  overflow: auto;
-  padding: 0;
-  margin-bottom: 2rem;
-  display: block;
-}
-
-.hsb-fragmentList .footerblock {
-  
-}
-
-.tasklistblock {
-  border: 0px solid var(--hs-main-border-color);
-}
-
-.tasklistblock .headerblock {
-  margin-top: 1rem;
-}
-
-.tasklistblock .headerblock .title {
-  font-size: var(--fs4);
-  color: var(--fs);
-}
-
-.tasklistblock .bodyblock {
-  padding: 0.5rem 1rem;
-  border-bottom: 1px solid #D1D1E8;
-  margin-top: 0rem;
-  margin-bottom: 1rem;
-}
-
-.tasklistblock .bodyblock ul {
-  padding: 0px;
-}
-
-.tasklistblock .bodyblock ul li {
-  font-weight: 100;
-  color: var(--hs-color-list-item);
-}
-
-.tasklistblock .bodyblock ul li a {
-  color: var(--main-text-color);
-}
-
-.hsb-consoleFragment {
-  color: #abb2bf;
-  background-color: #282c34;
-  font-family: SFMono-Regular, Menlo, Monaco, Consolas, liberation mono, courier new, monospace;
-  font-size: 87.5%;
-}
-
-.hsb-consoleFragment .headerblock {
-  border-left: 1px solid #282c34;
-  border-right: 1px solid #282c34;
-  border-top: 1px solid #282c34;
-  border-bottom: 1px solid #5c6370;
-  padding: 1rem 1.5rem;
-}
-
-.hsb-consoleFragment .bodyblock {
-  border-left: 1px solid #282c34;
-  border-right: 1px solid #282c34;
-  border-bottom: 1px solid #282c34;
-  word-wrap: normal;
-  overflow: auto;
-  padding: 0;
-  margin-bottom: 2rem;
-  display: block;
-  padding: 1rem 1.5rem
-}
-
-.hsb-consoleFragment .footerblock {}
-
-.hsb-fragmentImage {
-  border: 2px solid #428BCA;
 }
 
 /**
 Blogger **/
 /**Blogger Global **/
-
-
-blockquote.blockquote {
-  line-height: 1.7em;
-  border-color: var(--hs-main-border-color);
-  border: 1px solid #eee;
-  border-left: 6px solid #eee;
-  padding: 20px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  margin-bottom: 30px
-}
-
-.hsg-date {
-  font-weight: 400;
-}
 
 .hsb-tags li {
   float: left;
@@ -476,7 +463,6 @@ blockquote.blockquote {
 .hsb-tags a:hover::after {
   border-left-color: #444;
 }
-
 
 .hsb-btn-search {
   height: 40px;
@@ -568,10 +554,9 @@ blockquote.blockquote {
   font-weight:600;
 }
 
-
 .post-comment-link {}
 
-
+/* not found */
 .hs-comments-con {
   background-color: var(--hs-color-mc-body-bg);
   padding: 10px;

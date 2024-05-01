@@ -5,7 +5,7 @@ import { CommonUIService } from './commonui.service';
 @Component({
   selector: 'blog-footer',
   templateUrl: './blog-footer.component.html',
-  styleUrls: ['./blog.component.css','../common/css/blog.theme-default.css']
+  styleUrls: ['../common/css/hansiniblog.css']
 })
 
 export class BlogFooterComponent implements OnInit {
